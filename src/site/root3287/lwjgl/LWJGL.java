@@ -38,9 +38,11 @@ public class LWJGL {
 		
         RawModel model = OBJLoader.loadObjModel("res/model/standfordDragon/dragon.obj", l);
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(l.loadTexture("res/image/image.png")));
+        staticModel.getTexture().setReflectivity(10);
+        staticModel.getTexture().setShineDamper(1);
         Entity e = new Entity(staticModel, new Vector3f(0,0,-1),0,0,0,1f);
 		
-        Light light = new Light(new Vector3f(0,0,0), new Vector3f(0, 0, 0));
+        Light light = new Light(new Vector3f(0,0,0), new Vector3f(1, 1, 1));
 		while(!Display.isCloseRequested()){
 			c.update(LWJGL.DELTA);
 			r.prepare();
