@@ -40,7 +40,7 @@ public class LWJGL {
 		
         RawModel model = OBJLoader.loadObjModel("res/model/standfordDragon/dragon.obj", l);
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(l.loadTexture("res/image/image.png")));
-        staticModel.getTexture().setReflectivity(10);
+        staticModel.getTexture().setReflectivity(0.2f);
         staticModel.getTexture().setShineDamper(1);
         Entity e = new Entity(staticModel, new Vector3f(0,0,-1),0,0,0,1f);
 		List<Entity> allEntities = new ArrayList<Entity>();
@@ -50,7 +50,7 @@ public class LWJGL {
 		while(!Display.isCloseRequested()){
 			LWJGL.DELTA = getDelta();
 			c.update(LWJGL.DELTA);
-			System.out.println(LWJGL.DELTA);
+			//System.out.println(LWJGL.DELTA);
 			for(Entity e1:allEntities){
 				er.processEntity(e1);
 			}

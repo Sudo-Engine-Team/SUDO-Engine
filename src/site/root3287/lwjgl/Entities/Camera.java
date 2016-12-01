@@ -4,15 +4,15 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
-import sun.awt.AWTAccessor.KeyboardFocusManagerAccessor;
-
 public class Camera{
 	
 	private Vector3f position;
 	private float pitch, yaw, roll;
 	private boolean isGrabbed = true;
+	private boolean isMouseGrabbedRequest = false;
 	private float sensitivity = 0.25f;
 	private float distance = 10f;
+	private float pauseCooldown = 0f;
 	
 	public Camera(Vector3f position) {
 		this.position = position;
@@ -20,10 +20,24 @@ public class Camera{
 
 	public void update(float delta) {
 		move(delta);
+		if(isMouseGrabbedRequest){
+			isMouseGrabbedRequest = false;
+			if(isGrabbed){
+				this.isGrabbed = false;
+			}else{
+				this.isGrabbed = true;
+			}
+			Mouse.setGrabbed(this.isGrabbed);
+		}
 	}
 	
 	private void move(float delta){
-		
+		if(pauseCooldown<0){
+			this.pauseCooldown =0;
+		}
+		if(this.pauseCooldown<=5){
+			this.pauseCooldown += delta;
+		}
 		if(isGrabbed){
 			this.pitch -= Mouse.getDY() * sensitivity;
 			this.yaw += Mouse.getDX() * sensitivity;
@@ -48,17 +62,9 @@ public class Camera{
 		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw-90));
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
-			if(isGrabbed){
-				this.isGrabbed = false;
-			}else{
-				this.isGrabbed = true;
-			}
-			Mouse.setGrabbed(this.isGrabbed);
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(pauseCooldown >= 0.75){
+				this.isMouseGrabbedRequest = true;
+				pauseCooldown = 0;
 			}
 		}
 	}
