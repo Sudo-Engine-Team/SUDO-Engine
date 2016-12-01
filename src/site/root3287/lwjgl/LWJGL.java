@@ -1,5 +1,8 @@
 package site.root3287.lwjgl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
@@ -15,10 +18,9 @@ import site.root3287.lwjgl.Entities.Entity;
 import site.root3287.lwjgl.Entities.Light;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.OBJLoader;
-import site.root3287.lwjgl.engine.render.Render;
+import site.root3287.lwjgl.engine.render.EntityRender;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
-import site.root3287.lwjgl.shader.StaticShader;
 import site.root3287.lwjgl.texture.ModelTexture;
 
 public class LWJGL {
@@ -32,28 +34,27 @@ public class LWJGL {
 		LWJGL.createDisplay();
 		Camera c = new Camera(new Vector3f(0, 3.5f, 0));
 		Mouse.setGrabbed(c.isGrabbed());
-		StaticShader s = new StaticShader();
 		Loader l = new Loader();
-		Render r = new Render(s);
+		EntityRender er = new EntityRender();
 		
         RawModel model = OBJLoader.loadObjModel("res/model/standfordDragon/dragon.obj", l);
         TexturedModel staticModel = new TexturedModel(model,new ModelTexture(l.loadTexture("res/image/image.png")));
         staticModel.getTexture().setReflectivity(10);
         staticModel.getTexture().setShineDamper(1);
         Entity e = new Entity(staticModel, new Vector3f(0,0,-1),0,0,0,1f);
-		
+		List<Entity> allEntities = new ArrayList<Entity>();
+		allEntities.add(e);
+        
         Light light = new Light(new Vector3f(0,0,0), new Vector3f(1, 1, 1));
 		while(!Display.isCloseRequested()){
 			c.update(LWJGL.DELTA);
-			r.prepare();
-			s.start();
-			s.loadLight(light);
-			s.loadViewMatrix(c);
-			r.render(e,s);
-			s.stop();
+			for(Entity e1:allEntities){
+				er.processEntity(e1);
+			}
+			er.render(light, c);
 			LWJGL.updateDisplay();
 		}
-		s.dispose();
+		er.dispose();
 		l.destory();
 		LWJGL.closeDisplay();
 	}
