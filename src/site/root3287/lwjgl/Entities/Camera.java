@@ -4,13 +4,15 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import sun.awt.AWTAccessor.KeyboardFocusManagerAccessor;
+
 public class Camera{
 	
 	private Vector3f position;
 	private float pitch, yaw, roll;
 	private boolean isGrabbed = true;
 	private float sensitivity = 0.25f;
-	private float distance = 2f;
+	private float distance = 10f;
 	
 	public Camera(Vector3f position) {
 		this.position = position;
@@ -27,10 +29,9 @@ public class Camera{
 			this.yaw += Mouse.getDX() * sensitivity;
 		}
 		
-		float finalDistance = this.distance*0.04f;
+		float finalDistance = this.distance*delta;
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			System.out.println(delta);
 			position.x += finalDistance * (float)Math.sin(Math.toRadians(yaw));
 		    position.z -= finalDistance * (float)Math.cos(Math.toRadians(yaw));
 		}
@@ -45,6 +46,20 @@ public class Camera{
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			position.x -= finalDistance * (float)Math.sin(Math.toRadians(yaw-90));
 		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw-90));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+			if(isGrabbed){
+				this.isGrabbed = false;
+			}else{
+				this.isGrabbed = true;
+			}
+			Mouse.setGrabbed(this.isGrabbed);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

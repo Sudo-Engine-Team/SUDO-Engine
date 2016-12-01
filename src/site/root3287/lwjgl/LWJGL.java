@@ -26,7 +26,8 @@ import site.root3287.lwjgl.texture.ModelTexture;
 public class LWJGL {
 	public static int WIDTH = 900, HEIGHT = WIDTH/16*9, FPS_CAP = 500;
 	public static String TITLE = "LWJGL ENGINE";
-	public static float DELTA, lastTime;
+	public static long lastTime;
+	public static float DELTA;
 	public static void main(String[] args){
 		new LWJGL();
 	}
@@ -47,7 +48,9 @@ public class LWJGL {
         
         Light light = new Light(new Vector3f(0,0,0), new Vector3f(1, 1, 1));
 		while(!Display.isCloseRequested()){
+			LWJGL.DELTA = getDelta();
 			c.update(LWJGL.DELTA);
+			System.out.println(LWJGL.DELTA);
 			for(Entity e1:allEntities){
 				er.processEntity(e1);
 			}
@@ -73,11 +76,19 @@ public class LWJGL {
 	public static void updateDisplay(){
 		Display.sync(LWJGL.FPS_CAP);
 		Display.update();
-		float time = Sys.getTime();
-        LWJGL.DELTA = (time - LWJGL.lastTime)/1000.0f;
-        LWJGL.lastTime = time;
 	}
 	public static void closeDisplay(){
 		Display.destroy();
+	}
+	public float getDelta() {
+	    long time = getTime();
+	    float delta = (int) (time - LWJGL.lastTime)/1000f;
+	    LWJGL.lastTime = time;
+
+	    return delta;
+	}
+
+	private long getTime() {
+		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 }
