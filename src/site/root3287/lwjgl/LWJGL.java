@@ -18,9 +18,10 @@ import site.root3287.lwjgl.Entities.Entity;
 import site.root3287.lwjgl.Entities.Light;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.OBJLoader;
-import site.root3287.lwjgl.engine.render.EntityRender;
+import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
+import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
 
 public class LWJGL {
@@ -36,28 +37,43 @@ public class LWJGL {
 		Camera c = new Camera(new Vector3f(0, 3.5f, 0));
 		Mouse.setGrabbed(c.isGrabbed());
 		Loader l = new Loader();
-		EntityRender er = new EntityRender();
+		Render r = new Render();
 		
         RawModel model = OBJLoader.loadObjModel("res/model/standfordDragon/dragon.obj", l);
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(l.loadTexture("res/image/image.png")));
+        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(l.loadTexture("res/image/white.png")));
         staticModel.getTexture().setReflectivity(0.2f);
         staticModel.getTexture().setShineDamper(1);
-        Entity e = new Entity(staticModel, new Vector3f(0,0,-1),0,0,0,1f);
-		List<Entity> allEntities = new ArrayList<Entity>();
-		allEntities.add(e);
         
-        Light light = new Light(new Vector3f(0,0,0), new Vector3f(1, 1, 1));
+        Entity e = new Entity(staticModel, new Vector3f(0,0,0),0,0,0,1f);
+        
+        Light light = new Light(new Vector3f(0,10000,0), new Vector3f(1, 1, 1));
+        
+        List<Terrain> allTerrain = new ArrayList<Terrain>();
+        Terrain t1 = new Terrain(0,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
+        Terrain t2 = new Terrain(1,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
+        Terrain t3 = new Terrain(0,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
+        Terrain t4 = new Terrain(1,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
+        Terrain t5 = new Terrain(-1,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
+        Terrain t6 = new Terrain(0,-1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
+        Terrain t7 = new Terrain(-1,-1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
+        allTerrain.add(t1);
+        allTerrain.add(t2);
+        allTerrain.add(t3);
+        allTerrain.add(t4);
+        allTerrain.add(t5);
+        allTerrain.add(t6);
+        allTerrain.add(t7);
 		while(!Display.isCloseRequested()){
 			LWJGL.DELTA = getDelta();
 			c.update(LWJGL.DELTA);
-			//System.out.println(LWJGL.DELTA);
-			for(Entity e1:allEntities){
-				er.processEntity(e1);
+			r.processEntity(e);
+			for(Terrain t:allTerrain){
+			r.processTerrain(t);
 			}
-			er.render(light, c);
+			r.render(light, c);
 			LWJGL.updateDisplay();
 		}
-		er.dispose();
+		r.dispose();
 		l.destory();
 		LWJGL.closeDisplay();
 	}

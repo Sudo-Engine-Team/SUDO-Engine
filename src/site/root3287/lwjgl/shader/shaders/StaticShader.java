@@ -1,17 +1,18 @@
-package site.root3287.lwjgl.shader;
+package site.root3287.lwjgl.shader.shaders;
 
 import org.lwjgl.util.vector.Matrix4f;
 
 import site.root3287.lwjgl.Entities.Camera;
 import site.root3287.lwjgl.Entities.Light;
+import site.root3287.lwjgl.shader.Shader;
 import site.root3287.lwjgl.toolbox.LWJGLMaths;
 
 public class StaticShader extends Shader{
 
 	private static final String VERTEX_FILE = "res/shaders/vertexShader.glsl", 
 								FRAGMENT_FILE = "res/shaders/fragmentShader.glsl";
-	
-	private int location_transformationMatrix;
+     
+    private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
     private int location_lightPosition;
@@ -25,9 +26,9 @@ public class StaticShader extends Shader{
  
     @Override
     protected void bindAttributes() {
-        super.bindAttributes(0, "position");
-        super.bindAttributes(1, "textureCoordinates");
-        super.bindAttributes(2, "normal");
+        super.bindAttribute(0, "position");
+        super.bindAttribute(1, "textureCoordinates");
+        super.bindAttribute(2, "normal");
     }
  
     @Override
@@ -35,14 +36,25 @@ public class StaticShader extends Shader{
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
         location_projectionMatrix = super.getUniformLocation("projectionMatrix");
         location_viewMatrix = super.getUniformLocation("viewMatrix");
-        location_lightColour = super.getUniformLocation("lightColour");
         location_lightPosition = super.getUniformLocation("lightPosition");
-        location_reflectivity = super.getUniformLocation("reflectivity");
+        location_lightColour = super.getUniformLocation("lightColour");
         location_shineDamper = super.getUniformLocation("shineDamper");
+        location_reflectivity = super.getUniformLocation("reflectivity");
+         
+    }
+     
+    public void loadShineVariables(float damper,float reflectivity){
+        super.loadFloat(location_shineDamper, damper);
+        super.loadFloat(location_reflectivity, reflectivity);
     }
      
     public void loadTransformationMatrix(Matrix4f matrix){
         super.loadMatrix(location_transformationMatrix, matrix);
+    }
+     
+    public void loadLight(Light light){
+        super.loadVector(location_lightPosition, light.getPosition());
+        super.loadVector(location_lightColour, light.getColour());
     }
      
     public void loadViewMatrix(Camera camera){
@@ -52,15 +64,5 @@ public class StaticShader extends Shader{
      
     public void loadProjectionMatrix(Matrix4f projection){
         super.loadMatrix(location_projectionMatrix, projection);
-    }
-    
-    public void loadLight(Light light){
-    	super.loadVector(location_lightPosition, light.getPosition());
-    	super.loadVector(location_lightColour, light.getColour());
-    }
-    
-    public void loadShineVaribles(float shineDamper, float reflectivity){
-    	super.loadFloat(location_shineDamper, shineDamper);
-    	super.loadFloat(location_reflectivity, reflectivity);
     }
 }
