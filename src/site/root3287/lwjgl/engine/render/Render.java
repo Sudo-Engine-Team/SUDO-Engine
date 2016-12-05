@@ -56,7 +56,7 @@ public class Render {
         prepare();
         shader.start();
         shader.loadSkyColour(skyColour.x,skyColour.y, skyColour.z);
-        shader.setFog(0.007f, 1.5f);
+        shader.setFog(0.007f, 100f);
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
         renderer.render(entities);
@@ -64,7 +64,7 @@ public class Render {
         
         terrainShader.start();
         terrainShader.loadSkyColour(skyColour.x, skyColour.y, skyColour.z);
-        terrainShader.setFog(0.007f, 1.5f);
+        terrainShader.setFog(0.007f, 100f);
         terrainShader.loadLight(sun);
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);

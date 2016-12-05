@@ -40,9 +40,9 @@ public class LWJGL {
 		Loader l = new Loader();
 		Render r = new Render();
 		
-		ModelData stallFile = OBJFileLoader.loadOBJ("res/model/stall.obj");
+		ModelData stallFile = OBJFileLoader.loadOBJ("res/model/standfordBunny/bunny.obj");
 		RawModel stallModel = l.loadToVAO(stallFile.getVertices(), stallFile.getTextureCoords(), stallFile.getNormals(), stallFile.getIndices());
-		TexturedModel stallTexture = new TexturedModel(stallModel, new ModelTexture(l.loadTexture("res/image/stallTexture.png")));
+		TexturedModel stallTexture = new TexturedModel(stallModel, new ModelTexture(l.loadTexture("res/image/white.png")));
         Entity e = new Entity(stallTexture, new Vector3f(0,0,0), 0, 0, 0, 1);
         Light light = new Light(new Vector3f(0,100,0), new Vector3f(1, 1, 1));
         
@@ -51,17 +51,10 @@ public class LWJGL {
         Terrain t2 = new Terrain(1,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
         Terrain t3 = new Terrain(0,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
         Terrain t4 = new Terrain(1,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
-        Terrain t5 = new Terrain(-1,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
-        Terrain t6 = new Terrain(0,-1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
-        Terrain t7 = new Terrain(-1,-1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
         allTerrain.add(t1);
         allTerrain.add(t2);
         allTerrain.add(t3);
         allTerrain.add(t4);
-        allTerrain.add(t5);
-        allTerrain.add(t6);
-        allTerrain.add(t7);
-        
 		while(!Display.isCloseRequested()){
 			LWJGL.DELTA = getDelta();
 			c.update(LWJGL.DELTA);
@@ -79,6 +72,7 @@ public class LWJGL {
 	public static void createDisplay(){
 		ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
 		try {
+			Display.setResizable(true);
 			Display.setDisplayMode(new DisplayMode(LWJGL.WIDTH, LWJGL.HEIGHT));
 			Display.create(new PixelFormat(), attribs);
 			Display.setTitle(LWJGL.TITLE);
@@ -89,6 +83,11 @@ public class LWJGL {
 		GL11.glViewport(0, 0, LWJGL.WIDTH, LWJGL.HEIGHT);
 	}
 	public static void updateDisplay(){
+		if(Display.wasResized()){
+			LWJGL.WIDTH = Display.getWidth();
+			LWJGL.HEIGHT = Display.getHeight();
+			GL11.glViewport(0, 0, LWJGL.WIDTH, LWJGL.HEIGHT);
+		}
 		Display.sync(LWJGL.FPS_CAP);
 		Display.update();
 	}

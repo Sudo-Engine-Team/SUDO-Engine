@@ -10,8 +10,11 @@ public class Camera{
 	private float pitch, yaw, roll;
 	private boolean isGrabbed = true;
 	private boolean isMouseGrabbedRequest = false;
+	private boolean canFly = true;
+	private boolean gravity = false;
+	private boolean isInAir = false;
 	private float sensitivity = 0.25f;
-	private float distance = 10f;
+	private float distance = 20f;
 	private float pauseCooldown = 0f;
 	
 	public Camera(Vector3f position) {
@@ -32,6 +35,8 @@ public class Camera{
 	}
 	
 	private void move(float delta){
+		float dy;
+		
 		if(pauseCooldown<0){
 			this.pauseCooldown =0;
 		}
@@ -66,6 +71,27 @@ public class Camera{
 				this.isMouseGrabbedRequest = true;
 				pauseCooldown = 0;
 			}
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			if(canFly && !gravity){
+				position.y += finalDistance;
+			}else if(!canFly && gravity){
+				//Jump
+			}
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+			if(canFly && !gravity){
+				position.y -= finalDistance;
+			}else if(!canFly && gravity){
+				//Jump
+			}
+		}
+		
+		if(position.y < 3.5 && gravity && !canFly){
+			dy = 0;
+			isInAir = false;
+			position.y = 3.5f;
 		}
 	}
 
