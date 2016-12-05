@@ -17,7 +17,8 @@ import site.root3287.lwjgl.Entities.Camera;
 import site.root3287.lwjgl.Entities.Entity;
 import site.root3287.lwjgl.Entities.Light;
 import site.root3287.lwjgl.engine.Loader;
-import site.root3287.lwjgl.engine.OBJLoader;
+import site.root3287.lwjgl.engine.objConverter.ModelData;
+import site.root3287.lwjgl.engine.objConverter.OBJFileLoader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
@@ -39,14 +40,11 @@ public class LWJGL {
 		Loader l = new Loader();
 		Render r = new Render();
 		
-        RawModel model = OBJLoader.loadObjModel("res/model/standfordDragon/dragon.obj", l);
-        TexturedModel staticModel = new TexturedModel(model,new ModelTexture(l.loadTexture("res/image/white.png")));
-        staticModel.getTexture().setReflectivity(0.2f);
-        staticModel.getTexture().setShineDamper(1);
-        
-        Entity e = new Entity(staticModel, new Vector3f(0,0,0),0,0,0,1f);
-        
-        Light light = new Light(new Vector3f(0,10000,0), new Vector3f(1, 1, 1));
+		ModelData stallFile = OBJFileLoader.loadOBJ("res/model/stall.obj");
+		RawModel stallModel = l.loadToVAO(stallFile.getVertices(), stallFile.getTextureCoords(), stallFile.getNormals(), stallFile.getIndices());
+		TexturedModel stallTexture = new TexturedModel(stallModel, new ModelTexture(l.loadTexture("res/image/stallTexture.png")));
+        Entity e = new Entity(stallTexture, new Vector3f(0,0,0), 0, 0, 0, 1);
+        Light light = new Light(new Vector3f(0,100,0), new Vector3f(1, 1, 1));
         
         List<Terrain> allTerrain = new ArrayList<Terrain>();
         Terrain t1 = new Terrain(0,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
@@ -63,12 +61,13 @@ public class LWJGL {
         allTerrain.add(t5);
         allTerrain.add(t6);
         allTerrain.add(t7);
+        
 		while(!Display.isCloseRequested()){
 			LWJGL.DELTA = getDelta();
 			c.update(LWJGL.DELTA);
 			r.processEntity(e);
 			for(Terrain t:allTerrain){
-			r.processTerrain(t);
+				r.processTerrain(t);
 			}
 			r.render(light, c);
 			LWJGL.updateDisplay();
