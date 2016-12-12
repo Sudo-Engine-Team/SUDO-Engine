@@ -3,7 +3,7 @@ package site.root3287.lwjgl.terrain;
 import java.util.Random;
 
 public class HeightGenerator {
-	private static final float AMPLITUDE = 75f;
+	private static final float AMPLITUDE = 100f;
     private static final int OCTAVES = 3;
     private static final float ROUGHNESS = 0.3f;
  
@@ -38,6 +38,13 @@ public class HeightGenerator {
         }
         return total;
     }
+    
+    public float generateHeight2(int x, int z){
+    	float total = getInterpolatedNoise(x/2, z/2) * AMPLITUDE/3;
+    	total += getInterpolatedNoise(x/4, z/4) * AMPLITUDE/9;
+    	total += getInterpolatedNoise(x/8, z/8) * AMPLITUDE/27;
+    	return total;
+    }
      
     private float getInterpolatedNoise(float x, float z){
         int intX = (int) x;
@@ -70,7 +77,7 @@ public class HeightGenerator {
     }
  
     private float getNoise(int x, int z) {
-        random.setSeed(x * 49632 + z * 325176 + seed);
+        random.setSeed(x * 93805 + z * 34239 + seed);
         return random.nextFloat() * 2f - 1f;
     }
 }

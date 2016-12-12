@@ -22,6 +22,7 @@ public class TerrainShader extends Shader{
     private int location_fogDensity;
     private int location_fogGradient;
     private int location_skyColour;
+    private int location_useFakeLight;
  
     public TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -46,6 +47,7 @@ public class TerrainShader extends Shader{
         location_fogDensity = super.getUniformLocation("fogDensity");
         location_fogGradient = super.getUniformLocation("fogGradient");
         location_skyColour = super.getUniformLocation("skyColour");
+        location_useFakeLight = super.getUniformLocation("useFakeLight");
     }
      
     public void loadShineVariables(float damper,float reflectivity){
@@ -76,5 +78,12 @@ public class TerrainShader extends Shader{
     }
     public void loadSkyColour(float r, float g, float b){
     	super.loadVector(location_skyColour, new Vector3f(r,g,b));
+    }
+    public void loadFakeLight(boolean fakeLight){
+    	float useFakeLight = 0.0f;
+    	if(fakeLight){
+    		useFakeLight = 1.0f;
+    	}
+    	super.loadFloat(location_useFakeLight, useFakeLight);
     }
 }

@@ -2,6 +2,7 @@ package site.root3287.lwjgl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -24,6 +25,9 @@ import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
+import site.root3287.lwjgl.water.WaterRender;
+import site.root3287.lwjgl.water.WaterShader;
+import site.root3287.lwjgl.water.WaterTile;
 
 public class LWJGL {
 	public static int WIDTH = 900, HEIGHT = WIDTH/16*9, FPS_CAP = 500;
@@ -44,17 +48,23 @@ public class LWJGL {
 		RawModel stallModel = l.loadToVAO(stallFile.getVertices(), stallFile.getTextureCoords(), stallFile.getNormals(), stallFile.getIndices());
 		TexturedModel stallTexture = new TexturedModel(stallModel, new ModelTexture(l.loadTexture("res/image/white.png")));
         Entity e = new Entity(stallTexture, new Vector3f(0,0,0), 0, 0, 0, 1);
-        Light light = new Light(new Vector3f(0,100,0), new Vector3f(1, 1, 1));
+        Light light = new Light(new Vector3f(0,100000000,0), new Vector3f(5, 5, 5));
         
         List<Terrain> allTerrain = new ArrayList<Terrain>();
-        Terrain t1 = new Terrain(0,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
-        Terrain t2 = new Terrain(1,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
-        Terrain t3 = new Terrain(0,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
-        Terrain t4 = new Terrain(1,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")));
+        Terrain t1 = new Terrain(0,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")), 64, new Random().nextInt());
+        //Terrain t2 = new Terrain(1,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")), 64, 1234);
+       // Terrain t3 = new Terrain(0,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")), 64, 1234);
+       // Terrain t4 = new Terrain(1,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")), 64, 1234);
         allTerrain.add(t1);
-        allTerrain.add(t2);
-        allTerrain.add(t3);
-        allTerrain.add(t4);
+       // allTerrain.add(t2);
+       // allTerrain.add(t3);
+       // allTerrain.add(t4);
+        
+        WaterShader ws = new WaterShader();
+        WaterRender wr = new WaterRender(l, ws, r.getProjectionMatrix());
+        List<WaterTile> allWater = new ArrayList<WaterTile>();
+        WaterTile w1 = new WaterTile(0, 0, 20);
+        allWater.add(w1);
 		while(!Display.isCloseRequested()){
 			LWJGL.DELTA = getDelta();
 			c.update(LWJGL.DELTA);
@@ -63,6 +73,7 @@ public class LWJGL {
 				r.processTerrain(t);
 			}
 			r.render(light, c);
+			wr.render(allWater, c);
 			LWJGL.updateDisplay();
 		}
 		r.dispose();
