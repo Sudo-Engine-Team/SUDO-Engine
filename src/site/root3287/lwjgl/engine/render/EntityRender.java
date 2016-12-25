@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 
-import site.root3287.lwjgl.Entities.Entity;
+import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.shader.shaders.StaticShader;

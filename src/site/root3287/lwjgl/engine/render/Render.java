@@ -10,9 +10,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import site.root3287.lwjgl.Entities.Camera;
-import site.root3287.lwjgl.Entities.Entity;
-import site.root3287.lwjgl.Entities.Light;
+import site.root3287.lwjgl.entities.Camera;
+import site.root3287.lwjgl.entities.Entity;
+import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.shader.shaders.StaticShader;
 import site.root3287.lwjgl.shader.shaders.TerrainShader;

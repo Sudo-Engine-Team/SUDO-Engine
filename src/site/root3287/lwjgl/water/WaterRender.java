@@ -8,8 +8,8 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import site.root3287.lwjgl.Entities.Camera;
 import site.root3287.lwjgl.engine.Loader;
+import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.toolbox.LWJGLMaths;
 
@@ -55,8 +55,7 @@ public class WaterRender{
 	private void setUpVAO(Loader loader) {
 		// Just x and z vectex positions here, y is set to 0 in v.shader
 		float[] vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
-		int[] i = {2};
-		quad = loader.loadToVAO(vertices,i);
+		quad = loader.loadToVAO(vertices);
 	}
 
 }

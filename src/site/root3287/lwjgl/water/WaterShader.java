@@ -2,7 +2,7 @@ package site.root3287.lwjgl.water;
 
 import org.lwjgl.util.vector.Matrix4f;
 
-import site.root3287.lwjgl.Entities.Camera;
+import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.shader.Shader;
 import site.root3287.lwjgl.toolbox.LWJGLMaths;
 

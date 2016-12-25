@@ -1,4 +1,4 @@
-package site.root3287.lwjgl.Entities;
+package site.root3287.lwjgl.entities;
 
 import org.lwjgl.util.vector.Vector3f;
 
