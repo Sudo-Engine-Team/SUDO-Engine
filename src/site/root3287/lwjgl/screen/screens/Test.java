@@ -44,7 +44,7 @@ public class Test extends Screen{
 
 	@Override
 	public void init() {
-		this.c = new Camera(new Vector3f(0, 3.5f, 0));
+		this.c = new Camera(new Vector3f(0, 10f, 0));
 		Mouse.setGrabbed(c.isGrabbed());
 		
 		ModelData stallFile = OBJFileLoader.loadOBJ("res/model/standfordBunny/bunny.obj");
@@ -79,7 +79,7 @@ public class Test extends Screen{
 
 	@Override
 	public void update() {
-		c.update(DisplayManager.DELTA);
+		c.update(allTerrain.get(0), DisplayManager.DELTA);
 	}
 
 	@Override

@@ -1,16 +1,14 @@
 package site.root3287.lwjgl.terrain;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.texture.ModelTexture;
+import site.root3287.lwjgl.toolbox.LWJGLMaths;
 
 public class Terrain {
     private static final float SIZE = 800;
@@ -187,18 +185,18 @@ public class Terrain {
         int vertexPointer = 0;
         for (int i = 0; i < VERTEX_COUNT; i++) {
             for (int j = 0; j < VERTEX_COUNT; j++) {
-                vertices[vertexPointer * 3] = (float) j / ((float) VERTEX_COUNT - 1) * SIZE;
-                float height = getHeightForPerlin(j, i, generator);
-                vertices[vertexPointer * 3 + 1] = height;
-                heights[j][i] = height;
-                vertices[vertexPointer * 3 + 2] = (float) i / ((float) VERTEX_COUNT - 1) * SIZE;
-                Vector3f normal = calculateNormalForPerlin(j, i, generator);
-                normals[vertexPointer * 3] = normal.x;
-                normals[vertexPointer * 3 + 1] = normal.y;
-                normals[vertexPointer * 3 + 2] = normal.z;
-                textureCoords[vertexPointer * 2] = (float) j / ((float) VERTEX_COUNT - 1);
-                textureCoords[vertexPointer * 2 + 1] = (float) i / ((float) VERTEX_COUNT - 1);
-                vertexPointer++;
+            	vertices[vertexPointer * 3] = (float) j / ((float) VERTEX_COUNT - 1) * SIZE;
+				float height = getHeightForPerlin(j, i, generator);
+				vertices[vertexPointer * 3 + 1] = height;
+				heights[j][i] = height;
+				vertices[vertexPointer * 3 + 2] = (float) i / ((float) VERTEX_COUNT - 1) * SIZE;
+				Vector3f normal = calculateNormalForPerlin(j, i, generator);
+				normals[vertexPointer * 3] = normal.x;
+				normals[vertexPointer * 3 + 1] = normal.y;
+				normals[vertexPointer * 3 + 2] = normal.z;
+				textureCoords[vertexPointer * 2] = (float) j / ((float) VERTEX_COUNT - 1);
+				textureCoords[vertexPointer * 2 + 1] = (float) i / ((float) VERTEX_COUNT - 1);
+				vertexPointer++;
             }
         }
         int pointer = 0;
@@ -220,5 +218,30 @@ public class Terrain {
     }
     private float getHeightForPerlin(int x, int z, HeightGenerator generator){
     	return generator.generateHeight2(x, z);
+    }
+    public float getTerrainHeightByCoords(float worldX, float worldZ){
+    	float terrainX = worldX - this.x;
+    	float terrainZ = worldZ - this.z;
+    	float gridSqrSize = SIZE / (float)heights.length -1;
+    	int gridZ = (int) Math.floor(terrainZ / gridSqrSize);
+    	int gridX = (int) Math.floor(terrainX / gridSqrSize);
+    	if(gridX >= heights.length -1 || gridZ >= heights.length -1 || gridX < 0 || gridZ < 0){
+    		return 0;
+    	}
+    	float xCoord = (terrainX % gridSqrSize) / gridSqrSize;
+    	float zCoord = (terrainZ % gridSqrSize) / gridSqrSize;
+    	float answer;
+    	if (xCoord <= (1-zCoord)) {
+			answer = LWJGLMaths
+					.barryCentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1,
+							heights[gridX + 1][gridZ], 0), new Vector3f(0,
+							heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
+		} else {
+			answer = LWJGLMaths
+					.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1,
+							heights[gridX + 1][gridZ + 1], 1), new Vector3f(0,
+							heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
+		}
+    	return answer;
     }
 }
