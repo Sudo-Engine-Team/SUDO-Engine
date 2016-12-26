@@ -32,7 +32,6 @@ public class Render {
     private TerrainRender terrainRenderer;
     private TerrainShader terrainShader = new TerrainShader();
      
-     
     private Map<TexturedModel,List<Entity>> entities = new HashMap<TexturedModel,List<Entity>>();
     private List<Terrain> terrains = new ArrayList<Terrain>();
      
@@ -53,6 +52,7 @@ public class Render {
     }
     
     public void render(Light sun,Camera camera){
+    	//GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
         prepare();
         shader.start();
         shader.loadSkyColour(skyColour.x,skyColour.y, skyColour.z);

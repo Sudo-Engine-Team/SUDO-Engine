@@ -29,7 +29,6 @@ public class TerrainRender {
         for (Terrain terrain : terrains) {
             prepareTerrain(terrain);
             loadModelMatrix(terrain);
-            GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
             GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
             unbindTexturedModel();
         }

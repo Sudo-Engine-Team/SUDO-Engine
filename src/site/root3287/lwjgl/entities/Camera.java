@@ -18,9 +18,9 @@ public class Camera{
 	private float sensitivity = 0.25f;
 	private float distance = 20f;
 	private float pauseCooldown = 0f;
-	private final float GRAVITY = -9.81f;
-	private final float JUMP = 2;
-	private final float CAMERA_HEIGHT = 10.0f;
+	private final float GRAVITY = -.981f;
+	private final float JUMP = 1;
+	private final float CAMERA_HEIGHT = 3.5f;
 	
 	public Camera(Vector3f position) {
 		this.position = position;
@@ -100,7 +100,7 @@ public class Camera{
 		if(gravity && !canFly){
 			this.position.y  += dy;
 		}
-		float terrainHeight = terrain.getTerrainHeightByCoords(this.position.x, this.position.z) + CAMERA_HEIGHT;
+		float terrainHeight = terrain.getTerrainHeightByCoords(this.position.x, this.position.z)+CAMERA_HEIGHT;
 		if(position.y < terrainHeight && gravity && !canFly){
 			this.dy = 0;
 			isInAir = false;
