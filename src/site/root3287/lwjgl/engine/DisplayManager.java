@@ -81,6 +81,25 @@ public class DisplayManager {
 		}
 		GL11.glViewport(0, 0, DisplayManager.WIDTH, DisplayManager.HEIGHT);
 	}
+
+	public static void createDisplay(){
+		ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
+		WIDTH = 900;
+		HEIGHT = WIDTH / 16*9;
+		isFullScreen = false;
+		TITLE = "LWJGL";
+		Display.setResizable(true);
+		Display.setTitle(DisplayManager.TITLE);
+		try {
+			Display.setFullscreen(DisplayManager.isFullScreen);
+			Display.setDisplayMode(new DisplayMode(DisplayManager.WIDTH, DisplayManager.HEIGHT));
+			Display.create(new PixelFormat(), attribs);
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		GL11.glViewport(0, 0, DisplayManager.WIDTH, DisplayManager.HEIGHT);
+	}
 	
 	public static void updateDisplay(){
 		if(Display.wasResized()){

@@ -15,12 +15,13 @@ public class Camera{
 	private boolean canFly = false;
 	private boolean gravity = true;
 	private boolean isInAir = false;
+	private boolean canDoubleJump = true;
 	private float sensitivity = 0.25f;
 	private float distance = 20f;
 	private float pauseCooldown = 0f;
 	private final float GRAVITY = -.981f;
 	private final float JUMP = 1;
-	private final float CAMERA_HEIGHT = 3.5f;
+	private final float CAMERA_HEIGHT =3.5f;
 	
 	public Camera(Vector3f position) {
 		this.position = position;
@@ -51,6 +52,11 @@ public class Camera{
 		if(isGrabbed){
 			this.pitch -= Mouse.getDY() * sensitivity;
 			this.yaw += Mouse.getDX() * sensitivity;
+			if(this.pitch > 90){
+				this.pitch = 90;
+			}else if(this.pitch < -90){
+				this.pitch = -90;
+			}
 		}
 		
 		float finalDistance = this.distance*delta;
@@ -83,11 +89,13 @@ public class Camera{
 			this.dy += GRAVITY * delta;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			if(canFly && !gravity){
+			if(canFly && !gravity){ // Move up
 				position.y += finalDistance;
-			}else if(!canFly && gravity && !isInAir){
+			}else if(!canFly && gravity && !isInAir){ // Jump
 				this.dy = JUMP;
+				if(!this.canDoubleJump){
 				isInAir = true;
+				}
 			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
@@ -101,7 +109,7 @@ public class Camera{
 			this.position.y  += dy;
 		}
 		float terrainHeight = terrain.getTerrainHeightByCoords(this.position.x, this.position.z)+CAMERA_HEIGHT;
-		if(position.y < terrainHeight && gravity && !canFly){
+		if(position.y < terrainHeight && gravity && !canFly){ // Collision detection
 			this.dy = 0;
 			isInAir = false;
 			position.y = terrainHeight;

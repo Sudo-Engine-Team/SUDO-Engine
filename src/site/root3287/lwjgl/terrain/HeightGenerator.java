@@ -5,7 +5,7 @@ import java.util.Random;
 public class HeightGenerator {
 	private static final float AMPLITUDE = 100f;
     private static final int OCTAVES = 3;
-    private static final float ROUGHNESS = 0.3f;
+    private static final float ROUGHNESS = 0.2f;
  
     private Random random = new Random();
     private int seed;
@@ -37,13 +37,6 @@ public class HeightGenerator {
             total += getInterpolatedNoise((x+xOffset)*freq, (z + zOffset)*freq) * amp;
         }
         return total;
-    }
-    
-    public float generateHeight2(int x, int z){
-    	float total = getInterpolatedNoise(x/2, z/2) * AMPLITUDE/3;
-    	total += getInterpolatedNoise(x/4, z/4) * AMPLITUDE/9;
-    	total += getInterpolatedNoise(x/8, z/8) * AMPLITUDE/27;
-    	return total;
     }
      
     private float getInterpolatedNoise(float x, float z){

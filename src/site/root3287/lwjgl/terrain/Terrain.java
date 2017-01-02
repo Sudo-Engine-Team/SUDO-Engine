@@ -9,10 +9,9 @@ import site.root3287.lwjgl.texture.ModelTexture;
 import site.root3287.lwjgl.toolbox.LWJGLMaths;
 
 public class Terrain {
-    private static final float SIZE = 800;
+    public static final float SIZE = 800;
     private static final float MAX_HEIGHT = 100;
     private static final float MAX_PIXEL_COLOUR = 256*256*256;
-    
     private int vertexCount;
     private float x;
     private float z;
@@ -159,16 +158,16 @@ public class Terrain {
     }
 	
     private float getHeight(int x, int z, HeightGenerator generator){
-    	return generator.generateHeight2(x, z);
+    	return generator.generateHeight(x, z);
     }
     public float getTerrainHeightByCoords(float worldX, float worldZ){
     	float terrainX = worldX - this.x;
 		float terrainZ = worldZ - this.z;
-		float gridSquareSize = SIZE / ((float) heights.length - 1);
+		float gridSquareSize = SIZE / (float) (heights.length - 1);
 		int gridX = (int) Math.floor(terrainX / gridSquareSize);
 		int gridZ = (int) Math.floor(terrainZ / gridSquareSize);
 
-		if (gridX >= heights.length - 1 || gridZ >= heights.length - 1 || gridX < 0 || gridZ < 0) {
+		if ((gridX >= heights.length-2)|| (gridZ >= heights.length - 2) || (gridX < 0 || gridZ < 0)) {
 			return 0;
 		}
 

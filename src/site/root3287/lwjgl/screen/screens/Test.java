@@ -33,6 +33,7 @@ public class Test extends Screen{
 	private Entity e;
 	private WaterRender wr;
 	private Camera c;
+	private Terrain[][] terrainForCollision;
 
 	public Test() {
 		super();
@@ -44,6 +45,7 @@ public class Test extends Screen{
 
 	@Override
 	public void init() {
+		terrainForCollision = new Terrain[255][255];
 		this.c = new Camera(new Vector3f(0, 10f, 0));
 		Mouse.setGrabbed(c.isGrabbed());
 		
@@ -54,22 +56,23 @@ public class Test extends Screen{
 		
         this.light = new Light(new Vector3f(0,100000000,0), new Vector3f(5, 5, 5));
         
-        Terrain t1 = new Terrain(0,
-        						0, 
-        						this.loader, 
-        						new ModelTexture(
-        								this.loader.loadTexture("res/image/grass.png")
-        						), 
-        						64, 
-        						new Random().nextInt()
-        );
-        //Terrain t2 = new Terrain(1,0, l, new ModelTexture(l.loadTexture("res/image/grass.png")), 64, 1234);
-       // Terrain t3 = new Terrain(0,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")), 64, 1234);
-       // Terrain t4 = new Terrain(1,1, l, new ModelTexture(l.loadTexture("res/image/grass.png")), 64, 1234);
-       allTerrain.add(t1);
-       // allTerrain.add(t2);
-       // allTerrain.add(t3);
-       // allTerrain.add(t4);
+        int seed = new Random().nextInt();
+       
+        for(int tX = 0; tX <= 5; tX++){
+        	for(int tY = 0; tY <= 5; tY++){
+        		Terrain t1 = new Terrain(tX,
+						tY, 
+						this.loader, 
+						new ModelTexture(
+								this.loader.loadTexture("res/image/grass.png")
+						), 
+						64, 
+						seed
+        				);
+        		allTerrain.add(t1);
+        		terrainForCollision[tX][tY] = t1;
+        	}
+        }
         
         WaterShader ws = new WaterShader();
         WaterRender wr = new WaterRender(this.loader, ws, this.render.getProjectionMatrix());
@@ -79,7 +82,10 @@ public class Test extends Screen{
 
 	@Override
 	public void update() {
-		c.update(allTerrain.get(0), DisplayManager.DELTA);
+		int gridX = (int) (c.getPosition().x / Terrain.SIZE ); 
+		int gridZ = (int) (c.getPosition().z / Terrain.SIZE );
+		c.update(terrainForCollision[gridX][gridZ], DisplayManager.DELTA);
+		System.out.println(gridX+" "+gridZ);
 	}
 
 	@Override
