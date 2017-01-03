@@ -7,7 +7,6 @@ import java.util.Random;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
-import site.root3287.lwjgl.LWJGL;
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.objConverter.ModelData;
@@ -18,6 +17,8 @@ import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
+import site.root3287.lwjgl.net.Client;
+import site.root3287.lwjgl.net.Server;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
@@ -34,6 +35,9 @@ public class Test extends Screen{
 	private WaterRender wr;
 	private Camera c;
 	private Terrain[][] terrainForCollision;
+	private Terrain currentTerrain;
+	private Server server;
+	private Client client;
 
 	public Test() {
 		super();
@@ -45,6 +49,11 @@ public class Test extends Screen{
 
 	@Override
 	public void init() {
+		this.server = new Server(8123);
+		this.client = new Client("127.0.0.1:8123");
+		server.start();
+		client.connect();
+		
 		terrainForCollision = new Terrain[255][255];
 		this.c = new Camera(new Vector3f(0, 10f, 0));
 		Mouse.setGrabbed(c.isGrabbed());
@@ -71,6 +80,9 @@ public class Test extends Screen{
         				);
         		allTerrain.add(t1);
         		terrainForCollision[tX][tY] = t1;
+        		if(this.currentTerrain == null){
+        			this.currentTerrain = t1;
+        		}
         	}
         }
         
@@ -82,10 +94,8 @@ public class Test extends Screen{
 
 	@Override
 	public void update() {
-		int gridX = (int) (c.getPosition().x / Terrain.SIZE ); 
-		int gridZ = (int) (c.getPosition().z / Terrain.SIZE );
-		c.update(terrainForCollision[gridX][gridZ], DisplayManager.DELTA);
-		System.out.println(gridX+" "+gridZ);
+		//terrainForCollision[(int) (c.getPosition().x/Terrain.SIZE)][(int) (c.getPosition().z/Terrain.SIZE)];
+		c.update(terrainForCollision, DisplayManager.DELTA);
 	}
 
 	@Override
@@ -102,6 +112,7 @@ public class Test extends Screen{
 	public void dispose() {
 		this.render.dispose();
 		this.loader.destory();
+		this.server.close();
 	}
 	
 }

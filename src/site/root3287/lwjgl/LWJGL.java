@@ -45,6 +45,7 @@ public class LWJGL {
 		}
 		DisplayManager.screen.dispose();
 		DisplayManager.closeDisplay();
+		System.exit(0);
 	}
 	
 	public static Vector2f getNormalisedMouseCoords(){

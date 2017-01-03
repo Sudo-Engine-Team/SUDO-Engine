@@ -51,9 +51,10 @@ public class Render {
     	GL11.glDisable(GL11.GL_CULL_FACE);
     }
     
-    public void render(Light sun,Camera camera){
-    	//GL11.glPolygonMode(GL11.GL_FRONT, GL11.GL_LINE);
-        prepare();
+    public void render(Light sun, Camera camera){
+    	//GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+    	//GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+    	prepare();
         shader.start();
         shader.loadSkyColour(skyColour.x,skyColour.y, skyColour.z);
         shader.setFog(0.000007f, 100f);
