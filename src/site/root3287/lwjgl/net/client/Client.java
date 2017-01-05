@@ -1,4 +1,4 @@
-package site.root3287.lwjgl.net;
+package site.root3287.lwjgl.net.client;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -6,6 +6,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+
+import site.root3287.lwjgl.net.BinaryWriter;
+import site.root3287.lwjgl.net.packet.PacketType;
 
 public class Client {
 	public enum Error{
@@ -67,8 +70,8 @@ public class Client {
 	
 	private void sendConnectionPacket(){
 		BinaryWriter writer = new BinaryWriter();
-		writer.write(Packet.PACKET_HEADER.getID());
-		writer.write(Packet.CONNECT.getID());
+		//writer.write(PacketType.PACKET_HEADER.getData());
+		//writer.write(PacketType.CONNECT.getDataByte());
 		send(writer.getBuffer());
 	}
 	
