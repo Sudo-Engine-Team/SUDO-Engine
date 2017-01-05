@@ -21,14 +21,14 @@ public class Camera{
 	private float pauseCooldown = 0f;
 	private final float GRAVITY = -.981f;
 	private final float JUMP = 1;
-	private final float CAMERA_HEIGHT =3.5f;
+	private final float CAMERA_HEIGHT = 3.5f;
 	
 	public Camera(Vector3f position) {
 		this.position = position;
 		this.dy = 0;
 	}
 
-	public void update(Terrain terrain, float delta) {
+	public void update(Terrain[][] terrain, float delta) {
 		move(terrain, delta);
 		if(isMouseGrabbedRequest){
 			isMouseGrabbedRequest = false;
@@ -41,8 +41,7 @@ public class Camera{
 		}
 	}
 	
-	private void move(Terrain terrain, float delta){
-		
+	private void move(Terrain[][] terrain, float delta){
 		if(pauseCooldown<0){
 			this.pauseCooldown = 0;
 		}
@@ -85,34 +84,41 @@ public class Camera{
 			}
 		}
 		
-		if(gravity && !canFly){
+		if(gravity && !canFly){ // Gravity is in effect!
+			//direction for gravity
 			this.dy += GRAVITY * delta;
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-			if(canFly && !gravity){ // Move up
-				position.y += finalDistance;
-			}else if(!canFly && gravity && !isInAir){ // Jump
+			
+			//Jump
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !isInAir){
 				this.dy = JUMP;
 				if(!this.canDoubleJump){
-				isInAir = true;
+					isInAir = true;
 				}
 			}
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-			if(canFly && !gravity){
-				position.y -= finalDistance;
-			}else if(!canFly && gravity){
-				
-			}
-		}
-		if(gravity && !canFly){
+			
+			//Apply Gravity
 			this.position.y  += dy;
-		}
-		float terrainHeight = terrain.getTerrainHeightByCoords(this.position.x, this.position.z)+CAMERA_HEIGHT;
-		if(position.y < terrainHeight && gravity && !canFly){ // Collision detection
-			this.dy = 0;
-			isInAir = false;
-			position.y = terrainHeight;
+			
+			//Collision detection
+			Terrain currentTerrain = terrain[(int)(this.position.x/Terrain.SIZE)][(int)(this.position.z/Terrain.SIZE)];
+			float terrainHeight = currentTerrain.getTerrainHeightByCoords(this.position.x, this.position.z)+CAMERA_HEIGHT;
+			if(position.y < terrainHeight){ // Collision detection
+				this.dy = 0;
+				isInAir = false;
+				position.y = terrainHeight;
+			}
+		}else{
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+				if(canFly && !gravity){ // Move up
+					position.y += finalDistance;
+				}
+			}
+		
+			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+				if(canFly && !gravity){
+					position.y -= finalDistance;
+				}
+			}
 		}
 	}
 
