@@ -14,8 +14,6 @@ public class Client {
 	public enum Error{
 		NONE, INVALID_HOST, SOCKET_EXCEPTION
 	}
-	
-	private static final byte[] PACKET_HEADER = new byte[]{0x41, 0x42};
 	private int port;
 	private String address;
 	private InetAddress server;
@@ -68,11 +66,19 @@ public class Client {
 		return true;
 	}
 	
+	public void disconnect(){
+		BinaryWriter writer = new BinaryWriter();
+		writer.write(PacketType.DISCONNECT.getLength());
+		writer.write(PacketType.DISCONNECT.getType().getBytes());
+		//writer.write();
+		send(writer.getBuffer());
+	}
+	
 	private void sendConnectionPacket(){
 		BinaryWriter writer = new BinaryWriter();
 		//writer.write(PacketType.PACKET_HEADER.getData());
 		//writer.write(PacketType.CONNECT.getDataByte());
-		send(writer.getBuffer());
+		send(new String(""+PacketType.CONNECT.getLength()+PacketType.CONNECT.getType()).getBytes());
 	}
 	
 	public void send(byte[] data){

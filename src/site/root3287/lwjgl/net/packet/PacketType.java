@@ -17,6 +17,11 @@ public enum PacketType {
 		this.type = type.trim();
 		this.id = id;
 		this.length = this.type.length();
+		
+		if(this.length > 9){
+			this.type = "INV";
+			this.length = this.type.length();
+		}
 	}
 	
 	public String getType(){

@@ -58,18 +58,15 @@ public class Test extends Screen{
 		this.c = new Camera(new Vector3f(0, 10f, 0));
 		Mouse.setGrabbed(c.isGrabbed());
 		
-		ModelData stallFile = OBJFileLoader.loadOBJ("res/model/standfordBunny/bunny.obj");
-		RawModel stallModel = this.loader.loadToVAO(stallFile.getVertices(), stallFile.getTextureCoords(), stallFile.getNormals(), stallFile.getIndices());
-		TexturedModel stallTexture = new TexturedModel(stallModel, new ModelTexture(this.loader.loadTexture("res/image/white.png")));
-		this.e = new Entity(stallTexture, new Vector3f(0,0,0), 0, 0, 0, 1);
-		
         this.light = new Light(new Vector3f(0,100000000,0), new Vector3f(5, 5, 5));
         
         int seed = new Random().nextInt();
        
         for(int tX = 0; tX <= 5; tX++){
         	for(int tY = 0; tY <= 5; tY++){
-        		Terrain t1 = new Terrain(tX,
+        		System.out.println("Processing terrain for "+tX+" "+tY);
+        		Terrain t1 = new Terrain(
+        				tX,
 						tY, 
 						this.loader, 
 						new ModelTexture(
@@ -80,9 +77,6 @@ public class Test extends Screen{
         				);
         		allTerrain.add(t1);
         		terrainForCollision[tX][tY] = t1;
-        		if(this.currentTerrain == null){
-        			this.currentTerrain = t1;
-        		}
         	}
         }
         
@@ -94,13 +88,12 @@ public class Test extends Screen{
 
 	@Override
 	public void update() {
-		//terrainForCollision[(int) (c.getPosition().x/Terrain.SIZE)][(int) (c.getPosition().z/Terrain.SIZE)];
 		c.update(terrainForCollision, DisplayManager.DELTA);
+		System.out.println(c.getYaw() +" "+ c.getPitch());
 	}
 
 	@Override
 	public void render() {
-		this.render.processEntity(e);
 		for(Terrain t:allTerrain){
 			this.render.processTerrain(t);
 		}

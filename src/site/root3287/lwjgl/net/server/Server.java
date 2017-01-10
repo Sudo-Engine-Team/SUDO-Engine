@@ -12,6 +12,7 @@ import site.root3287.lwjgl.net.ServerClient;
 import site.root3287.lwjgl.net.client.Client;
 import site.root3287.lwjgl.net.packet.Packet;
 import site.root3287.lwjgl.net.packet.PacketConnect;
+import site.root3287.lwjgl.net.packet.PacketDisconnect;
 import site.root3287.lwjgl.net.packet.PacketType;
 
 public class Server {
@@ -89,7 +90,7 @@ public class Server {
 		System.out.println("----------------");
 		
 		String msg = new String(data);
-		int length = Integer.parseInt(msg.substring(1));
+		int length = Integer.parseInt(msg.substring(0,1));
 		String dataType = "";
 		for(int i =0; i< length; i++){
 			dataType = dataType+msg.charAt(i);
@@ -101,6 +102,13 @@ public class Server {
 		case CONNECT:
 			p = new PacketConnect(data);
 			ServerClient player = new ServerClient(packet.getAddress(), packet.getPort());
+			this.addConnection(player, (PacketConnect) p);
+			break;
+		case DISCONNECT:
+			p = new PacketDisconnect(data);
+			this.removeConnetion(((PacketDisconnect)p));
+			break;
+		case MOVE:
 			break;
 		}
 	}
@@ -137,5 +145,9 @@ public class Server {
 			this.clients.add(player);
 			connection.writeData(this);
 		}
+	}
+
+	private void removeConnetion(PacketDisconnect packetDisconnect) {
+		
 	}
 }

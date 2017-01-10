@@ -9,19 +9,22 @@ import site.root3287.lwjgl.terrain.Terrain;
 public class Camera{
 	
 	private Vector3f position;
-	private float pitch, yaw, roll, dy;
-	private boolean isGrabbed = true;
-	private boolean isMouseGrabbedRequest = false;
-	private boolean canFly = false;
-	private boolean gravity = true;
-	private boolean isInAir = false;
-	private boolean canDoubleJump = true;
-	private float sensitivity = 0.25f;
-	private float distance = 20f;
-	private float pauseCooldown = 0f;
-	private final float GRAVITY = -.981f;
-	private final float JUMP = 1;
-	private final float CAMERA_HEIGHT = 3.5f;
+	private float 	pitch, 
+				  	yaw, 
+				  	roll, 
+				  	dy,
+				  	sensitivity = 0.25f,
+				  	distance = 20f,
+				  	pauseCooldown = 0f;
+	private boolean isGrabbed = true, 
+					isMouseGrabbedRequest = false, 
+					canFly = false,
+					gravity = true,
+					isInAir = false,
+					canDoubleJump = true;
+	private final float GRAVITY = -0.981f, 
+						JUMP = 1, 
+						CAMERA_HEIGHT = 3.5f;
 	
 	public Camera(Vector3f position) {
 		this.position = position;
