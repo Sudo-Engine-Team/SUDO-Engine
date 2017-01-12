@@ -18,6 +18,8 @@ public class DisplayManager {
 	public static boolean isFullScreen;
 	public static int FPS_CAP =60;
 	public static long lastTime;
+	public static long lastFPSTime;
+	public static int frames = 0;
 	
 	public static void createDisplay(String[] args){
 		ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
@@ -102,6 +104,7 @@ public class DisplayManager {
 	}
 	
 	public static void updateDisplay(){
+		DisplayManager.updateFPS();
 		if(Display.wasResized()){
 			DisplayManager.WIDTH = Display.getWidth();
 			DisplayManager.HEIGHT = Display.getHeight();
@@ -117,13 +120,23 @@ public class DisplayManager {
 	
 	public static float getDelta() {
 	    long time = getTime();
-	    float delta = (int) (time - DisplayManager.lastTime)/1000f;
+	    float delta = (float) (time - DisplayManager.lastTime)/1000f;
 	    DisplayManager.lastTime = time;
-
 	    return delta;
 	}
-
-	private static long getTime() {
+	public static void updateFPS(){
+		long currentTime = getTime();
+		frames++;
+		if ( currentTime - lastFPSTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
+	         // printf and reset timer
+	         frames = 0;
+	         lastTime += 1.0;
+	     }
+	}
+	public static int getFPS(){
+		return frames;
+	}
+	public static long getTime() {
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 	public static void setScreen(Screen screen){

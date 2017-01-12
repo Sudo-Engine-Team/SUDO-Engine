@@ -7,18 +7,20 @@ import org.lwjgl.util.vector.Vector2f;
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
-import site.root3287.lwjgl.screen.screens.Test;
+import site.root3287.lwjgl.screen.screens.MainGame;
 
 public class LWJGL {
+	private Render r;
+	private Loader l;
 	public static void main(String[] args){
 		//new Launcher();
 		new LWJGL(args);
 	}
 	public LWJGL(String[] args){
 		DisplayManager.createDisplay(args);
-		Loader l = new Loader();
-		Render r = new Render();
-		DisplayManager.setScreen(new Test(r, l));
+		this.r = new Render();
+		this.l = new Loader();
+		DisplayManager.setScreen(new MainGame(r, l));
 		DisplayManager.screen.init();
 		while(!Display.isCloseRequested()){
 			DisplayManager.DELTA = DisplayManager.getDelta();
@@ -32,9 +34,9 @@ public class LWJGL {
 	
 	public LWJGL(){
 		DisplayManager.createDisplay();
-		Loader l = new Loader();
-		Render r = new Render();
-		DisplayManager.setScreen(new Test(r, l));
+		this.r = new Render();
+		this.l = new Loader();
+		DisplayManager.setScreen(new MainGame(r, l));
 		DisplayManager.screen.init();
 		while(!Display.isCloseRequested()){
 			DisplayManager.DELTA = DisplayManager.getDelta();

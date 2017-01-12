@@ -16,38 +16,33 @@ import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
 
-public class Test extends Screen{
-	
+public class MainGame extends Screen{
 	private List<Terrain> allTerrain = new ArrayList<Terrain>();
-	//private List<WaterTile> allWater = new ArrayList<WaterTile>();
 	private Light light;
 	private Camera c;
 	private Terrain[][] terrainForCollision;
-
-	public Test() {
-		super();
+	int frames = 0;
+	long lastFPSTime;
+	public MainGame() {
+		
 	}
-
-	public Test(Render render, Loader loader) {
+	
+	public MainGame(Render render, Loader loader) {
 		super(render, loader);
 	}
 
+	
 	@Override
 	public void init() {
-		//this.server = new Server(8123);
-		//this.client = new Client("127.0.0.1:8123");
-		//server.start();
-		//client.connect();
+		this.light = new Light(new Vector3f(0, 1000, 0), new Vector3f(1, 1, 1));
+		this.c = new Camera(new Vector3f(10, 10, 0));
+		Mouse.setGrabbed(this.c.isGrabbed());
 		
 		terrainForCollision = new Terrain[255][255];
-		this.c = new Camera(new Vector3f(0, 10f, 0));
-		Mouse.setGrabbed(c.isGrabbed());
 		
-        this.light = new Light(new Vector3f(0,100000000,0), new Vector3f(5, 5, 5));
-        
-        int seed = new Random().nextInt();
-       
-        for(int tX = 0; tX <= 5; tX++){
+		int seed = new Random().nextInt();
+		
+		for(int tX = 0; tX <= 5; tX++){
         	for(int tY = 0; tY <= 5; tY++){
         		System.out.println("Processing terrain for "+tX+" "+tY);
         		Terrain t1 = new Terrain(
@@ -64,18 +59,19 @@ public class Test extends Screen{
         		terrainForCollision[tX][tY] = t1;
         	}
         }
-        
-        //WaterShader ws = new WaterShader();
-        //WaterRender wr = new WaterRender(this.loader, ws, this.render.getProjectionMatrix());
-        //WaterTile w1 = new WaterTile(0, 0, 20);
-        //allWater.add(w1);
 	}
 
 	@Override
 	public void update() {
-		c.update(terrainForCollision, DisplayManager.DELTA);
-		System.out.println(c.getYaw() +" "+ c.getPitch());
-		System.out.println(c.getPosition().x+" "+c.getPosition().y+" "+c.getPosition().z);
+		long currentTime = DisplayManager.getTime();
+		frames++;
+		if (currentTime - lastFPSTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
+	         // printf and reset timer
+	         System.out.println(frames);
+	         frames = 0;
+	         lastFPSTime = currentTime;
+	     }
+		this.c.update(this.terrainForCollision, DisplayManager.getDelta());
 	}
 
 	@Override
@@ -83,15 +79,13 @@ public class Test extends Screen{
 		for(Terrain t:allTerrain){
 			this.render.processTerrain(t);
 		}
-		this.render.render(light, c);
-		//wr.render(allWater, c);
+		this.render.render(light, this.c);
 	}
 
 	@Override
 	public void dispose() {
 		this.render.dispose();
 		this.loader.destory();
-		//this.server.close();
 	}
-	
+
 }

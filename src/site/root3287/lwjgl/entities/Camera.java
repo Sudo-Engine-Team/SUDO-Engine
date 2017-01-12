@@ -21,7 +21,7 @@ public class Camera{
 					canFly = false,
 					gravity = true,
 					isInAir = false,
-					canDoubleJump = true;
+					canDoubleJump = false;
 	private final float GRAVITY = -0.981f, 
 						JUMP = 1, 
 						CAMERA_HEIGHT = 3.5f;
@@ -61,7 +61,7 @@ public class Camera{
 			}
 		}
 		
-		float finalDistance = this.distance*delta;
+		float finalDistance = this.distance*(delta *100);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			position.x += finalDistance * (float)Math.sin(Math.toRadians(yaw));

@@ -29,7 +29,7 @@ public class Launcher extends Canvas{
 		frame.setTitle("Test Launcher");
 		frame.setVisible(true);
 		frame.setSize(new Dimension(900, 900/16*9));
-		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		window.setLayout(null);

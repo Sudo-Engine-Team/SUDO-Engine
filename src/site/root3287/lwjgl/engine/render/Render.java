@@ -36,7 +36,7 @@ public class Render {
     private List<Terrain> terrains = new ArrayList<Terrain>();
      
     public Render(){
-    	enableCulling();
+    	disableCulling();
         createProjectionMatrix();
         renderer = new EntityRender(shader,projectionMatrix);
         terrainRenderer = new TerrainRender(terrainShader,projectionMatrix);
@@ -57,7 +57,7 @@ public class Render {
     	prepare();
         shader.start();
         shader.loadSkyColour(skyColour.x,skyColour.y, skyColour.z);
-        shader.setFog(0.000007f, 100f);
+        shader.setFog(0.0007f, 100f);
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
         renderer.render(entities);
@@ -65,7 +65,7 @@ public class Render {
         
         terrainShader.start();
         terrainShader.loadSkyColour(skyColour.x, skyColour.y, skyColour.z);
-        terrainShader.setFog(0.000007f, 100f);
+        terrainShader.setFog(0.0007f, 100f);
         terrainShader.loadLight(sun);
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
