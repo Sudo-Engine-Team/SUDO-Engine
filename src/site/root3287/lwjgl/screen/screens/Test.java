@@ -12,17 +12,21 @@ import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.entities.Light;
+import site.root3287.lwjgl.net.client.Client;
+import site.root3287.lwjgl.net.server.Server;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
+import site.root3287.lwjgl.world.World;
 
 public class Test extends Screen{
 	
 	private List<Terrain> allTerrain = new ArrayList<Terrain>();
-	//private List<WaterTile> allWater = new ArrayList<WaterTile>();
 	private Light light;
 	private Camera c;
-	private Terrain[][] terrainForCollision;
+	private Server server;
+	private Client client;
+	private World world;
 
 	public Test() {
 		super();
@@ -39,7 +43,6 @@ public class Test extends Screen{
 		//server.start();
 		//client.connect();
 		
-		terrainForCollision = new Terrain[255][255];
 		this.c = new Camera(new Vector3f(0, 10f, 0));
 		Mouse.setGrabbed(c.isGrabbed());
 		
@@ -47,23 +50,7 @@ public class Test extends Screen{
         
         int seed = new Random().nextInt();
        
-        for(int tX = 0; tX <= 5; tX++){
-        	for(int tY = 0; tY <= 5; tY++){
-        		System.out.println("Processing terrain for "+tX+" "+tY);
-        		Terrain t1 = new Terrain(
-        				tX,
-						tY, 
-						this.loader, 
-						new ModelTexture(
-								this.loader.loadTexture("res/image/grass.png")
-						), 
-						64, 
-						seed
-        				);
-        		allTerrain.add(t1);
-        		terrainForCollision[tX][tY] = t1;
-        	}
-        }
+        this.world = new World(this.loader);
         
         //WaterShader ws = new WaterShader();
         //WaterRender wr = new WaterRender(this.loader, ws, this.render.getProjectionMatrix());
@@ -73,14 +60,12 @@ public class Test extends Screen{
 
 	@Override
 	public void update() {
-		c.update(terrainForCollision, DisplayManager.DELTA);
-		System.out.println(c.getYaw() +" "+ c.getPitch());
-		System.out.println(c.getPosition().x+" "+c.getPosition().y+" "+c.getPosition().z);
+		c.update(world.getTerrainForCollision(), DisplayManager.DELTA);
 	}
 
 	@Override
 	public void render() {
-		for(Terrain t:allTerrain){
+		for(Terrain t: this.world.getTerrains()){
 			this.render.processTerrain(t);
 		}
 		this.render.render(light, c);

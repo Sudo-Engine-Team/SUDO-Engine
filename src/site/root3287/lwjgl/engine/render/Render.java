@@ -36,7 +36,7 @@ public class Render {
     private List<Terrain> terrains = new ArrayList<Terrain>();
      
     public Render(){
-    	disableCulling();
+    	enableCulling();
         createProjectionMatrix();
         renderer = new EntityRender(shader,projectionMatrix);
         terrainRenderer = new TerrainRender(terrainShader,projectionMatrix);

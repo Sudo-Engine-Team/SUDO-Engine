@@ -24,7 +24,7 @@ public class MainGame extends Screen{
 	int frames = 0;
 	long lastFPSTime;
 	public MainGame() {
-		
+		super();
 	}
 	
 	public MainGame(Render render, Loader loader) {
@@ -63,15 +63,7 @@ public class MainGame extends Screen{
 
 	@Override
 	public void update() {
-		long currentTime = DisplayManager.getTime();
-		frames++;
-		if (currentTime - lastFPSTime >= 1.0 ){ // If last prinf() was more than 1 sec ago
-	         // printf and reset timer
-	         System.out.println(frames);
-	         frames = 0;
-	         lastFPSTime = currentTime;
-	     }
-		this.c.update(this.terrainForCollision, DisplayManager.getDelta());
+		this.c.update(this.terrainForCollision, DisplayManager.DELTA);
 	}
 
 	@Override

@@ -76,8 +76,6 @@ public class Client {
 	
 	private void sendConnectionPacket(){
 		BinaryWriter writer = new BinaryWriter();
-		//writer.write(PacketType.PACKET_HEADER.getData());
-		//writer.write(PacketType.CONNECT.getDataByte());
 		send(new String(""+PacketType.CONNECT.getLength()+PacketType.CONNECT.getType()).getBytes());
 	}
 	

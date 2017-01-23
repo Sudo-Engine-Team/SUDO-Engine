@@ -9,9 +9,7 @@ import site.root3287.lwjgl.texture.ModelTexture;
 import site.root3287.lwjgl.toolbox.LWJGLMaths;
 
 public class Terrain {
-    public static final float SIZE = 800;
-    private static final float MAX_HEIGHT = 100;
-    private static final float MAX_PIXEL_COLOUR = 256*256*256;
+    public static int SIZE = 800;    
     private int vertexCount;
     private float x;
     private float z;

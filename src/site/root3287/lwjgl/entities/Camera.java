@@ -61,7 +61,7 @@ public class Camera{
 			}
 		}
 		
-		float finalDistance = this.distance*(delta *100);
+		float finalDistance = this.distance*(delta *1);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			position.x += finalDistance * (float)Math.sin(Math.toRadians(yaw));
