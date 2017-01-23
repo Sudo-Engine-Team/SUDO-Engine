@@ -14,7 +14,7 @@ import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.shader.shaders.StaticShader;
 import site.root3287.lwjgl.texture.ModelTexture;
-import site.root3287.lwjgl.toolbox.LWJGLMaths;
+import site.root3287.lwjgl.utils.LWJGLMaths;
 
 public class EntityRender {
 	private StaticShader shader;

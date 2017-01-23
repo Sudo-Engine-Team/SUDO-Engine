@@ -59,9 +59,14 @@ public class Camera{
 			}else if(this.pitch < -90){
 				this.pitch = -90;
 			}
+			if(this.yaw > 360){
+				this.yaw = 0;
+			}else if(this.yaw < 0){
+				this.yaw = 360-Math.abs(this.yaw);
+			}
 		}
-		
-		float finalDistance = this.distance*(delta *1);
+
+		float finalDistance = this.distance*delta;
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			position.x += finalDistance * (float)Math.sin(Math.toRadians(yaw));

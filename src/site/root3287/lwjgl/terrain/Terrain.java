@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.texture.ModelTexture;
-import site.root3287.lwjgl.toolbox.LWJGLMaths;
+import site.root3287.lwjgl.utils.LWJGLMaths;
 
 public class Terrain {
     public static int SIZE = 800;    
