@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.shader.Shader;
-import site.root3287.lwjgl.toolbox.LWJGLMaths;
+import site.root3287.lwjgl.utils.LWJGLMaths;
 
 public class WaterShader extends Shader {
 

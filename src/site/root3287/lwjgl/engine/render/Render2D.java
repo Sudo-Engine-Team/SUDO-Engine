@@ -6,32 +6,40 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
 
-import site.root3287.lwjgl.engine.Loader;
+import site.root3287.lwjgl.entities.Quad2D;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.shader.shaders.Shader2D;
 import site.root3287.lwjgl.texture.Texture2D;
 
 public class Render2D{
-	private final RawModel quad;
 	private Shader2D shader;
-	public Render2D(Loader loader) {
-		float[] positions = {-1,1,-1,-1,1,1,1,-1};
-		this.quad = loader.loadToVAO(positions);
-		this.shader = new Shader2D();
+	
+	public Render2D(Shader2D shader, Matrix4f projectionMatrix) {
+		this.shader = shader;
+		this.shader.start();
+		this.shader.loadTransformation(projectionMatrix);
+		this.shader.stop();
 	}
-	public void render(List<Texture2D> guis){
-		shader.start();
-		GL30.glBindVertexArray(this.quad.getVaoID());
-		GL20.glEnableVertexAttribArray(0);
-		for(Texture2D gui : guis){
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, gui.getTextureID());
-			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, this.quad.getVertexCount());
+	public void render(List<Quad2D> guis){
+		for(Quad2D gui : guis){
+			prepareQuad(gui);
+			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, gui.getModel().getVertexCount());
+			unbindQuad();
 		}
+	}
+	private void prepareQuad(Quad2D quad){
+		RawModel rawModel = quad.getModel();
+		GL30.glBindVertexArray(rawModel.getVaoID());
+		GL20.glEnableVertexAttribArray(0);
+		Texture2D texture = quad.getTexture();
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+	}
+	private void unbindQuad(){
 		GL20.glDisableVertexAttribArray(0);
-		GL30.glBindVertexArray(0);
-		shader.stop();
+		GL30.glDeleteVertexArrays(0);
 	}
 	public void dispose(){
 		this.shader.dispose();

@@ -1,4 +1,4 @@
-package site.root3287.lwjgl.toolbox;
+package site.root3287.lwjgl.utils;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;

@@ -11,7 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.model.RawModel;
-import site.root3287.lwjgl.toolbox.LWJGLMaths;
+import site.root3287.lwjgl.utils.LWJGLMaths;
 
 
 public class WaterRender{

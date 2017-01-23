@@ -13,9 +13,9 @@ import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.shader.shaders.TerrainShader;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
-import site.root3287.lwjgl.toolbox.LWJGLMaths;
+import site.root3287.lwjgl.utils.LWJGLMaths;
 
-public class TerrainRender {
+public class TerrainRender{
     private TerrainShader shader;
     
     public TerrainRender(TerrainShader shader, Matrix4f projectionMatrix) {
@@ -47,7 +47,7 @@ public class TerrainRender {
     }
  
     private void unbindTexturedModel() {
-        GL20.glDisableVertexAttribArray(0);
+    	GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);

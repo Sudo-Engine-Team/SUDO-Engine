@@ -8,6 +8,7 @@ import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.screen.screens.MainGame;
+import site.root3287.lwjgl.screen.screens.Test;
 
 public class LWJGL {
 	private Render r;
@@ -20,7 +21,7 @@ public class LWJGL {
 		DisplayManager.createDisplay(args);
 		this.r = new Render();
 		this.l = new Loader();
-		DisplayManager.setScreen(new MainGame(r, l));
+		DisplayManager.setScreen(new Test(r, l));
 		DisplayManager.screen.init();
 		while(!Display.isCloseRequested()){
 			DisplayManager.DELTA = DisplayManager.getDelta();

@@ -6,14 +6,13 @@ import site.root3287.lwjgl.shader.Shader;
 
 public class Shader2D extends Shader{
 
-	private static final String VERTEX_FILE ="res/2D/vertexShader.glsl", 
+	private static final String VERTEX_FILE ="res/shaders/2D/vertexShader.glsl", 
 								FRAGMENT_FILE = "res/shaders/2D/fragmentShader.glsl";
 	
 	private int location_transformationMatrix;
 	
 	public Shader2D() {
-		super(VERTEX_FILE, FRAGMENT_FILE);
-		
+		super(VERTEX_FILE, FRAGMENT_FILE);	
 	}
 	
 	@Override

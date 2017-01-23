@@ -8,7 +8,7 @@ public class Texture2D {
 	public Texture2D(int textureID, Vector2f position, Vector2f scale) {
 		this.textureID = textureID;
 		this.position = position;
-		this.scale = scale;
+		this.scale = scale; 
 	}
 	public int getTextureID() {
 		return textureID;

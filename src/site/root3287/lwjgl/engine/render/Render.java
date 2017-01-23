@@ -13,10 +13,14 @@ import org.lwjgl.util.vector.Vector3f;
 import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
+import site.root3287.lwjgl.entities.Quad2D;
+import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
+import site.root3287.lwjgl.shader.shaders.Shader2D;
 import site.root3287.lwjgl.shader.shaders.StaticShader;
 import site.root3287.lwjgl.shader.shaders.TerrainShader;
 import site.root3287.lwjgl.terrain.Terrain;
+import site.root3287.lwjgl.texture.Texture2D;
 
 public class Render {
 	private static final float FOV = 70;
@@ -26,20 +30,28 @@ public class Render {
      
     private Matrix4f projectionMatrix;
      
+    //EntityRender
     private StaticShader shader = new StaticShader();
     private EntityRender renderer;
-     
+    
+    //TerrainRender
     private TerrainRender terrainRenderer;
     private TerrainShader terrainShader = new TerrainShader();
+    
+    //Render2D
+    private Render2D render2d;
+    private Shader2D shader2d = new Shader2D();
      
     private Map<TexturedModel,List<Entity>> entities = new HashMap<TexturedModel,List<Entity>>();
     private List<Terrain> terrains = new ArrayList<Terrain>();
+    private List<Quad2D> quads = new ArrayList<Quad2D>();
      
     public Render(){
     	disableCulling();
         createProjectionMatrix();
         renderer = new EntityRender(shader,projectionMatrix);
         terrainRenderer = new TerrainRender(terrainShader,projectionMatrix);
+        render2d = new Render2D(this.shader2d, projectionMatrix);
     }
     
     public static void enableCulling(){
@@ -71,8 +83,14 @@ public class Render {
         terrainRenderer.render(terrains);
         terrainShader.stop();
         
+        shader2d.start();
+        shader2d.loadTransformation(projectionMatrix);
+        render2d.render(quads);
+        shader.stop();
+        
         terrains.clear();
         entities.clear();
+        quads.clear();
     }
      
     public void processTerrain(Terrain terrain){
@@ -90,10 +108,15 @@ public class Render {
             entities.put(entityModel, newBatch);        
         }
     }
+    
+    public void proccess2D(Quad2D q2d){
+    	quads.add(q2d);
+    }
      
     public void dispose(){
         shader.dispose();
         terrainShader.dispose();
+        this.shader2d.dispose();
     }
      
     public void prepare() {

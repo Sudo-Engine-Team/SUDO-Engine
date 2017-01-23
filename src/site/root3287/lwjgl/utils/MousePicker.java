@@ -1,4 +1,4 @@
-package site.root3287.lwjgl.toolbox;
+package site.root3287.lwjgl.utils;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
