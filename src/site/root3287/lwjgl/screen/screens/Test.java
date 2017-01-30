@@ -51,11 +51,6 @@ public class Test extends Screen{
         int seed = new Random().nextInt();
        
         this.world = new World(this.loader);
-        
-        //WaterShader ws = new WaterShader();
-        //WaterRender wr = new WaterRender(this.loader, ws, this.render.getProjectionMatrix());
-        //WaterTile w1 = new WaterTile(0, 0, 20);
-        //allWater.add(w1);
 	}
 
 	@Override
@@ -69,7 +64,6 @@ public class Test extends Screen{
 			this.render.processTerrain(t);
 		}
 		this.render.render(light, c);
-		//wr.render(allWater, c);
 	}
 
 	@Override

@@ -109,7 +109,7 @@ public class Camera{
 			
 			//Collision detection
 			Terrain currentTerrain = terrain[(int)(this.position.x/Terrain.SIZE)][(int)(this.position.z/Terrain.SIZE)];
-			float terrainHeight = currentTerrain.getTerrainHeightByCoords(this.position.x, this.position.z)+CAMERA_HEIGHT;
+			float terrainHeight = ((Terrain) currentTerrain).getTerrainHeightByCoords(this.position.x, this.position.z)+CAMERA_HEIGHT;
 			if(position.y < terrainHeight){ // Collision detection
 				this.dy = 0;
 				isInAir = false;

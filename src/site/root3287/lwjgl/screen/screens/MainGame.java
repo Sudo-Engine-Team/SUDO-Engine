@@ -13,6 +13,7 @@ import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.screen.Screen;
+import site.root3287.lwjgl.terrain.PerlinTerrain;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
 
@@ -45,7 +46,7 @@ public class MainGame extends Screen{
 		for(int tX = 0; tX <= 5; tX++){
         	for(int tY = 0; tY <= 5; tY++){
         		System.out.println("Processing terrain for "+tX+" "+tY);
-        		Terrain t1 = new Terrain(
+        		Terrain t1 = new PerlinTerrain(
         				tX,
 						tY, 
 						this.loader, 
