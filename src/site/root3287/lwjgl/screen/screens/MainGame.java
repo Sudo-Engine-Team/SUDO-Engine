@@ -64,7 +64,7 @@ public class MainGame extends Screen{
 
 	@Override
 	public void update() {
-		this.c.update(this.terrainForCollision, DisplayManager.DELTA);
+		//this.c.update(this.terrainForCollision, DisplayManager.DELTA);
 	}
 
 	@Override

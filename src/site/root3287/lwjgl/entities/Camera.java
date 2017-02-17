@@ -1,5 +1,11 @@
 package site.root3287.lwjgl.entities;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
@@ -15,7 +21,8 @@ public class Camera{
 				  	dy,
 				  	sensitivity = 0.25f,
 				  	distance = 20f,
-				  	pauseCooldown = 0f;
+				  	pauseCooldown = 0f,
+				  	keyCooldown = 0f;
 	private boolean isGrabbed = true, 
 					isMouseGrabbedRequest = false, 
 					canFly = false,
@@ -25,13 +32,14 @@ public class Camera{
 	private final float GRAVITY = -0.981f, 
 						JUMP = 1, 
 						CAMERA_HEIGHT = 3.5f;
+	private int direction;
 	
 	public Camera(Vector3f position) {
 		this.position = position;
 		this.dy = 0;
 	}
 
-	public void update(Terrain[][] terrain, float delta) {
+	public void update(HashMap<Integer, HashMap<Integer, Terrain>> terrain, float delta) {
 		move(terrain, delta);
 		if(isMouseGrabbedRequest){
 			isMouseGrabbedRequest = false;
@@ -44,27 +52,34 @@ public class Camera{
 		}
 	}
 	
-	private void move(Terrain[][] terrain, float delta){
+	private void move(HashMap<Integer, HashMap<Integer, Terrain>> terrain, float delta){
 		if(pauseCooldown<0){
 			this.pauseCooldown = 0;
 		}
 		if(this.pauseCooldown<=5){
 			this.pauseCooldown += delta;
 		}
+		if(this.keyCooldown<=5){
+			this.keyCooldown += delta;
+		}
 		if(isGrabbed){
 			this.pitch -= Mouse.getDY() * sensitivity;
 			this.yaw += Mouse.getDX() * sensitivity;
+			
 			if(this.pitch > 90){
 				this.pitch = 90;
 			}else if(this.pitch < -90){
 				this.pitch = -90;
 			}
+			
 			if(this.yaw > 360){
 				this.yaw = 0;
 			}else if(this.yaw < 0){
 				this.yaw = 360-Math.abs(this.yaw);
 			}
 		}
+		
+		this.direction = (int) (this.yaw/90);
 
 		float finalDistance = this.distance*delta;
 		
@@ -83,6 +98,13 @@ public class Camera{
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			position.x -= finalDistance * (float)Math.sin(Math.toRadians(yaw-90));
 		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw-90));
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_L)){
+			if(keyCooldown >= 0.75){
+				this.yaw+=45;
+				this.keyCooldown = 0;
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
@@ -108,8 +130,20 @@ public class Camera{
 			this.position.y  += dy;
 			
 			//Collision detection
-			Terrain currentTerrain = terrain[(int)(this.position.x/Terrain.SIZE)][(int)(this.position.z/Terrain.SIZE)];
-			float terrainHeight = ((Terrain) currentTerrain).getTerrainHeightByCoords(this.position.x, this.position.z)+CAMERA_HEIGHT;
+			float chunkX = position.x / Terrain.SIZE;
+			float chunkZ =position.z / Terrain.SIZE;
+			Map<Integer, Terrain> temp1;
+			Terrain currentTerrain = null;
+			Map<Integer, Terrain> temp;
+			float terrainHeight = 0;
+			if(terrain.containsKey((int)chunkX)){
+				temp = terrain.get((int)chunkX);
+				if(temp.containsKey((int)chunkZ)){
+					currentTerrain = temp.get((int)chunkZ);
+				}
+			}
+			terrainHeight = currentTerrain.getTerrainHeightByCoords(position.x, position.z) + CAMERA_HEIGHT;
+			System.out.println("ChunkX: " + (chunkX) + " ChunkZ: " + (chunkZ) + " HEIGHT: " +terrainHeight);
 			if(position.y < terrainHeight){ // Collision detection
 				this.dy = 0;
 				isInAir = false;

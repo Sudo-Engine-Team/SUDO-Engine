@@ -38,6 +38,11 @@ public class HeightGenerator {
         }
         return total;
     }
+    public float generateHeight2(int x, int z) {
+        float total = getInterpolatedNoise(x/4f, z/4f) * AMPLITUDE;
+        total += getInterpolatedNoise(x/2f, z/2f) * AMPLITUDE/3f;
+        return total;
+    }
      
     private float getInterpolatedNoise(float x, float z){
         int intX = (int) x;

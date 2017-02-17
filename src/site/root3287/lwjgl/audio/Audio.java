@@ -9,8 +9,9 @@ import org.lwjgl.openal.AL10;
 import org.lwjgl.util.WaveData;
 import org.lwjgl.util.vector.Vector3f;
 
+//The CD's.
+
 public class Audio {
-	public static List<Integer> buffers = new ArrayList<Integer>();
 	public static void init(){
 		try {
 			AL.create();
@@ -26,8 +27,8 @@ public class Audio {
 	}
 	
 	public static int loadSound(String file){
+		System.out.println(file);
 		int buffer = AL10.alGenBuffers();
-		buffers.add(buffer);
 		WaveData wavFile = WaveData.create(file);
 		AL10.alBufferData(buffer, wavFile.format, wavFile.data, wavFile.samplerate);
 		wavFile.dispose();
@@ -35,9 +36,6 @@ public class Audio {
 	}
 	
 	public static void dispose(){
-		for(int b: buffers){
-			AL10.alDeleteBuffers(b);
-		}
 		AL.destroy();
 	}
 }

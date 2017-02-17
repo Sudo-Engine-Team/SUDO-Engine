@@ -18,7 +18,7 @@ public class PerlinTerrain extends Terrain{
         this.texture.setFakeLight(true);
     }
 	private float getHeight(int x, int z, HeightGenerator generator){
-    	return generator.generateHeight(x, z);
+    	return generator.generateHeight2(x, z);
     }
 	
 	protected Vector3f calculateNormal(int x, int z, HeightGenerator generator){
@@ -83,7 +83,6 @@ public class PerlinTerrain extends Terrain{
 	}
 	@Override
 	protected RawModel generateTerrain(Loader loader) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

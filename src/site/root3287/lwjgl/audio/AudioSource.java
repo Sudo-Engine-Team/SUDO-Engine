@@ -1,10 +1,9 @@
 package site.root3287.lwjgl.audio;
 
-import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.sun.media.sound.AlawCodec;
+//The CD player.
 
 public class AudioSource {
 	private int sourceID;

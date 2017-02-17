@@ -17,12 +17,16 @@ uniform vec3 lightPosition;
 uniform float fogDensity;
 uniform float fogGradient;
 uniform float useFakeLight;
+
+const vec4 plane = vec4(0, -1, 0, 20);
 void main(void){
 
 	vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
 	vec4 positionRelativeToCam = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCam;
 	pass_textureCoords = textureCoords * 40.0;
+	
+	gl_ClipDistance[0] = dot(worldPosition, plane);
 	
 	vec3 actualNormal = normal;
 	if(useFakeLight > 0.5){

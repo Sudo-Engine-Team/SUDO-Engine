@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import site.root3287.lwjgl.net.ServerClient;
-import site.root3287.lwjgl.net.client.Client;
 import site.root3287.lwjgl.net.packet.Packet;
 import site.root3287.lwjgl.net.packet.PacketConnect;
 import site.root3287.lwjgl.net.packet.PacketDisconnect;
