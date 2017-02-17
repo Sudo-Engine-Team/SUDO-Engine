@@ -5,7 +5,7 @@ import java.util.Random;
 public class HeightGenerator {
 	private static final float AMPLITUDE = 100f;
     private static final int OCTAVES = 3;
-    private static final float ROUGHNESS = 0.2f;
+    private static final float ROUGHNESS = 0.3f;
  
     private Random random = new Random();
     private int seed;
@@ -22,11 +22,6 @@ public class HeightGenerator {
         xOffset = gridX * (vertexCount-1);
         zOffset = gridZ * (vertexCount-1);
     }
-    public HeightGenerator(int gridX, int gridZ, int vertexCount) {
-    	this.seed = random.nextInt(1000000000);
-        xOffset = gridX * (vertexCount-1);
-        zOffset = gridZ * (vertexCount-1);
-    }
  
     public float generateHeight(int x, int z) {
         float total = 0;
@@ -39,8 +34,10 @@ public class HeightGenerator {
         return total;
     }
     public float generateHeight2(int x, int z) {
-        float total = getInterpolatedNoise(x/4f, z/4f) * AMPLITUDE;
-        total += getInterpolatedNoise(x/2f, z/2f) * AMPLITUDE/3f;
+        float total = 0;
+        total += getInterpolatedNoise(x+xOffset/4, z+zOffset/4) *AMPLITUDE;
+        total += getInterpolatedNoise(x+xOffset/2, z+zOffset/2) *AMPLITUDE /3;
+        total += getInterpolatedNoise(x+xOffset/1, z+zOffset/1) *AMPLITUDE /9;
         return total;
     }
      
@@ -75,7 +72,7 @@ public class HeightGenerator {
     }
  
     private float getNoise(int x, int z) {
-        random.setSeed(x * 93805 + z * 34239 + seed);
+        random.setSeed(x * 49632 + z * 325176 + seed);
         return random.nextFloat() * 2f - 1f;
     }
 }

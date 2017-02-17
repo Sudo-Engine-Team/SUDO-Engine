@@ -61,7 +61,7 @@ public class DisplayManager {
 					}
 					
 					if(a.equals("-r")){
-						if(args[i+1] != null){
+						if(args[i+1] != null && !isRatioSet){
 							String split1 = new String(args[i+1]).substring(0, args[i+1].indexOf('*'));
 							String split2 = new String(args[i+1]).substring(args[i+1].indexOf('*')+1);
 							int s1 = Integer.parseInt(split1);

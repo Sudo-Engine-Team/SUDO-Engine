@@ -1,8 +1,4 @@
 package site.root3287.lwjgl.entities;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,19 +17,26 @@ public class Camera{
 				  	dy,
 				  	sensitivity = 0.25f,
 				  	distance = 20f,
-				  	pauseCooldown = 0f,
-				  	keyCooldown = 0f;
+				  	pauseCooldown = 0f;
 	private boolean isGrabbed = true, 
 					isMouseGrabbedRequest = false, 
 					canFly = false,
 					gravity = true,
 					isInAir = false,
 					canDoubleJump = false;
-	private final float GRAVITY = -0.981f, 
+	private final float GRAVITY = (float) (-9.81/2f), 
 						JUMP = 1, 
 						CAMERA_HEIGHT = 3.5f;
-	private int direction;
+	private int direction = 0;
 	
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
 	public Camera(Vector3f position) {
 		this.position = position;
 		this.dy = 0;
@@ -59,9 +62,7 @@ public class Camera{
 		if(this.pauseCooldown<=5){
 			this.pauseCooldown += delta;
 		}
-		if(this.keyCooldown<=5){
-			this.keyCooldown += delta;
-		}
+		
 		if(isGrabbed){
 			this.pitch -= Mouse.getDY() * sensitivity;
 			this.yaw += Mouse.getDX() * sensitivity;
@@ -100,13 +101,6 @@ public class Camera{
 		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw-90));
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_L)){
-			if(keyCooldown >= 0.75){
-				this.yaw+=45;
-				this.keyCooldown = 0;
-			}
-		}
-		
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			if(pauseCooldown >= 0.75){
 				this.isMouseGrabbedRequest = true;
@@ -130,9 +124,8 @@ public class Camera{
 			this.position.y  += dy;
 			
 			//Collision detection
-			float chunkX = position.x / Terrain.SIZE;
-			float chunkZ =position.z / Terrain.SIZE;
-			Map<Integer, Terrain> temp1;
+			int chunkX = (int) Math.floor(position.x / Terrain.SIZE);
+			int chunkZ = (int) Math.floor(position.z / Terrain.SIZE);
 			Terrain currentTerrain = null;
 			Map<Integer, Terrain> temp;
 			float terrainHeight = 0;
@@ -143,7 +136,6 @@ public class Camera{
 				}
 			}
 			terrainHeight = currentTerrain.getTerrainHeightByCoords(position.x, position.z) + CAMERA_HEIGHT;
-			System.out.println("ChunkX: " + (chunkX) + " ChunkZ: " + (chunkZ) + " HEIGHT: " +terrainHeight);
 			if(position.y < terrainHeight){ // Collision detection
 				this.dy = 0;
 				isInAir = false;

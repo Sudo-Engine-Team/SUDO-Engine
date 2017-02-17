@@ -2,7 +2,6 @@ package site.root3287.lwjgl.screen.screens;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -23,13 +22,18 @@ import site.root3287.lwjgl.world.World;
 
 public class Test extends Screen{
 	
+	@SuppressWarnings("unused")
 	private List<Terrain> allTerrain = new ArrayList<Terrain>();
 	private Light light;
 	private Camera c;
+	@SuppressWarnings("unused")
 	private Server server;
+	@SuppressWarnings("unused")
 	private Client client;
 	private World world;
+	@SuppressWarnings("unused")
 	private Texture2D texture;
+	@SuppressWarnings("unused")
 	private Quad2D quad;
 	public Test() {
 		super();
@@ -46,7 +50,8 @@ public class Test extends Screen{
 		//server.start();
 		//client.connect();
 		
-		int seed = new Random().nextInt();
+		//int seed = new Random().nextInt();
+		int seed = 123;
         this.world = new World(this.loader, seed);
 		
 		this.c = new Camera(new Vector3f(0, 10f, 0));

@@ -109,6 +109,8 @@ public class Server {
 			break;
 		case MOVE:
 			break;
+		default:
+			break;
 		}
 	}
 	
@@ -132,7 +134,7 @@ public class Server {
 	
 	public void addConnection(ServerClient player, PacketConnect connection){
 		boolean alreadyConnected = false;
-		for(ServerClient sc : this.clients){
+		for(@SuppressWarnings("unused") ServerClient sc : this.clients){
 			// if player user name is already exists in the set of clients.
 			// 	if sc player ip address is null... set it to the current player
 			// 	if sc player port is -1... set it to the current player  port

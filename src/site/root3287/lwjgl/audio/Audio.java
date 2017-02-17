@@ -1,8 +1,5 @@
 package site.root3287.lwjgl.audio;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.LWJGLException;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;

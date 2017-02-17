@@ -20,9 +20,8 @@ public abstract class Terrain {
     public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture, int vertexCount){
     	this.vertexCount = vertexCount;
         this.texture = texture;
-        this.x = gridX * SIZE - SIZE/2;
-        this.z = gridZ * SIZE - SIZE/2;
-        //HeightGenerator generator = new HeightGenerator(gridX, gridZ, this.vertexCount);
+        this.x = gridX * SIZE;
+        this.z = gridZ * SIZE;
         this.texture.setFakeLight(true);
     }
     
