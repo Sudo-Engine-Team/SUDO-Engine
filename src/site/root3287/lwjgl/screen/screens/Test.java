@@ -1,5 +1,6 @@
 package site.root3287.lwjgl.screen.screens;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,9 @@ import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.entities.Quad2D;
+import site.root3287.lwjgl.fontMeshCreator.FontType;
+import site.root3287.lwjgl.fontMeshCreator.GUIText;
+import site.root3287.lwjgl.input.objects.UIText;
 import site.root3287.lwjgl.net.client.Client;
 import site.root3287.lwjgl.net.server.Server;
 import site.root3287.lwjgl.screen.Screen;
@@ -35,6 +39,7 @@ public class Test extends Screen{
 	private Texture2D texture;
 	@SuppressWarnings("unused")
 	private Quad2D quad;
+	UIText text;
 	public Test() {
 		super();
 	}
@@ -64,6 +69,12 @@ public class Test extends Screen{
         				new Vector2f(0.25f, 0.25f), 
         				new Vector2f(1,1))
         				);
+        
+        UIText.init(loader);
+		FontType font = new FontType(loader.loadTexture("res/Fonts/Times New Roman/TNR.png"), new File("res/Fonts/Times New Roman/TNR.fnt"));
+		GUIText text = new GUIText("this is a test", 12, font, new Vector2f(0, 0), 1f, true);
+		text.setColour(1, 0, 1);
+		UIText.loadText(text);
 	}
 
 	@Override
@@ -78,12 +89,14 @@ public class Test extends Screen{
 		}
 		//this.render.proccess2D(this.quad);
 		this.render.render(light, c);
+		UIText.render();
 	}
 
 	@Override
 	public void dispose() {
 		this.render.dispose();
 		this.loader.destory();
+		UIText.dispose();
 		//this.server.close();
 	}
 	

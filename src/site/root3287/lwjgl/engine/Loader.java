@@ -37,6 +37,13 @@ public class Loader {
 		unbindVAO();
 		return new RawModel(vaoID, positions.length/2);
 	}
+	public int loadToVAO(float[] positions, float[] textureCoords){
+		int vaoID = createVAO();
+		storeDataInAttributeList(0, 2, positions);
+		storeDataInAttributeList(1, 2, positions);
+		unbindVAO();
+		return vaoID;
+	}
 	private int createVAO(){
 		int vaoID = GL30.glGenVertexArrays();
 		vaos.add(vaoID);
