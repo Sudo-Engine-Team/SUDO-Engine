@@ -14,13 +14,11 @@ import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.entities.Quad2D;
-import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.shader.shaders.Shader2D;
 import site.root3287.lwjgl.shader.shaders.StaticShader;
 import site.root3287.lwjgl.shader.shaders.TerrainShader;
 import site.root3287.lwjgl.terrain.Terrain;
-import site.root3287.lwjgl.texture.Texture2D;
 
 public class Render {
 	private static final float FOV = 70;
@@ -83,10 +81,10 @@ public class Render {
         terrainRenderer.render(terrains);
         terrainShader.stop();
         
-        shader2d.start();
-        shader2d.loadTransformation(projectionMatrix);
+        //shader2d.start();
+        //shader2d.loadTransformation(projectionMatrix);
         render2d.render(quads);
-        shader.stop();
+        //shader.stop();
         
         terrains.clear();
         entities.clear();

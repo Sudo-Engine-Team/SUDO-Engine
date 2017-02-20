@@ -1,30 +1,43 @@
 package site.root3287.lwjgl.world;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import site.root3287.lwjgl.engine.Loader;
+import site.root3287.lwjgl.terrain.PerlinTerrain;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
 
 public class World {
+	@SuppressWarnings("unused")
 	private int width, height, size, loadRadius, seed;
-	private List<Terrain> terrains, activeTerrain;
+	private List<Terrain> terrains;
 	private Terrain currentTerrain;
-	private Terrain[][] terrainForCollision;
+	private HashMap<Integer, HashMap<Integer, Terrain>> terrainCollision;
 	private Loader loader;
 	public World(Loader loader){
 		this.loader = loader;
 		this.seed = 1234;
 		this.terrains = new ArrayList<Terrain>();
-		this.activeTerrain = new ArrayList<Terrain>();
-		this.terrainForCollision = new Terrain[255][255];
+		this.terrainCollision = new HashMap<Integer, HashMap<Integer, Terrain>>();
+		generateTerrain();
+	}
+	public World(Loader loader, int seed){
+		this.loader = loader;
+		this.seed = seed;
+		System.out.println("Seed: "+ seed);
+		this.terrains = new ArrayList<Terrain>();
+		this.terrainCollision = new HashMap<Integer, HashMap<Integer, Terrain>>();
 		generateTerrain();
 	}
 	private void generateTerrain(){
-		for(int tX = 0; tX <= 1; tX++){
-        	for(int tY = 0; tY <= 1; tY++){
-        		Terrain t1 = new Terrain(
+		for(int tX = 0; tX <= 2; tX++){
+			HashMap<Integer, Terrain> temp = new HashMap<Integer, Terrain>();
+        	for(int tY = 0; tY <= 2; tY++){
+        		Terrain t1 = new PerlinTerrain(
         				tX,
 						tY, 
 						this.loader, 
@@ -32,30 +45,25 @@ public class World {
 								this.loader.loadTexture("res/image/grass.png")
 						), 
 						64, 
-						seed
+						this.seed
         				);
         		terrains.add(t1);
-        		if(tX >= 0 && tY >= 0){
-        			this.terrainForCollision[tX][tY] = t1;
-        		}
+        		System.out.println("Proccessing:" + tX + " " + tY);
+        		temp.put(tY, t1);
         	}
+        	this.terrainCollision.put(tX, temp);
         }
 	}
-	public void update(){
-		//Check which chunks is around the player
-		//if the player is in the range of a chunk, then spawn the and load it;
-		//if the player is outside the chunk range. Then despawn the chunk.
+	public void update(Vector3f camPosition, int radius){
+		
 	}
 	public List<Terrain> getTerrains(){
 		return terrains;
 	}
-	public List<Terrain> getActiveTerrain(){
-		return activeTerrain;
-	}
 	public Terrain currentTerrain(){
 		return this.currentTerrain;
 	}
-	public Terrain[][] getTerrainForCollision(){
-		return this.terrainForCollision;
+	public HashMap<Integer, HashMap<Integer, Terrain>> getTerrainForCollision(){
+		return this.terrainCollision;
 	}
 }

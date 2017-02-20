@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import site.root3287.lwjgl.net.ServerClient;
-import site.root3287.lwjgl.net.client.Client;
 import site.root3287.lwjgl.net.packet.Packet;
 import site.root3287.lwjgl.net.packet.PacketConnect;
 import site.root3287.lwjgl.net.packet.PacketDisconnect;
@@ -110,6 +109,8 @@ public class Server {
 			break;
 		case MOVE:
 			break;
+		default:
+			break;
 		}
 	}
 	
@@ -133,7 +134,7 @@ public class Server {
 	
 	public void addConnection(ServerClient player, PacketConnect connection){
 		boolean alreadyConnected = false;
-		for(ServerClient sc : this.clients){
+		for(@SuppressWarnings("unused") ServerClient sc : this.clients){
 			// if player user name is already exists in the set of clients.
 			// 	if sc player ip address is null... set it to the current player
 			// 	if sc player port is -1... set it to the current player  port

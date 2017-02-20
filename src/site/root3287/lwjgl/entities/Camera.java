@@ -1,4 +1,6 @@
 package site.root3287.lwjgl.entities;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -22,16 +24,25 @@ public class Camera{
 					gravity = true,
 					isInAir = false,
 					canDoubleJump = false;
-	private final float GRAVITY = -0.981f, 
+	private final float GRAVITY = (float) (-9.81/2f), 
 						JUMP = 1, 
 						CAMERA_HEIGHT = 3.5f;
+	private int direction = 0;
 	
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
 	public Camera(Vector3f position) {
 		this.position = position;
 		this.dy = 0;
 	}
 
-	public void update(Terrain[][] terrain, float delta) {
+	public void update(HashMap<Integer, HashMap<Integer, Terrain>> terrain, float delta) {
 		move(terrain, delta);
 		if(isMouseGrabbedRequest){
 			isMouseGrabbedRequest = false;
@@ -44,27 +55,32 @@ public class Camera{
 		}
 	}
 	
-	private void move(Terrain[][] terrain, float delta){
+	private void move(HashMap<Integer, HashMap<Integer, Terrain>> terrain, float delta){
 		if(pauseCooldown<0){
 			this.pauseCooldown = 0;
 		}
 		if(this.pauseCooldown<=5){
 			this.pauseCooldown += delta;
 		}
+		
 		if(isGrabbed){
 			this.pitch -= Mouse.getDY() * sensitivity;
 			this.yaw += Mouse.getDX() * sensitivity;
+			
 			if(this.pitch > 90){
 				this.pitch = 90;
 			}else if(this.pitch < -90){
 				this.pitch = -90;
 			}
+			
 			if(this.yaw > 360){
 				this.yaw = 0;
 			}else if(this.yaw < 0){
 				this.yaw = 360-Math.abs(this.yaw);
 			}
 		}
+		
+		this.direction = (int) (this.yaw/90);
 
 		float finalDistance = this.distance*delta;
 		
@@ -108,8 +124,18 @@ public class Camera{
 			this.position.y  += dy;
 			
 			//Collision detection
-			Terrain currentTerrain = terrain[(int)(this.position.x/Terrain.SIZE)][(int)(this.position.z/Terrain.SIZE)];
-			float terrainHeight = currentTerrain.getTerrainHeightByCoords(this.position.x, this.position.z)+CAMERA_HEIGHT;
+			int chunkX = (int) Math.floor(position.x / Terrain.SIZE);
+			int chunkZ = (int) Math.floor(position.z / Terrain.SIZE);
+			Terrain currentTerrain = null;
+			Map<Integer, Terrain> temp;
+			float terrainHeight = 0;
+			if(terrain.containsKey((int)chunkX)){
+				temp = terrain.get((int)chunkX);
+				if(temp.containsKey((int)chunkZ)){
+					currentTerrain = temp.get((int)chunkZ);
+				}
+			}
+			terrainHeight = currentTerrain.getTerrainHeightByCoords(position.x, position.z) + CAMERA_HEIGHT;
 			if(position.y < terrainHeight){ // Collision detection
 				this.dy = 0;
 				isInAir = false;

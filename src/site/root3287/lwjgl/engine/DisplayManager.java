@@ -13,7 +13,7 @@ import site.root3287.lwjgl.screen.Screen;
 public class DisplayManager {
 	public static Screen screen;
 	public static float DELTA;
-	public static int WIDTH, HEIGHT;
+	public static int WIDTH, HEIGHT, DISPLAY_RATIO;
 	public static String TITLE;
 	public static boolean isFullScreen;
 	public static int FPS_CAP =60;
@@ -21,57 +21,74 @@ public class DisplayManager {
 	public static long lastFPSTime;
 	public static int frames = 0;
 	
+	private static boolean isWidthSet = false, 
+					isHeightSet = false, 
+					isRatioSet = false, 
+					isTitleSet = false;
+	
 	public static void createDisplay(String[] args){
+		WIDTH = 900;
+		DISPLAY_RATIO = 16*9;
+		HEIGHT = WIDTH / DISPLAY_RATIO;
+		isFullScreen = false;
+		TITLE = "LWJGL";
+		
 		ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
 		try {
 			if(args.length >= 1){
 				int i = 0;
 				for(String a : args){
-					System.out.println(a);
+					System.out.println("Loading configurement arguments " + a);
 					if(a.equals("-t")){
-						if(args[i+1] != null){
+						if(args[i+1] != null && !DisplayManager.isTitleSet){
 							DisplayManager.TITLE = args[i+1];
-						}else{
-							DisplayManager.TITLE = "INVALID TITLE";
+							isTitleSet = true;
 						}
-					}else{
-						DisplayManager.TITLE = "LWJGL";
 					}
 					
 					if(a.equals("-w")){
-						if(args[i+1] != null){
+						if(args[i+1] != null && !DisplayManager.isWidthSet){
 							DisplayManager.WIDTH = Integer.parseInt(args[i+1]);
-						}else{
-							DisplayManager.WIDTH = 900;
+							isWidthSet = true;
 						}
-					}else{
-						DisplayManager.WIDTH = 900;
 					}
 					
 					if(a.equals("-h")){
-						if(args[i+1] != null){
+						if(args[i+1] != null && !DisplayManager.isHeightSet){
 							DisplayManager.HEIGHT = Integer.parseInt(args[i+1]);
-						}else{
-							DisplayManager.HEIGHT = WIDTH/16*9;
+							DisplayManager.isHeightSet = true;
 						}
-					}else{
-						DisplayManager.HEIGHT = WIDTH /16*9;
 					}
 					
-					if(a.equalsIgnoreCase("-fullScreen")){
-						DisplayManager.isFullScreen = true;
-					}else{
-						DisplayManager.isFullScreen = false;
+					if(a.equals("-r")){
+						if(args[i+1] != null && !isRatioSet){
+							String split1 = new String(args[i+1]).substring(0, args[i+1].indexOf('*'));
+							String split2 = new String(args[i+1]).substring(args[i+1].indexOf('*')+1);
+							int s1 = Integer.parseInt(split1);
+							int s2 = Integer.parseInt(split2);
+							if(isWidthSet && !isHeightSet){
+								DisplayManager.HEIGHT = DisplayManager.WIDTH / s1*s2;
+								DisplayManager.isHeightSet = true;
+							}else if(isHeightSet && !isWidthSet){
+								DisplayManager.WIDTH = DisplayManager.HEIGHT / s1*s2;
+								DisplayManager.isWidthSet = true;
+							}else if(!isWidthSet && !isHeightSet){ // ignore 
+								
+							}else if(isWidthSet && isHeightSet){ // ignore
+								
+							}
+ 						}
 					}
-					
 					i++;
 				}
 			}else{
 				WIDTH = 900;
+				DISPLAY_RATIO = 16*9;
 				HEIGHT = WIDTH / 16*9;
 				isFullScreen = false;
 				TITLE = "LWJGL";
 			}
+			
 			Display.setResizable(true);
 			Display.setTitle(DisplayManager.TITLE);
 			Display.setFullscreen(DisplayManager.isFullScreen);

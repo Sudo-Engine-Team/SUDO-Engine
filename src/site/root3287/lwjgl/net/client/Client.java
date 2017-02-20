@@ -17,6 +17,7 @@ public class Client {
 	private int port;
 	private String address;
 	private InetAddress server;
+	@SuppressWarnings("unused")
 	private Error errorCode = Error.NONE;
 	private DatagramSocket socket;
 	
@@ -75,6 +76,7 @@ public class Client {
 	}
 	
 	private void sendConnectionPacket(){
+		@SuppressWarnings("unused")
 		BinaryWriter writer = new BinaryWriter();
 		send(new String(""+PacketType.CONNECT.getLength()+PacketType.CONNECT.getType()).getBytes());
 	}
