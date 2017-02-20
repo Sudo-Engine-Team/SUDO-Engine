@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Camera;
+import site.root3287.lwjgl.entities.FirstPerson;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.PerlinTerrain;
@@ -35,8 +36,8 @@ public class MainGame extends Screen{
 	@Override
 	public void init() {
 		this.light = new Light(new Vector3f(0, 1000, 0), new Vector3f(1, 1, 1));
-		this.c = new Camera(new Vector3f(10, 10, 0));
-		Mouse.setGrabbed(this.c.isGrabbed());
+		this.c = new FirstPerson(new Vector3f(10, 10, 0));
+		Mouse.setGrabbed(((FirstPerson) this.c).isGrabbed());
 		
 		terrainForCollision = new Terrain[255][255];
 		
