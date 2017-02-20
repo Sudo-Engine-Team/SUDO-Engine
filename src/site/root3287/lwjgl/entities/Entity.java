@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.model.TexturedModel;
 
-public class Entity {
+public abstract class Entity {
 	private TexturedModel model;
 	private Vector3f position;
 	private float rotX, rotY, rotZ;
@@ -56,5 +56,5 @@ public class Entity {
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
-	
+	public abstract void update(float delta);
 }

@@ -80,11 +80,6 @@ public class Test extends Screen{
         				new Vector2f(0.25f, 0.25f), 
         				new Vector2f(1,1))
         				);
-        RawModel cup = OBJLoader.loadObjModel("res/model/Cup/cup.obj", loader);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("res/model/Cup/cup.png"));
-        TexturedModel model = new TexturedModel(cup, texture);
-        Entity e = new Entity(model, new Vector3f(0, 0, 0), 0, 0, 0, 1);
-        this.allEntity.add(e);
         UIText.init(loader);
 		FontType font = new FontType(loader.loadTexture("res/Fonts/Times New Roman/TNR.png"), new File("res/Fonts/Times New Roman/TNR.fnt"));
 		GUIText text = new GUIText("this is a test", 12, font, new Vector2f(0, 0), 1f, true);
