@@ -1,4 +1,4 @@
-package site.root3287.lwjgl.entities;
+package site.root3287.lwjgl.entities.Camera;
 
 import java.util.HashMap;
 

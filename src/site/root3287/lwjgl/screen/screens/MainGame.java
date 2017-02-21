@@ -9,9 +9,9 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
-import site.root3287.lwjgl.entities.Camera;
-import site.root3287.lwjgl.entities.FirstPerson;
 import site.root3287.lwjgl.entities.Light;
+import site.root3287.lwjgl.entities.Camera.Camera;
+import site.root3287.lwjgl.entities.Camera.FirstPerson;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.PerlinTerrain;
 import site.root3287.lwjgl.terrain.Terrain;

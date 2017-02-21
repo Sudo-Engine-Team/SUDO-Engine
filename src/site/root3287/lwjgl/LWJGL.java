@@ -7,15 +7,14 @@ import org.lwjgl.util.vector.Vector2f;
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
-import site.root3287.lwjgl.launcher.Launcher;
 import site.root3287.lwjgl.screen.screens.Test;
 
 public class LWJGL {
 	private Render r;
 	private Loader l;
 	public static void main(String[] args){
-		new Launcher();
-		//new LWJGL(args);
+		//new Launcher();
+		new LWJGL(args);
 	}
 	public LWJGL(String[] args){
 		DisplayManager.createDisplay(args);

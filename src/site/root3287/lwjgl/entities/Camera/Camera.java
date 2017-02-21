@@ -1,9 +1,7 @@
-package site.root3287.lwjgl.entities;
-import java.util.HashMap;
-import java.util.Map;
+package site.root3287.lwjgl.entities.Camera;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
+import java.util.HashMap;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.terrain.Terrain;

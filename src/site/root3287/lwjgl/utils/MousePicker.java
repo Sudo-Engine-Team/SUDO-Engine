@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
-import site.root3287.lwjgl.entities.Camera;
+import site.root3287.lwjgl.entities.Camera.Camera;
 
 public class MousePicker {
 	private Vector3f currentRay;

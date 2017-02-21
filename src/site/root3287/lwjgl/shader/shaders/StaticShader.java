@@ -3,8 +3,8 @@ package site.root3287.lwjgl.shader.shaders;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.entities.Light;
+import site.root3287.lwjgl.entities.Camera.Camera;
 import site.root3287.lwjgl.shader.Shader;
 import site.root3287.lwjgl.utils.LWJGLMaths;
 

@@ -12,23 +12,20 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
-import site.root3287.lwjgl.engine.OBJLoader;
 import site.root3287.lwjgl.engine.render.Render;
-import site.root3287.lwjgl.entities.Camera;
 import site.root3287.lwjgl.entities.Entity;
-import site.root3287.lwjgl.entities.FirstPerson;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.entities.Quad2D;
+import site.root3287.lwjgl.entities.Camera.Camera;
+import site.root3287.lwjgl.entities.Camera.FirstPerson;
 import site.root3287.lwjgl.fontMeshCreator.FontType;
 import site.root3287.lwjgl.fontMeshCreator.GUIText;
 import site.root3287.lwjgl.input.objects.UIText;
 import site.root3287.lwjgl.model.RawModel;
-import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.net.client.Client;
 import site.root3287.lwjgl.net.server.Server;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.Terrain;
-import site.root3287.lwjgl.texture.ModelTexture;
 import site.root3287.lwjgl.texture.Texture2D;
 import site.root3287.lwjgl.world.World;
 

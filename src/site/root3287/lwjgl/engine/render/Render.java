@@ -10,10 +10,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import site.root3287.lwjgl.entities.Camera;
+import site.root3287.lwjgl.component.ModelComponent;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.entities.Quad2D;
+import site.root3287.lwjgl.entities.Camera.Camera;
 import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.shader.shaders.Shader2D;
 import site.root3287.lwjgl.shader.shaders.StaticShader;
@@ -96,7 +97,7 @@ public class Render {
     }
      
     public void processEntity(Entity entity){
-        TexturedModel entityModel = entity.getModel();
+        TexturedModel entityModel = ((ModelComponent)entity.getComponent("model")).getTexturedModel();
         List<Entity> batch = entities.get(entityModel);
         if(batch!=null){
             batch.add(entity);
