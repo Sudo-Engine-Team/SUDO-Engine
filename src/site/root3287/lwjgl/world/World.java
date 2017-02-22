@@ -42,7 +42,7 @@ public class World {
 						tY, 
 						this.loader, 
 						new ModelTexture(
-								this.loader.loadTexture("res/image/grass.png")
+								this.loader.loadTexture("res/image/grass-plane.png")
 						), 
 						64, 
 						this.seed

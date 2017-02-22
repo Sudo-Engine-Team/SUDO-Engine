@@ -18,6 +18,7 @@ import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.entities.Quad2D;
 import site.root3287.lwjgl.entities.Camera.Camera;
 import site.root3287.lwjgl.entities.Camera.FirstPerson;
+import site.root3287.lwjgl.entities.model.CupEntity;
 import site.root3287.lwjgl.fontMeshCreator.FontType;
 import site.root3287.lwjgl.fontMeshCreator.GUIText;
 import site.root3287.lwjgl.input.objects.UIText;
@@ -46,7 +47,7 @@ public class Test extends Screen{
 	@SuppressWarnings("unused")
 	private Quad2D quad;
 	
-	private RawModel cup;
+	private CupEntity cup;
 	UIText text;
 	public Test() {
 		super();
@@ -72,11 +73,16 @@ public class Test extends Screen{
 		
         this.light = new Light(new Vector3f(0,100000000,0), new Vector3f(5, 5, 5));
         
+        cup = new CupEntity(loader);
+        
+        allEntity.add(cup);
+        
         this.quad = new Quad2D(this.loader, 
         				new Texture2D(this.loader.loadTexture("res/image/grass.png"), 
         				new Vector2f(0.25f, 0.25f), 
         				new Vector2f(1,1))
         				);
+        
         UIText.init(loader);
 		FontType font = new FontType(loader.loadTexture("res/Fonts/Times New Roman/TNR.png"), new File("res/Fonts/Times New Roman/TNR.fnt"));
 		GUIText text = new GUIText("this is a test", 12, font, new Vector2f(0, 0), 1f, true);
