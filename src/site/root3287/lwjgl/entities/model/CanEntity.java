@@ -1,5 +1,7 @@
 package site.root3287.lwjgl.entities.model;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import site.root3287.lwjgl.component.ModelComponent;
 import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.engine.Loader;
@@ -14,7 +16,10 @@ public class CanEntity extends Entity {
 	public CanEntity() {
 		TransformationComponent transform = new TransformationComponent();
 		ModelComponent model = new ModelComponent();
-		model.setTexturedModel(MODEL);
+		model.model = MODEL;
+		transform.position = new Vector3f(0, 0, 0);
+		transform.rotation = new Vector3f(0, 0, 0);
+		transform.scale = 1;
 		this.addComponent(model);
 		this.addComponent(transform);
 	}

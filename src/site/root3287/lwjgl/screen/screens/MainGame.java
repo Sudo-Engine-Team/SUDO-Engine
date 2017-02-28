@@ -24,9 +24,6 @@ public class MainGame extends Screen{
 	private Terrain[][] terrainForCollision;
 	int frames = 0;
 	long lastFPSTime;
-	public MainGame() {
-		super();
-	}
 	
 	public MainGame(Render render, Loader loader) {
 		super(render, loader);
