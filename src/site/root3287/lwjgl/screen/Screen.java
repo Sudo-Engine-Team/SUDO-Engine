@@ -12,11 +12,7 @@ public abstract class Screen {
 	protected Render render;
 	protected Loader loader;
 	
-	public Screen(){
-		this.render = new Render();
-		this.loader = new Loader();
-	}
-	protected Screen(Render render, Loader loader) {
+	public Screen(Render render, Loader loader) {
 		this.render = render;
 		this.loader = loader;
 	}

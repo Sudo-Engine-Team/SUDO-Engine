@@ -119,7 +119,11 @@ public class FirstPerson extends Camera{
 					currentTerrain = temp.get((int)chunkZ);
 				}
 			}
-			terrainHeight = currentTerrain.getTerrainHeightByCoords(position.x, position.z) + CAMERA_HEIGHT;
+			if(currentTerrain != null){
+				terrainHeight = currentTerrain.getTerrainHeightByCoords(position.x, position.z) + CAMERA_HEIGHT;
+			}else{
+				terrainHeight = CAMERA_HEIGHT;
+			}
 			if(position.y < terrainHeight){ // Collision detection
 				this.dy = 0;
 				isInAir = false;
@@ -142,6 +146,94 @@ public class FirstPerson extends Camera{
 
 	@Override
 	public void update(float delta) {
+		if(pauseCooldown<0){
+			this.pauseCooldown = 0;
+		}
+		if(this.pauseCooldown<=5){
+			this.pauseCooldown += delta;
+		}
+		
+		if(isGrabbed){
+			this.pitch -= Mouse.getDY() * sensitivity;
+			this.yaw += Mouse.getDX() * sensitivity;
+			
+			if(this.pitch > 90){
+				this.pitch = 90;
+			}else if(this.pitch < -90){
+				this.pitch = -90;
+			}
+			
+			if(this.yaw > 360){
+				this.yaw = 0;
+			}else if(this.yaw < 0){
+				this.yaw = 360-Math.abs(this.yaw);
+			}
+		}
+		
+		this.direction = (int) (this.yaw/90);
+
+		float finalDistance = this.distance*delta;
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+			position.x += finalDistance * (float)Math.sin(Math.toRadians(yaw));
+		    position.z -= finalDistance * (float)Math.cos(Math.toRadians(yaw));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+			position.x -= finalDistance * (float)Math.sin(Math.toRadians(yaw));
+		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+			position.x -= finalDistance * (float)Math.sin(Math.toRadians(yaw+90));
+		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw+90));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+			position.x -= finalDistance * (float)Math.sin(Math.toRadians(yaw-90));
+		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw-90));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+			if(pauseCooldown >= 0.75){
+				this.isMouseGrabbedRequest = true;
+				pauseCooldown = 0;
+			}
+		}
+		/* Due to not able to be used
+		if(gravity && !canFly){ // Gravity is in effect!
+			//direction for gravity
+			this.dy += GRAVITY * delta;
+			
+			//Jump
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !isInAir){
+				this.dy = JUMP;
+				if(!this.canDoubleJump){
+					isInAir = true;
+				}
+			}
+			
+			//Apply Gravity
+			this.position.y  += dy;
+			
+			//Collision detection
+			float terrainHeight = 0;
+			terrainHeight = CAMERA_HEIGHT;
+			if(position.y < terrainHeight){ // Collision detection
+				this.dy = 0;
+				isInAir = false;
+				position.y = terrainHeight;
+			}
+		}else{
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+				if(canFly && !gravity){ // Move up
+					position.y += finalDistance;
+				}
+			}
+		
+			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+				if(canFly && !gravity){
+					position.y -= finalDistance;
+				}
+			}
+		}
+		*/
 	}
 	public void setGrabbed(boolean grabbed){
 		this.isGrabbed = grabbed;

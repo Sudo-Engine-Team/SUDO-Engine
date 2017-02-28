@@ -3,15 +3,9 @@ package site.root3287.lwjgl.component;
 import site.root3287.lwjgl.model.TexturedModel;
 
 public class ModelComponent extends Component{
-	private TexturedModel model; 
-	private static final String NAME = "model";
+	public TexturedModel model; 
 	public ModelComponent() {
-		super(NAME);
-	}
-
-	@Override
-	protected void start() {
-		
+		this.name = "model";
 	}
 
 	@Override
@@ -23,12 +17,4 @@ public class ModelComponent extends Component{
 	public void destroy() {
 		
 	}
-	
-	public void setTexturedModel(TexturedModel model){
-		this.model = model;
-	}
-	public TexturedModel getTexturedModel(){
-		return this.model;
-	}
-
 }

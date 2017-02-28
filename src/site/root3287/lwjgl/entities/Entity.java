@@ -1,15 +1,12 @@
 package site.root3287.lwjgl.entities;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.lwjgl.util.vector.Vector3f;
+import java.util.ArrayList;
+import java.util.List;
 
 import site.root3287.lwjgl.component.Component;
-import site.root3287.lwjgl.model.TexturedModel;
 
 public abstract class Entity {
-	protected Map<String, Component> components = new HashMap<String, Component>();
+	protected List<Component> components = new ArrayList<Component>();
 	
 	public Entity() {
 		super();
@@ -17,10 +14,15 @@ public abstract class Entity {
 	public abstract void update(float delta);
 	
 	public void addComponent(Component c){
-		this.components.put(c.getName(), c);
+		this.components.add(c);
 	}
 	
 	public Component getComponent(String component){
-		return (this.components.containsKey(component.toLowerCase()))? this.components.get(component) : null;
+		for(Object c : this.components.toArray()){
+			if(component == ((Component) c).getName()){
+				return (Component) c;
+			}
+		}
+		return null;
 	}
 }

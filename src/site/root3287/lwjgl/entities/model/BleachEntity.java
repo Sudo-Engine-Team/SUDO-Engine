@@ -16,9 +16,9 @@ public class BleachEntity extends Entity{
 	public BleachEntity() {
 		super();
 		TransformationComponent transform = new TransformationComponent();
-		transform.setPosition(new Vector3f(0,0,0));
+		transform.position = new Vector3f(0,0,0);
 		ModelComponent model = new ModelComponent();
-		model.setTexturedModel(MODEL);
+		model.model = MODEL;
 		this.addComponent(transform);
 		this.addComponent(model);
 	}
