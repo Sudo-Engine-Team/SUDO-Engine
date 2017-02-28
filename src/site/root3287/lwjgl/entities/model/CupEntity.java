@@ -23,7 +23,6 @@ public class CupEntity extends Entity {
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-
+		
 	}
 }

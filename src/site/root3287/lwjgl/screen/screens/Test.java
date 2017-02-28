@@ -12,6 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
+import site.root3287.lwjgl.engine.OBJLoader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
@@ -23,10 +24,12 @@ import site.root3287.lwjgl.fontMeshCreator.FontType;
 import site.root3287.lwjgl.fontMeshCreator.GUIText;
 import site.root3287.lwjgl.input.objects.UIText;
 import site.root3287.lwjgl.model.RawModel;
+import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.net.client.Client;
 import site.root3287.lwjgl.net.server.Server;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.Terrain;
+import site.root3287.lwjgl.texture.ModelTexture;
 import site.root3287.lwjgl.texture.Texture2D;
 import site.root3287.lwjgl.world.World;
 
@@ -75,19 +78,22 @@ public class Test extends Screen{
         
         cup = new CupEntity(loader);
         
+        RawModel cupModel =OBJLoader.loadObjModel("res/model/Cup/Cup.obj", loader);
+        TexturedModel model = new TexturedModel(cupModel, new ModelTexture(loader.loadTexture("res/model/Cup/Cup.png")));
+        
         allEntity.add(cup);
         
-        this.quad = new Quad2D(this.loader, 
-        				new Texture2D(this.loader.loadTexture("res/image/grass.png"), 
-        				new Vector2f(0.25f, 0.25f), 
-        				new Vector2f(1,1))
-        				);
+        //this.quad = new Quad2D(this.loader, 
+        //				new Texture2D(this.loader.loadTexture("res/image/grass.png"), 
+        //				new Vector2f(0.25f, 0.25f), 
+        //				new Vector2f(1,1))
+        //				);
         
-        UIText.init(loader);
-		FontType font = new FontType(loader.loadTexture("res/Fonts/Times New Roman/TNR.png"), new File("res/Fonts/Times New Roman/TNR.fnt"));
-		GUIText text = new GUIText("this is a test", 12, font, new Vector2f(0, 0), 1f, true);
-		text.setColour(1, 0, 1);
-		UIText.loadText(text);
+        //UIText.init(loader);
+		//FontType font = new FontType(loader.loadTexture("res/Fonts/Times New Roman/TNR.png"), new File("res/Fonts/Times New Roman/TNR.fnt"));
+		//GUIText text = new GUIText("this is a test", 12, font, new Vector2f(0, 0), 1f, true);
+		//text.setColour(1, 0, 1);
+		//UIText.loadText(text);
 	}
 
 	@Override
@@ -106,7 +112,7 @@ public class Test extends Screen{
 		}
 		//this.render.proccess2D(this.quad);
 		this.render.render(light, c);
-		UIText.render();
+		//UIText.render();
 	}
 
 	@Override
