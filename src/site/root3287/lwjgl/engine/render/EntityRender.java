@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.entities.Entity;
@@ -63,12 +64,10 @@ public class EntityRender {
 	}
 
 	private void prepareInstance(Entity entity) {
-		Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(
-				((TransformationComponent)entity.getComponent("transformation")).position, 
-				((TransformationComponent)entity.getComponent("transformation")).rotation.x, 
-				((TransformationComponent)entity.getComponent("transformation")).rotation.y, 
-				((TransformationComponent)entity.getComponent("transformation")).rotation.z, 
-				((TransformationComponent)entity.getComponent("transformation")).scale);
+		Vector3f position = entity.getComponent(TransformationComponent.class).position;
+		Vector3f rotation = entity.getComponent(TransformationComponent.class).rotation;
+		float scale = entity.getComponent(TransformationComponent.class).scale;
+		Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(position, rotation.x, rotation.y, rotation.z, scale);
 		shader.loadTransformationMatrix(transformationMatrix);
 	}
 }

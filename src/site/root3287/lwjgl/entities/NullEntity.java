@@ -10,10 +10,9 @@ public class NullEntity extends Entity{
 	public NullEntity(Vector3f position, TexturedModel model) {
 		TransformationComponent transform = new TransformationComponent();
 		transform.position = position;
-		ModelComponent modelComponent = new ModelComponent();
-		modelComponent.model = model;
-		this.components.add(transform);
-		this.components.add(modelComponent);
+		ModelComponent modelComponent = new ModelComponent(model);
+		addComponent(transform);
+		addComponent(modelComponent);
 	}
 	@Override
 	public void update(float delta) {

@@ -74,7 +74,7 @@ public class Render {
 	}
 
 	public void processEntity(Entity entity) {
-		TexturedModel entityModel = ((ModelComponent) entity.getComponent("model")).model;
+		TexturedModel entityModel = entity.getComponent(ModelComponent.class).model;
 		List<Entity> batch = entities.get(entityModel);
 		if (batch != null) {
 			batch.add(entity);

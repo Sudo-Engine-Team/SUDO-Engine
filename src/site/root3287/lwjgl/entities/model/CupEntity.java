@@ -1,11 +1,13 @@
 package site.root3287.lwjgl.entities.model;
 
-import org.lwjgl.util.vector.Vector3f;
-
 import site.root3287.lwjgl.component.ModelComponent;
 import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.engine.Loader;
+import site.root3287.lwjgl.engine.objConverter.ModelData;
+import site.root3287.lwjgl.engine.objConverter.OBJFileLoader;
 import site.root3287.lwjgl.entities.Entity;
+import site.root3287.lwjgl.model.TexturedModel;
+import site.root3287.lwjgl.texture.ModelTexture;
 
 public class CupEntity extends Entity {
 	
@@ -14,10 +16,8 @@ public class CupEntity extends Entity {
 	public CupEntity(Loader loader) {
 		this.loader = loader;
 		TransformationComponent transform = new TransformationComponent();
-		ModelComponent model = new ModelComponent();
-		transform.position = new Vector3f(0, 0, 0);
-		transform.rotation = new Vector3f(0, 0, 0);
-		transform.scale = 1; 
+		ModelData data = OBJFileLoader.loadOBJ("res/model/Cup/Cup.obj");
+		ModelComponent model = new ModelComponent(new TexturedModel(loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices()), new ModelTexture(loader.loadTexture("res/model/Cup/Cup.png"))));
 		this.addComponent(transform);
 		this.addComponent(model);
 	}
