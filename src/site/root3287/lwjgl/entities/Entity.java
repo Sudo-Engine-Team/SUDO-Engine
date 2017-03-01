@@ -8,7 +8,7 @@ import java.util.UUID;
 import site.root3287.lwjgl.component.Component;
 
 public abstract class Entity {
-	protected HashMap<Class, HashMap<UUID, ? extends Component>> componentStores = new HashMap<Class, HashMap<UUID,? extends Component>>();
+	protected static HashMap<Class, HashMap<UUID, ? extends Component>> componentStores = new HashMap<Class, HashMap<UUID,? extends Component>>();
 	public static List<UUID> allEntities = new ArrayList<>();
 	protected UUID id;
 	
@@ -19,7 +19,7 @@ public abstract class Entity {
 	
 	public abstract void update(float delta);
 	
-	public <T extends Component> void addComponent(UUID entity, T component){
+	public static <T extends Component> void addComponent(UUID entity, T component){
 
 		synchronized (componentStores){
 			HashMap<UUID, ? extends Component> store = componentStores.get(component.getClass());
@@ -45,7 +45,7 @@ public abstract class Entity {
 			((HashMap<UUID, T>) store).put(this.id, component);
 		}
 	}
-	public <T> T getComponent(UUID e, Class<T> exampleClass ){
+	public static <T> T getComponent(UUID e, Class<T> exampleClass ){
 		HashMap<UUID, ? extends Component> store = componentStores.get( exampleClass );
 		T result = (T) store.get(e);
 		if( result == null )
@@ -59,5 +59,21 @@ public abstract class Entity {
 		if(result == null)
 			throw new IllegalArgumentException("Get Fail: "+this.id.toString()+" does not posses Component of Class \n missing: "+ exampleClass);
 		return result;
+	}
+	
+	public <T> boolean hasComponent(Class<T> exampleClass){
+		HashMap<UUID, ? extends Component> store = componentStores.get(exampleClass);
+		T result = (T) store.get(this.id);
+		if(result == null)
+			return false;
+		return true;
+	}
+	
+	public static <T> boolean hasComponent(UUID id, Class<T> exampleClass){
+		HashMap<UUID, ? extends Component> store = componentStores.get(exampleClass);
+		T result = (T) store.get(id);
+		if(result == null)
+			return false;
+		return true;
 	}
 }

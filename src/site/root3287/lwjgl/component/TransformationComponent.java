@@ -2,9 +2,10 @@ package site.root3287.lwjgl.component;
 
 import org.lwjgl.util.vector.Vector3f;
 
-public class TransformationComponent implements Component{
+public class TransformationComponent extends Component{
 	
 	public Vector3f position = new Vector3f(0,0,0);
 	public Vector3f rotation = new Vector3f(0, 0, 0);
-	public float scale = 1;
+	public float scale = 1, pitch = 0, yaw = 0, roll = 0, dy = 0;
+	public int direction = 0;
 }

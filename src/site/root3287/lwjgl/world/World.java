@@ -34,9 +34,9 @@ public class World {
 		generateTerrain();
 	}
 	private void generateTerrain(){
-		for(int tX = 0; tX <= 2; tX++){
+		for(int tX = -2; tX <= 2; tX++){
 			HashMap<Integer, Terrain> temp = new HashMap<Integer, Terrain>();
-        	for(int tY = 0; tY <= 2; tY++){
+        	for(int tY = -2; tY <= 2; tY++){
         		Terrain t1 = new PerlinTerrain(
         				tX,
 						tY, 

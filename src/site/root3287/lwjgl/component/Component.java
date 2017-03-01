@@ -1,6 +1,5 @@
 package site.root3287.lwjgl.component;
 
-public interface Component {
-
+public class Component implements ComponentInterface {
+	protected boolean update = false;
 }
-

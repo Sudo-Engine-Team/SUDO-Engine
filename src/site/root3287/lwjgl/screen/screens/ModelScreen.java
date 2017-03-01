@@ -7,6 +7,7 @@ import java.util.Random;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import site.root3287.lwjgl.component.FirstPersonComponent;
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.objConverter.ModelData;
@@ -37,7 +38,7 @@ public class ModelScreen extends Screen {
 		sun = new Light(new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
 		camera = new FirstPerson(new Vector3f(0,0,0));
 		
-		Mouse.setGrabbed(((FirstPerson) camera).isGrabbed());
+		Mouse.setGrabbed(camera.getComponent(FirstPersonComponent.class).isGrabbed);
 		ModelData data = OBJFileLoader.loadOBJ("res/model/standfordDragon/dragon.obj");
 		RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 		TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("res/image/white.png")));
@@ -51,8 +52,6 @@ public class ModelScreen extends Screen {
 	@Override
 	public void update() {
 		camera.update(DisplayManager.DELTA);
-		System.out.println("X: "+this.camera.getPosition().x+" Y: "+this.camera.getPosition().y+" Z: "+this.camera.getPosition().z);
-		System.out.println("Pitch: "+this.camera.getPitch()+" Yaw: "+this.camera.getYaw());
 	}
 
 	@Override

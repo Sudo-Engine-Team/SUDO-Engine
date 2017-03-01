@@ -4,6 +4,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.entities.Camera.Camera;
 
 public class LWJGLMaths {
@@ -26,11 +27,14 @@ public class LWJGLMaths {
 	}
 	public static Matrix4f createViewMatrix(Camera camera){
 		Matrix4f viewMatrix = new Matrix4f();
+		float pitch = camera.getComponent(TransformationComponent.class).pitch;
+		float yaw = camera.getComponent(TransformationComponent.class).yaw;
+		Vector3f position = camera.getComponent(TransformationComponent.class).position;
         viewMatrix.setIdentity();
-        Matrix4f.rotate((float) Math.toRadians(camera.getPitch()), new Vector3f(1, 0, 0), viewMatrix,
+        Matrix4f.rotate((float) Math.toRadians(pitch), new Vector3f(1, 0, 0), viewMatrix,
                 viewMatrix);
-        Matrix4f.rotate((float) Math.toRadians(camera.getYaw()), new Vector3f(0, 1, 0), viewMatrix, viewMatrix);
-        Vector3f cameraPos = camera.getPosition();
+        Matrix4f.rotate((float) Math.toRadians(yaw), new Vector3f(0, 1, 0), viewMatrix, viewMatrix);
+        Vector3f cameraPos = position;
         Vector3f negativeCameraPos = new Vector3f(-cameraPos.x,-cameraPos.y,-cameraPos.z);
         Matrix4f.translate(negativeCameraPos, viewMatrix, viewMatrix);
         return viewMatrix;

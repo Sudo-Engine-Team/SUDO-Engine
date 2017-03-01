@@ -7,6 +7,7 @@ import java.util.Random;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import site.root3287.lwjgl.component.FirstPersonComponent;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Light;
@@ -34,7 +35,7 @@ public class MainGame extends Screen{
 	public void init() {
 		this.light = new Light(new Vector3f(0, 1000, 0), new Vector3f(1, 1, 1));
 		this.c = new FirstPerson(new Vector3f(10, 10, 0));
-		Mouse.setGrabbed(((FirstPerson) this.c).isGrabbed());
+		Mouse.setGrabbed(c.getComponent(FirstPersonComponent.class).isGrabbed);
 		
 		terrainForCollision = new Terrain[255][255];
 		
