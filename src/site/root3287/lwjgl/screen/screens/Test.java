@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.component.FirstPersonComponent;
@@ -19,6 +18,7 @@ import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.entities.NullEntity;
 import site.root3287.lwjgl.entities.Camera.Camera;
 import site.root3287.lwjgl.entities.Camera.FirstPerson;
+import site.root3287.lwjgl.entities.model.StandfordBunny;
 import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.Terrain;
@@ -74,6 +74,8 @@ public class Test extends Screen{
 	        );
 	        allEntity.add(this.entity);
         	}
+        	//StandfordBunny bunny = new StandfordBunny(loader);
+        	//allEntity.add(new StandfordBunny(loader));
         }
 	}
 

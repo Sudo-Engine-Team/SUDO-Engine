@@ -16,7 +16,7 @@ public abstract class Entity {
 		this.id = UUID.randomUUID();
 		allEntities.add(this.id);
 	}
-	
+
 	public abstract void update(float delta);
 	
 	public static <T extends Component> void addComponent(UUID entity, T component){

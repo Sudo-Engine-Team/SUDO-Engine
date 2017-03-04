@@ -17,7 +17,6 @@ public class FirstPerson extends Camera{
 	@Override
 	public void update(HashMap<Integer, HashMap<Integer, Terrain>> terrain, float delta) {
 		getComponent(FirstPersonComponent.class).update(terrain, delta);
-		System.out.println(delta);
 	}
 
 	@Override
