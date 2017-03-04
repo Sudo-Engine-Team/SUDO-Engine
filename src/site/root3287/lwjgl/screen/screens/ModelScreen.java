@@ -31,11 +31,12 @@ public class ModelScreen extends Screen {
 	private Camera camera;
 	private Light sun;
 	private List<Entity> allEntity = new ArrayList<Entity>();
-	
+	private List<Light> lights = new ArrayList<Light>();
 	private RawModel model;
 	@Override
 	public void init() {
 		sun = new Light(new Vector3f(0, 0, 0), new Vector3f(1, 1, 1));
+		lights.add(sun);
 		camera = new FirstPerson(new Vector3f(0,0,0));
 		
 		Mouse.setGrabbed(camera.getComponent(FirstPersonComponent.class).isGrabbed);
@@ -60,7 +61,7 @@ public class ModelScreen extends Screen {
 		for(Entity e : this.allEntity){
 			render.processEntity(e);
 		}
-		render.render(sun, camera);
+		render.render(this.lights, camera);
 	}
 
 	@Override

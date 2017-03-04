@@ -14,9 +14,10 @@ public class NullEntity extends Entity{
 		addComponent(transform);
 		addComponent(modelComponent);
 	}
+
 	@Override
 	public void update(float delta) {
+		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -50,7 +50,7 @@ public class Render {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
-	public void render(Light sun, Camera camera) {
+	public void render(List<Light> sun, Camera camera) {
 		prepare();
 		
 		shader.start();

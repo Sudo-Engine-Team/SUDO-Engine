@@ -22,6 +22,7 @@ public class MainGame extends Screen{
 	private List<Terrain> allTerrain = new ArrayList<Terrain>();
 	private Light light;
 	private Camera c;
+	private List<Light> lights = new ArrayList<Light>();
 	private Terrain[][] terrainForCollision;
 	int frames = 0;
 	long lastFPSTime;
@@ -34,6 +35,7 @@ public class MainGame extends Screen{
 	@Override
 	public void init() {
 		this.light = new Light(new Vector3f(0, 1000, 0), new Vector3f(1, 1, 1));
+		this.lights.add(light);
 		this.c = new FirstPerson(new Vector3f(10, 10, 0));
 		Mouse.setGrabbed(c.getComponent(FirstPersonComponent.class).isGrabbed);
 		
@@ -70,7 +72,7 @@ public class MainGame extends Screen{
 		for(Terrain t:allTerrain){
 			this.render.processTerrain(t);
 		}
-		this.render.render(light, this.c);
+		this.render.render(this.lights, this.c);
 	}
 
 	@Override

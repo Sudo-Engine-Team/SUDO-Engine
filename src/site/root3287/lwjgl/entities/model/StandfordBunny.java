@@ -10,21 +10,22 @@ import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.texture.ModelTexture;
 
 public class StandfordBunny extends Entity{
-	
+	private Loader loader;
 	public StandfordBunny(Loader loader) {
+		this.loader = loader;
 		ModelData data = OBJFileLoader.loadOBJ("res/model/standfordBunny/bunny.obj");
 		ModelComponent model = new ModelComponent(
 				new TexturedModel(
 						loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices()), 
 						new ModelTexture(loader.loadTexture("res/image/white.png"))));
+		TransformationComponent transform = new TransformationComponent();
 		
 		addComponent(model);
-		addComponent(new TransformationComponent());
+		addComponent(transform);
 	}
 	
 	@Override
 	public void update(float delta) {
-		//TransformationComponent transform = getComponent(TransformationComponent.class);
 	}
 
 }

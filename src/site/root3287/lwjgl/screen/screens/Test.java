@@ -27,6 +27,7 @@ import site.root3287.lwjgl.world.World;
 
 public class Test extends Screen{
 	private List<Entity> allEntity = new ArrayList<Entity>();
+	private List<Light> lights = new ArrayList<Light>();
 	private Light light;
 	private Camera c;
 	private World world;
@@ -48,36 +49,12 @@ public class Test extends Screen{
 		this.c = new FirstPerson(new Vector3f(0, 10f, 20));
 		Mouse.setGrabbed(c.getComponent(FirstPersonComponent.class).isGrabbed);
         this.light = new Light(new Vector3f(20,100000000,20), new Vector3f(7, 7, 7));
-        ModelData data = OBJFileLoader.loadOBJ("res/model/lowPolyTree.obj");
-        for(int i = 0; i < 1000; i ++){
-        	float x = new Random().nextFloat() * Terrain.SIZE ;
-        	float y = new Random().nextFloat() * Terrain.SIZE ;
-        	if(new Random().nextBoolean() == true){
-        		x *= -1;
-        		y *= -1;
-        	}
-        	int chunkX = (int) Math.floor(x / Terrain.SIZE);
-        	int chunkY = (int) Math.floor(y/Terrain.SIZE);
-        	if(this.world.getTerrainForCollision().containsKey(chunkX) && this.world.getTerrainForCollision().get(chunkX).containsKey(chunkY)){
-        	Terrain collision = this.world.getTerrainForCollision().get(chunkX).get(chunkY);
-        	float height = (collision == null)? 0 : this.world.getTerrainForCollision().get(chunkX).get(chunkY).getTerrainHeightByCoords(x, y )-2.0f;
-	        this.entity = new NullEntity(
-	        		new Vector3f(x, height, y), 
-	        		new TexturedModel(loader.loadToVAO(
-	        				data.getVertices(), 
-	        				data.getTextureCoords(), 
-	        				data.getNormals(), 
-	        				data.getIndices()
-	        		), 
-	        		//new ModelTexture(loader.loadTexture("res/image/white.png")))
-	        		new ModelTexture(loader.loadTexture("res/model/lowPolyTree.png")))
-	        );
-	        allEntity.add(this.entity);
-        	}
-        	//StandfordBunny bunny = new StandfordBunny(loader);
-        	//allEntity.add(new StandfordBunny(loader));
-        }
-	}
+        Light l2 = new Light(new Vector3f(0,0,0), new Vector3f(8, 0, 0));
+        this.lights.add(light);
+//        /this.lights.add(l2);
+        //StandfordBunny bunny = new StandfordBunny(loader);
+        allEntity.add(new StandfordBunny(loader));
+    }
 
 	@Override
 	public void update() {
@@ -94,7 +71,7 @@ public class Test extends Screen{
 		for(Entity e : this.allEntity){
 			this.render.processEntity(e);
 		}
-		this.render.render(light, c);
+		this.render.render(lights, c);
 	}
 
 	@Override

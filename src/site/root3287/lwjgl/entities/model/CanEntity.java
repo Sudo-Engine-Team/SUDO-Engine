@@ -9,11 +9,11 @@ import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.texture.ModelTexture;
 
 public class CanEntity extends Entity {
-	private static Loader loader;
-	private static final TexturedModel MODEL = new TexturedModel(OBJLoader.loadObjModel("res/model/Can/Can.obj", loader), new ModelTexture(loader.loadTexture("res/model/Can/Can.obj")));
-	public CanEntity() {
+	private Loader loader;
+	public CanEntity(Loader loader) {
+		this.loader = loader;
 		TransformationComponent transform = new TransformationComponent();
-		ModelComponent model = new ModelComponent(MODEL);
+		ModelComponent model = new ModelComponent(new TexturedModel(OBJLoader.loadObjModel("res/model/Can/Can.obj", loader), new ModelTexture(loader.loadTexture("res/model/Can/Can.obj"))));
 		this.addComponent(model);
 		this.addComponent(transform);
 	}
@@ -22,9 +22,4 @@ public class CanEntity extends Entity {
 	public void update(float delta) {
 		
 	}
-	
-	public static void setLoader(Loader loader){
-		CanEntity.loader = loader;
-	}
-
 }

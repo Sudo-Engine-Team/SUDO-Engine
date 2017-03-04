@@ -10,12 +10,14 @@ import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.texture.ModelTexture;
 
 public class BleachEntity extends Entity{
-	public BleachEntity(Loader l) {
+	private Loader loader;
+	public BleachEntity(Loader loader) {
+		this.loader = loader;
 		ModelData data = OBJFileLoader.loadOBJ("res/model/Bleach/Bleach.obj");
 		ModelComponent model = new ModelComponent(
 				new TexturedModel(
-						l.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices()), 
-						new ModelTexture(l.loadTexture("res/model/Bleach.png"))
+						loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices()), 
+						new ModelTexture(loader.loadTexture("res/model/Bleach.png"))
 				)
 		);
 		TransformationComponent transform = new TransformationComponent();
@@ -28,5 +30,4 @@ public class BleachEntity extends Entity{
 	public void update(float delta) {
 		
 	}
-
 }
