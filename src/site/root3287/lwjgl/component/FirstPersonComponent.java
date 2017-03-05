@@ -9,10 +9,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.entities.Entity;
+import site.root3287.lwjgl.events.EventDispatcher;
 import site.root3287.lwjgl.terrain.Terrain;
 
-public class FirstPersonComponent extends Component {
-	
+public class FirstPersonComponent extends Component{
+	private EventDispatcher dispatcher;
 	public boolean isGrabbed = true, 
 			isMouseGrabbedRequest = false, 
 			canFly = false,
