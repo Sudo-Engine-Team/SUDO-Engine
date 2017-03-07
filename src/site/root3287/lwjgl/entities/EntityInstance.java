@@ -7,4 +7,10 @@ public class EntityInstance extends Entity{
 		
 	}
 
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

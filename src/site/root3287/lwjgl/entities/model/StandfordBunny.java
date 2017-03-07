@@ -1,6 +1,7 @@
 package site.root3287.lwjgl.entities.model;
 
 import site.root3287.lwjgl.component.ModelComponent;
+import site.root3287.lwjgl.component.SoundComponent;
 import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.objConverter.ModelData;
@@ -19,13 +20,22 @@ public class StandfordBunny extends Entity{
 						loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices()), 
 						new ModelTexture(loader.loadTexture("res/image/white.png"))));
 		TransformationComponent transform = new TransformationComponent();
-		
+		SoundComponent sounds = new SoundComponent("JUMP", "sounds/Jump.wav");
+		sounds.player.setPosition(transform.position);
+		sounds.player.setLooping(true);
+		sounds.player.play(sounds.sounds.get("JUMP"));
 		addComponent(model);
 		addComponent(transform);
+		addComponent(sounds);
 	}
 	
 	@Override
 	public void update(float delta) {
+		
+	}
+
+	public void dispose(){
+		this.getComponent(SoundComponent.class).dispose();
 	}
 
 }

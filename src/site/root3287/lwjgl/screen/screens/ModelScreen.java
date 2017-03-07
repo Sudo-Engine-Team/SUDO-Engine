@@ -7,7 +7,7 @@ import java.util.Random;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
-import site.root3287.lwjgl.component.FirstPersonComponent;
+import site.root3287.lwjgl.component.PlayerControlsComponent;
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.objConverter.ModelData;
@@ -39,7 +39,7 @@ public class ModelScreen extends Screen {
 		lights.add(sun);
 		camera = new FirstPerson(new Vector3f(0,0,0));
 		
-		Mouse.setGrabbed(camera.getComponent(FirstPersonComponent.class).isGrabbed);
+		Mouse.setGrabbed(camera.getComponent(PlayerControlsComponent.class).isGrabbed);
 		ModelData data = OBJFileLoader.loadOBJ("res/model/standfordDragon/dragon.obj");
 		RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 		TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("res/image/white.png")));

@@ -30,4 +30,9 @@ public class BleachEntity extends Entity{
 	public void update(float delta) {
 		
 	}
+
+	@Override
+	public void dispose() {
+		
+	}
 }

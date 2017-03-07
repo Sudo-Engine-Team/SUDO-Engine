@@ -6,16 +6,16 @@ import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import site.root3287.lwjgl.component.FirstPersonComponent;
+import site.root3287.lwjgl.audio.Audio;
+import site.root3287.lwjgl.component.PlayerControlsComponent;
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
-import site.root3287.lwjgl.engine.render.FontRenderer;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
@@ -47,15 +47,16 @@ public class Test extends Screen{
 
 	@Override
 	public void init() {
+		Audio.init();
 		//this.server = new Server(8123);
 		//this.client = new Client("127.0.0.1:8123");
 		//server.start();
 		//client.connect();
-		int seed = new Random().nextInt();
-		//int seed = 123;
+		//int seed = new Random().nextInt();
+		int seed = -1251497298;
         this.world = new World(this.loader, seed);
 		this.c = new FirstPerson(new Vector3f(0, 10f, 20));
-		Mouse.setGrabbed(c.getComponent(FirstPersonComponent.class).isGrabbed);
+		Mouse.setGrabbed(c.getComponent(PlayerControlsComponent.class).isGrabbed);
         this.light = new Light(new Vector3f(20,100000000,20), new Vector3f(7, 7, 7));
         //Light l2 = new Light(new Vector3f(0,0,0), new Vector3f(8, 0, 0));
         this.lights.add(light);
@@ -88,6 +89,10 @@ public class Test extends Screen{
 
 	@Override
 	public void dispose() {
+		for(Entity e : allEntity){
+			e.dispose();
+		}
+		Audio.dispose();
 		this.render.dispose();
 		this.loader.destory();
 		//this.server.close();

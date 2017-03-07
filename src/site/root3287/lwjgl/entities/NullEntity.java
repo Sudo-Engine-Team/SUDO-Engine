@@ -20,4 +20,10 @@ public class NullEntity extends Entity{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -9,18 +9,16 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.entities.Entity;
-import site.root3287.lwjgl.events.EventDispatcher;
 import site.root3287.lwjgl.terrain.Terrain;
 
-public class FirstPersonComponent extends Component{
-	private EventDispatcher dispatcher;
+public class PlayerControlsComponent extends Component{
 	public boolean isGrabbed = true, 
 			isMouseGrabbedRequest = false, 
 			canFly = false,
 			gravity = true,
 			isInAir = false,
 			canDoubleJump = false;
-	private final float GRAVITY = (float) (-10f), 
+	private final float GRAVITY = (float) (-30f), 
 			JUMP = 10, 
 			CAMERA_HEIGHT = 3.5f;
 	private Vector3f position, rotation;
@@ -28,7 +26,8 @@ public class FirstPersonComponent extends Component{
 	private UUID id;
 	private float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0;
 	private int direction;
-	public FirstPersonComponent(UUID id) {
+	
+	public PlayerControlsComponent(UUID id) {
 		this.update = true;
 		this.id = id;
 	}

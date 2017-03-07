@@ -1,9 +1,10 @@
 package site.root3287.lwjgl.screen;
 
+import site.root3287.lwjgl.engine.Disposeable;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
 
-public abstract class Screen {
+public abstract class Screen implements Disposeable{
 	public abstract void init();
 	public abstract void update();
 	public abstract void render();

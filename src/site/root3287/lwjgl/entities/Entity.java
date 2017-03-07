@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 import site.root3287.lwjgl.component.Component;
+import site.root3287.lwjgl.engine.Disposeable;
 
-public abstract class Entity {
+public abstract class Entity implements Disposeable{
 	protected static HashMap<Class, HashMap<UUID, ? extends Component>> componentStores = new HashMap<Class, HashMap<UUID,? extends Component>>();
 	public static List<UUID> allEntities = new ArrayList<>();
 	protected UUID id;
