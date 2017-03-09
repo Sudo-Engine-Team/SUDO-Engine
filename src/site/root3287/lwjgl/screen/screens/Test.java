@@ -2,13 +2,11 @@ package site.root3287.lwjgl.screen.screens;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -38,7 +36,6 @@ public class Test extends Screen{
 	private Camera c;
 	private World world;
 	private NullEntity entity;
-	private List<EventListener> listeners = new ArrayList<>();
 	private GUIText text;
 	
 	public Test(Render render, Loader loader) {
@@ -48,20 +45,13 @@ public class Test extends Screen{
 	@Override
 	public void init() {
 		Audio.init();
-		//this.server = new Server(8123);
-		//this.client = new Client("127.0.0.1:8123");
-		//server.start();
-		//client.connect();
 		//int seed = new Random().nextInt();
 		int seed = -1251497298;
         this.world = new World(this.loader, seed);
 		this.c = new FirstPerson(new Vector3f(0, 10f, 20));
 		Mouse.setGrabbed(c.getComponent(PlayerControlsComponent.class).isGrabbed);
         this.light = new Light(new Vector3f(20,100000000,20), new Vector3f(7, 7, 7));
-        //Light l2 = new Light(new Vector3f(0,0,0), new Vector3f(8, 0, 0));
         this.lights.add(light);
-//        /this.lights.add(l2);
-        //StandfordBunny bunny = new StandfordBunny(loader);
         allEntity.add(new StandfordBunny(loader));
         
         UIText.init(loader);
@@ -71,6 +61,7 @@ public class Test extends Screen{
 	@Override
 	public void update() {
 		c.update(world.getTerrainForCollision(), DisplayManager.DELTA);
+		allEntity.get(0).update(DisplayManager.DELTA);
 	}
 
 	@Override
@@ -95,6 +86,5 @@ public class Test extends Screen{
 		Audio.dispose();
 		this.render.dispose();
 		this.loader.destory();
-		//this.server.close();
 	}
 }

@@ -20,6 +20,7 @@ public class Audio {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		AL10.alDistanceModel(AL10.AL_INVERSE_DISTANCE);
 	}
 	
 	public static void setListenerData(Vector3f position){

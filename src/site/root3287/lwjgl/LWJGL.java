@@ -3,11 +3,13 @@ package site.root3287.lwjgl;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.screen.screens.Test;
+import site.root3287.lwjgl.utils.LWJGLMaths;
 
 public class LWJGL {
 	private Render r;

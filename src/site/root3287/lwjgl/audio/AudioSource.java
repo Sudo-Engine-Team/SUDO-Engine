@@ -11,7 +11,13 @@ public class AudioSource {
 		this.sourceID = AL10.alGenSources();
 		AL10.alSourcef(this.sourceID, AL10.AL_GAIN, 1);
 		AL10.alSourcef(this.sourceID, AL10.AL_PITCH, 1);
+		AL10.alSourcef(this.sourceID, AL10.AL_ROLLOFF_FACTOR, 1);
 		AL10.alSource3f(this.sourceID, AL10.AL_POSITION, 0,0,0);
+	}
+	public void setAttenuation(float distance, float drop, float maxDistance){
+		AL10.alSourcef(this.sourceID, AL10.AL_REFERENCE_DISTANCE, distance);
+		AL10.alSourcef(this.sourceID, AL10.AL_ROLLOFF_FACTOR, drop);
+		AL10.alSourcef(this.sourceID, AL10.AL_MAX_DISTANCE, maxDistance);
 	}
 	public void play(int buffer){
 		stop();

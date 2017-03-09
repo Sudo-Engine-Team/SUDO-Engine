@@ -50,7 +50,7 @@ public abstract class Entity implements Disposeable{
 		HashMap<UUID, ? extends Component> store = componentStores.get( exampleClass );
 		T result = (T) store.get(e);
 		if( result == null )
-			throw new IllegalArgumentException("GET FAIL: "+e+" does not possess Component of class\n missing: "+exampleClass);
+			throw new IllegalArgumentException("GET FAIL: "+e.toString()+" does not possess Component of class\n missing: "+exampleClass);
 		return result;
 	}
 	
@@ -76,5 +76,9 @@ public abstract class Entity implements Disposeable{
 		if(result == null)
 			return false;
 		return true;
+	}
+	
+	public UUID getID(){
+		return this.id;
 	}
 }

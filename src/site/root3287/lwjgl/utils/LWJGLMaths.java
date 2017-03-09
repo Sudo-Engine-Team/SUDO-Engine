@@ -1,5 +1,7 @@
 package site.root3287.lwjgl.utils;
 
+import org.lwjgl.util.vector.Matrix2f;
+import org.lwjgl.util.vector.Matrix3f;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -25,6 +27,12 @@ public class LWJGLMaths {
 		Matrix4f.scale(new Vector3f(scale.x, scale.y, 1f), matrix, matrix);
 		return matrix;
 	}
+	public static Matrix4f createTransformationMatrix(Vector3f translation) {
+		Matrix4f matrix = new Matrix4f();
+		matrix.setIdentity();
+		Matrix4f.translate(translation, matrix, matrix);
+		return matrix;
+	}
 	public static Matrix4f createViewMatrix(Camera camera){
 		Matrix4f viewMatrix = new Matrix4f();
 		float pitch = camera.getComponent(TransformationComponent.class).pitch;
@@ -45,5 +53,8 @@ public class LWJGLMaths {
 		float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
 		float l3 = 1.0f - l1 - l2;
 		return l1 * p1.y + l2 * p2.y + l3 * p3.y;
+	}
+	public static float distance3d(Vector3f p1, Vector3f p2){
+		return (float) Math.sqrt(Math.pow((p1.x - p2.x ), 2) + Math.pow((p1.y - p2.y), 2) + Math.pow((p1.z - p2.z), 2));
 	}
 }
