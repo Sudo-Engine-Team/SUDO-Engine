@@ -8,6 +8,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.component.PlayerControlsComponent;
+import site.root3287.lwjgl.engine.GameState;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Light;
@@ -27,8 +28,8 @@ public class MainGame extends Screen{
 	int frames = 0;
 	long lastFPSTime;
 	
-	public MainGame(Render render, Loader loader) {
-		super(render, loader);
+	public MainGame(Render render, Loader loader, GameState state) {
+		super(render, loader, state);
 	}
 
 	

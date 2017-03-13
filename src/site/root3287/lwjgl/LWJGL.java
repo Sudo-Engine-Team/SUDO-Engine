@@ -3,17 +3,19 @@ package site.root3287.lwjgl;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.engine.DisplayManager;
+import site.root3287.lwjgl.engine.GameState;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
+import site.root3287.lwjgl.screen.screens.Splash;
 import site.root3287.lwjgl.screen.screens.Test;
-import site.root3287.lwjgl.utils.LWJGLMaths;
+import site.root3287.lwjgl.screen.screens.WaterScreen;
 
 public class LWJGL {
 	private Render r;
 	private Loader l;
+	private GameState state;
 	public static void main(String[] args){
 		//new Launcher();
 		new LWJGL(args);
@@ -22,7 +24,9 @@ public class LWJGL {
 		DisplayManager.createDisplay(args);
 		this.r = new Render();
 		this.l = new Loader();
-		DisplayManager.setScreen(new Test(r, l));
+		this.state = new GameState();
+		this.state.state = GameState.State.LOADING;
+		DisplayManager.setScreen(new WaterScreen(r, l, state));
 		DisplayManager.screen.init();
 		while(!Display.isCloseRequested()){
 			DisplayManager.DELTA = DisplayManager.getDelta();
@@ -38,7 +42,7 @@ public class LWJGL {
 		DisplayManager.createDisplay();
 		this.r = new Render();
 		this.l = new Loader();
-		DisplayManager.setScreen(new Test(r, l));
+		DisplayManager.setScreen(new Splash(r, l, state));
 		DisplayManager.screen.init();
 		while(!Display.isCloseRequested()){
 			DisplayManager.DELTA = DisplayManager.getDelta();

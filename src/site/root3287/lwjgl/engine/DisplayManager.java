@@ -112,7 +112,7 @@ public class DisplayManager {
 		try {
 			Display.setFullscreen(DisplayManager.isFullScreen);
 			Display.setDisplayMode(new DisplayMode(DisplayManager.WIDTH, DisplayManager.HEIGHT));
-			Display.create(new PixelFormat(), attribs);
+			Display.create(new PixelFormat().withSamples(4), attribs);
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

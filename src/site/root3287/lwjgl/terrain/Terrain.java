@@ -63,6 +63,6 @@ public abstract class Terrain {
     public ModelTexture getTexture() {
         return texture;
     }
-    protected abstract Vector3f calculateNormal(int x, int z, HeightGenerator generator);
-	protected abstract RawModel generateTerrain(Loader loader);
+    //protected abstract Vector3f calculateNormal(int x, int z, HeightGenerator generator);
+//	protected abstract RawModel generateTerrain(Loader loader);
 }

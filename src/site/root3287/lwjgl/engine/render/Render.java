@@ -8,16 +8,25 @@ import java.util.Map;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import site.root3287.lwjgl.component.ModelComponent;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
+import site.root3287.lwjgl.entities.Quad2D;
 import site.root3287.lwjgl.entities.Camera.Camera;
 import site.root3287.lwjgl.model.TexturedModel;
+import site.root3287.lwjgl.shader.shaders.Shader2D;
 import site.root3287.lwjgl.shader.shaders.StaticShader;
 import site.root3287.lwjgl.shader.shaders.TerrainShader;
 import site.root3287.lwjgl.terrain.Terrain;
+import site.root3287.lwjgl.texture.Texture2D;
+import site.root3287.lwjgl.water.WaterRender;
+import site.root3287.lwjgl.water.WaterShader;
+import site.root3287.lwjgl.water.WaterTile;
 
 public class Render {
 	private static final float FOV = 70;
@@ -32,15 +41,26 @@ public class Render {
 
 	private TerrainRender terrainRenderer;
 	private TerrainShader terrainShader = new TerrainShader();
+	
+	private WaterRender waterRender;
+	private WaterShader waterShader = new WaterShader();
+	
+	private Render2D render2d;
+	private Shader2D shader2d = new Shader2D();
 
-	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
-	private List<Terrain> terrains = new ArrayList<Terrain>();
+	private Map<TexturedModel, List<Entity>> entities = new HashMap<>();
+	private List<Terrain> terrains = new ArrayList<>();
+	private List<Quad2D> gui = new ArrayList<>();
+	private List<WaterTile> waters = new ArrayList<>();
 
 	public Render() {
 		enableCulling();
 		createProjectionMatrix();
 		renderer = new EntityRender(shader, projectionMatrix);
 		terrainRenderer = new TerrainRender(terrainShader, projectionMatrix);
+		waterRender = new WaterRender(waterShader, projectionMatrix);
+		render2d = new Render2D(shader2d, projectionMatrix);
+		
 	}
 	public static void enableCulling(){
 		GL11.glEnable(GL11.GL_CULL_FACE);
@@ -65,6 +85,16 @@ public class Render {
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		
+		waterShader.start();
+		waterShader.loadLight(sun);
+		waterShader.loadViewMatrix(camera);
+		waterRender.render(waters);
+		waterShader.stop();
+		
+		shader2d.start();
+		render2d.render(gui);
+		shader2d.stop();
+		
 		terrains.clear();
 		entities.clear();
 	}
@@ -83,6 +113,14 @@ public class Render {
 			newBatch.add(entity);
 			entities.put(entityModel, newBatch);
 		}
+	}
+	
+	public void processGUI(Quad2D quad){
+		this.gui.add(quad);
+	}
+	
+	public void processWater(WaterTile water){
+		this.waters.add(water);
 	}
 
 	public void dispose() {
@@ -109,6 +147,9 @@ public class Render {
 		projectionMatrix.m23 = -1;
 		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
 		projectionMatrix.m33 = 0;
+	}
+	public void setBackgroundColour(Vector4f vector4f) {
+		this.colour = vector4f;
 	}
 
 }

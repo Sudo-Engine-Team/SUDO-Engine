@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.component.PlayerControlsComponent;
 import site.root3287.lwjgl.engine.DisplayManager;
+import site.root3287.lwjgl.engine.GameState;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.objConverter.ModelData;
 import site.root3287.lwjgl.engine.objConverter.OBJFileLoader;
@@ -24,8 +25,8 @@ import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.texture.ModelTexture;
 
 public class ModelScreen extends Screen {
-	public ModelScreen(Render render, Loader loader) {
-		super(render, loader);
+	public ModelScreen(Render render, Loader loader, GameState state) {
+		super(render, loader, state);
 	}
 
 	private Camera camera;

@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Vector3f;
 import site.root3287.lwjgl.audio.Audio;
 import site.root3287.lwjgl.component.PlayerControlsComponent;
 import site.root3287.lwjgl.engine.DisplayManager;
+import site.root3287.lwjgl.engine.GameState;
 import site.root3287.lwjgl.engine.Loader;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Entity;
@@ -38,8 +39,8 @@ public class Test extends Screen{
 	private NullEntity entity;
 	private GUIText text;
 	
-	public Test(Render render, Loader loader) {
-		super(render, loader);
+	public Test(Render render, Loader loader, GameState state) {
+		super(render, loader, state);
 	}
 
 	@Override
@@ -56,6 +57,8 @@ public class Test extends Screen{
         
         UIText.init(loader);
         text = new GUIText("hi", 12, new FontType(loader.loadTexture("res/fonts/Times New Roman/TNR.png"), new File("res/fonts/Times New Roman/TNR.fnt")), new Vector2f(0, 0), 0, true);
+        
+        
 	}
 
 	@Override

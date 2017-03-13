@@ -24,7 +24,7 @@ public class PlayerControlsComponent extends Component{
 	private Vector3f position, rotation;
 	private float pauseCooldown = 0;
 	private UUID id;
-	private float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0;
+	public float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0;
 	private int direction;
 	
 	public PlayerControlsComponent(UUID id) {

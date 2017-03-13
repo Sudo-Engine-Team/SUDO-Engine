@@ -81,8 +81,4 @@ public class PerlinTerrain extends Terrain{
         }
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
 	}
-	@Override
-	protected RawModel generateTerrain(Loader loader) {
-		return null;
-	}
 }

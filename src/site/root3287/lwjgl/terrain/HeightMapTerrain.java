@@ -50,12 +50,5 @@ public class HeightMapTerrain extends Terrain{
         }
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
-
-
-	@Override
-	protected Vector3f calculateNormal(int x, int z, HeightGenerator generator) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
