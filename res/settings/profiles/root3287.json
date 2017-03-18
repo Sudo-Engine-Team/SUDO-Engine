@@ -1,0 +1,12 @@
+{
+	"name": "root3287-profile",
+	"version": "0.0.1",
+	"launcher_property": {
+		"closeOnPlay": false,
+		"logLevel": 1,
+		"logScreen": 1
+	},
+	"game_property":{
+
+	}
+}

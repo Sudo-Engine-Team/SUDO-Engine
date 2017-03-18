@@ -7,6 +7,8 @@ import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.engine.Loader;
+import site.root3287.lwjgl.logger.LogLevel;
+import site.root3287.lwjgl.logger.Logger;
 import site.root3287.lwjgl.terrain.PerlinTerrain;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.texture.ModelTexture;
@@ -28,7 +30,7 @@ public class World {
 	public World(Loader loader, int seed){
 		this.loader = loader;
 		this.seed = seed;
-		System.out.println("Seed: "+ seed);
+		Logger.log(LogLevel.INFO, "Seed: "+ seed);
 		this.terrains = new ArrayList<Terrain>();
 		this.terrainCollision = new HashMap<Integer, HashMap<Integer, Terrain>>();
 		generateTerrain();
@@ -48,7 +50,7 @@ public class World {
 						this.seed
         				);
         		terrains.add(t1);
-        		System.out.println("Proccessing:" + tX + " " + tY);
+        		Logger.log(LogLevel.INFO, "Proccessing:" + tX + " " + tY);
         		temp.put(tY, t1);
         	}
         	this.terrainCollision.put(tX, temp);

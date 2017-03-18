@@ -1,58 +1,34 @@
 package site.root3287.lwjgl;
 
+import java.io.File;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
-import site.root3287.lwjgl.engine.DisplayManager;
-import site.root3287.lwjgl.engine.GameState;
-import site.root3287.lwjgl.engine.Loader;
-import site.root3287.lwjgl.engine.render.Render;
-import site.root3287.lwjgl.screen.screens.Splash;
-import site.root3287.lwjgl.screen.screens.Test;
-import site.root3287.lwjgl.screen.screens.WaterScreen;
+import site.root3287.lwjgl.launcher.Launcher;
+import site.root3287.lwjgl.logger.LogLevel;
+import site.root3287.lwjgl.logger.Logger;
 
 public class LWJGL {
-	private Render r;
-	private Loader l;
-	private GameState state;
+	public static File file;
 	public static void main(String[] args){
-		//new Launcher();
-		new LWJGL(args);
-	}
-	public LWJGL(String[] args){
-		DisplayManager.createDisplay(args);
-		this.r = new Render();
-		this.l = new Loader();
-		this.state = new GameState();
-		this.state.state = GameState.State.LOADING;
-		DisplayManager.setScreen(new WaterScreen(r, l, state));
-		DisplayManager.screen.init();
-		while(!Display.isCloseRequested()){
-			DisplayManager.DELTA = DisplayManager.getDelta();
-			DisplayManager.screen.update();
-			DisplayManager.screen.render();
-			DisplayManager.updateDisplay();
+		if(System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("windows")){
+			Logger.log(LogLevel.INFO, "Loading LWJGL natives using windows");
+			System.setProperty("org.lwjgl.librarypath", new File("lib/native/windows").getAbsolutePath());
 		}
-		DisplayManager.screen.dispose();
-		DisplayManager.closeDisplay();
-	}
-	
-	public LWJGL(){
-		DisplayManager.createDisplay();
-		this.r = new Render();
-		this.l = new Loader();
-		DisplayManager.setScreen(new Splash(r, l, state));
-		DisplayManager.screen.init();
-		while(!Display.isCloseRequested()){
-			DisplayManager.DELTA = DisplayManager.getDelta();
-			DisplayManager.screen.update();
-			DisplayManager.screen.render();
-			DisplayManager.updateDisplay();
+		if(System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("mac")){
+			Logger.log(LogLevel.INFO, "Loading LWJGL natives using MacOS");
+			System.setProperty("org.lwjgl.librarypath", new File("lib/native/mac").getAbsolutePath());
 		}
-		DisplayManager.screen.dispose();
-		DisplayManager.closeDisplay();
-		System.exit(0);
+		Logger.log(LogLevel.INFO, "System.getProperty('os.name') == " + System.getProperty("os.name"));
+		Logger.log(LogLevel.INFO, "System.getProperty('os.version') == " + System.getProperty("os.version"));
+		Logger.log(LogLevel.INFO, "System.getProperty('os.arch') == " + System.getProperty("os.arch"));
+		Logger.log(LogLevel.INFO, "System.getProperty('java.version') == " + System.getProperty("java.version"));
+		Logger.log(LogLevel.INFO, "System.getProperty('java.vendor') == " + System.getProperty("java.vendor"));
+		Logger.log(LogLevel.INFO, "System.getProperty('sun.arch.data.model') == " + System.getProperty("sun.arch.data.model"));
+		new Launcher();
+		//new GameLauncher();
 	}
 	
 	public static Vector2f getNormalisedMouseCoords(){

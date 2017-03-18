@@ -12,6 +12,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.entities.Entity;
+import site.root3287.lwjgl.logger.LogLevel;
+import site.root3287.lwjgl.logger.Logger;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
 import site.root3287.lwjgl.shader.shaders.StaticShader;
@@ -33,6 +35,7 @@ public class EntityRender {
 	}
 
 	public void render(Map<TexturedModel, List<Entity>> entities) {
+		Logger.log(LogLevel.DEBUG_RENDER, "Rendering a entites");
 		for (TexturedModel model : entities.keySet()) {
 			prepareTexturedModel(model);
 			List<Entity> batch = entities.get(model);
@@ -45,6 +48,7 @@ public class EntityRender {
 	}
 
 	private void prepareTexturedModel(TexturedModel model) {
+		Logger.log(LogLevel.DEBUG_RENDER, "Preparing the texture model");
 		RawModel rawModel = model.getRawModel();
 		GL30.glBindVertexArray(rawModel.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
@@ -57,6 +61,7 @@ public class EntityRender {
 	}
 
 	private void unbindTexturedModel() {
+		Logger.log(LogLevel.DEBUG_RENDER, "Unbinding model");
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);
@@ -64,10 +69,13 @@ public class EntityRender {
 	}
 
 	private void prepareInstance(Entity entity) {
+		Logger.log(LogLevel.DEBUG_RENDER, "Preparing entity to be rendered");
 		Vector3f position = entity.getComponent(TransformationComponent.class).position;
 		Vector3f rotation = entity.getComponent(TransformationComponent.class).rotation;
 		float scale = entity.getComponent(TransformationComponent.class).scale;
 		Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(position, rotation.x, rotation.y, rotation.z, scale);
 		shader.loadTransformationMatrix(transformationMatrix);
+		
+		Logger.log(LogLevel.DEBUG_RENDER, "Rendering Entity");
 	}
 }
