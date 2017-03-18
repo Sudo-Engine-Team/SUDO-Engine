@@ -57,4 +57,24 @@ public class LWJGLMaths {
 	public static float distance3d(Vector3f p1, Vector3f p2){
 		return (float) Math.sqrt(Math.pow((p1.x - p2.x ), 2) + Math.pow((p1.y - p2.y), 2) + Math.pow((p1.z - p2.z), 2));
 	}
+	public static Vector3f maxVector3f(Vector3f x, Vector3f y){
+		Vector3f result = new Vector3f();
+		result.x = (x.x > y.x)? x.x:y.x;
+		result.y = (x.y > y.y)? x.y:y.y;
+		result.z = (x.z > y.z)? x.z:y.z;
+		return result;
+	}
+	public static float maxVector3fItem(Vector3f x){
+		float maxVal = x.x;
+		if(x.x > maxVal){
+			maxVal = x.x;
+		}
+		if(x.y > maxVal){
+			maxVal = x.y;
+		}
+		if(x.z > maxVal){
+			maxVal = x.z;
+		}
+		return maxVal;
+	}
 }
