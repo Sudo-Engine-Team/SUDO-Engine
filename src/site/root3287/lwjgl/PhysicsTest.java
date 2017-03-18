@@ -5,9 +5,9 @@ import org.lwjgl.util.vector.Vector3f;
 import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.EntityInstance;
-import site.root3287.lwjgl.physics.PhysicsComponent;
 import site.root3287.lwjgl.physics.collision.IntersectData;
 import site.root3287.lwjgl.physics.collision.aabb.AABB;
+import site.root3287.lwjgl.physics.component.PhysicsComponent;
 
 public class PhysicsTest {
 	public static void main(String[] args){
