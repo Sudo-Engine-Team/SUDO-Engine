@@ -21,7 +21,7 @@ public class JumpComponent extends Component{
 	}
 	public void update(HashMap<Integer, HashMap<Integer, Terrain>> terrain, float delta){
 		Vector3f position = Entity.getComponent(id, TransformationComponent.class).position;
-		float dy = Entity.getComponent(id, TransformationComponent.class).dy;
+		float dy = Entity.getComponent(id, TransformationComponent.class).velocity.y;
 		int xChunk = (int) Math.floor(position.x / Terrain.SIZE);
 		int yChunk = (int) Math.floor(position.z/Terrain.SIZE);
 		
@@ -49,6 +49,6 @@ public class JumpComponent extends Component{
 		position.y  += dy;
 		
 		Entity.getComponent(id, TransformationComponent.class).position = position;
-		Entity.getComponent(id, TransformationComponent.class).dy = dy;
+		Entity.getComponent(id, TransformationComponent.class).velocity.y = dy;
 	}
 }

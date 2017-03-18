@@ -2,6 +2,10 @@ package site.root3287.lwjgl;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import site.root3287.lwjgl.component.TransformationComponent;
+import site.root3287.lwjgl.entities.Entity;
+import site.root3287.lwjgl.entities.EntityInstance;
+import site.root3287.lwjgl.physics.PhysicsComponent;
 import site.root3287.lwjgl.physics.collision.IntersectData;
 import site.root3287.lwjgl.physics.collision.aabb.AABB;
 
@@ -21,7 +25,9 @@ public class PhysicsTest {
 		System.out.println("Sphere 1 and Sphere 3 Intersecting: "+s1s3.isIntersecting()+" Distance: "+s1s3.getDistance());
 		System.out.println("Sphere 1 and Sphere 4 Intersecting: "+s1s4.isIntersecting()+" Distance: "+s1s4.getDistance());
 		*/
+		/**
 		AABB aabb1 = new AABB(new Vector3f(0,0,0), new Vector3f(1, 1, 1));
+		 
 		AABB aabb2 = new AABB(new Vector3f(1,1,1), new Vector3f(2, 2, 2));
 		AABB aabb3 = new AABB(new Vector3f(1,0,0), new Vector3f(2, 1, 1));
 		AABB aabb4 = new AABB(new Vector3f(0,0,-2), new Vector3f(1, 1, -1));
@@ -36,5 +42,6 @@ public class PhysicsTest {
 		System.out.println("aabb 1 and aabb 3 Intersecting: "+aabb1aabb3.isIntersecting()+" Distance: "+aabb1aabb3.getDistance());
 		System.out.println("aabb 1 and aabb 4 Intersecting: "+aabb1aabb4.isIntersecting()+" Distance: "+aabb1aabb4.getDistance());
 		System.out.println("aabb 1 and aabb 5 Intersecting: "+aabb1aabb5.isIntersecting()+" Distance: "+aabb1aabb5.getDistance());
+		*/
 	}
 }

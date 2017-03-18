@@ -21,7 +21,7 @@ public class PlayerControlsComponent extends Component{
 	private final float GRAVITY = (float) (-30f), 
 			JUMP = 10, 
 			CAMERA_HEIGHT = 3.5f;
-	private Vector3f position, rotation;
+	private Vector3f position, rotation, velocity;
 	private float pauseCooldown = 0;
 	private UUID id;
 	public float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0;
@@ -38,7 +38,8 @@ public class PlayerControlsComponent extends Component{
 			this.pitch = Entity.getComponent(this.id, TransformationComponent.class).pitch;
 			this.yaw = Entity.getComponent(this.id, TransformationComponent.class).yaw;
 			this.direction = Entity.getComponent(this.id, TransformationComponent.class).direction;
-			this.dy = Entity.getComponent(this.id, TransformationComponent.class).dy;
+			this.velocity = Entity.getComponent(this.id, TransformationComponent.class).velocity;
+			this.dy = this.velocity.y;
 			move(terrain, delta);
 			Entity.getComponent(this.id, TransformationComponent.class).position = this.position;
 			Entity.getComponent(this.id, TransformationComponent.class).pitch = this.pitch;
