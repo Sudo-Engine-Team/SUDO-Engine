@@ -12,6 +12,10 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import site.root3287.lwjgl.logger.LogLevel;
+import site.root3287.lwjgl.logger.Logger;
+import sun.rmi.runtime.Log;
+
 public abstract class Shader {
 	private int programID;
     private int vertexShaderID;
@@ -38,14 +42,17 @@ public abstract class Shader {
     }
      
     public void start(){
+    	Logger.log(LogLevel.DEBUG_RENDER, "Starting Shader");
         GL20.glUseProgram(programID);
     }
      
     public void stop(){
+    	Logger.log(LogLevel.DEBUG_RENDER, "Stopping Shader");
         GL20.glUseProgram(0);
     }
      
     public void dispose(){
+    	Logger.log(LogLevel.INFO, "Disposing Shader");
         stop();
         GL20.glDetachShader(programID, vertexShaderID);
         GL20.glDetachShader(programID, fragmentShaderID);
