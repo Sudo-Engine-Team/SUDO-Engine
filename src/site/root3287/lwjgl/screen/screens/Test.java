@@ -1,14 +1,9 @@
 package site.root3287.lwjgl.screen.screens;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.audio.Audio;
@@ -23,9 +18,6 @@ import site.root3287.lwjgl.entities.NullEntity;
 import site.root3287.lwjgl.entities.Camera.Camera;
 import site.root3287.lwjgl.entities.Camera.FirstPerson;
 import site.root3287.lwjgl.entities.model.StandfordBunny;
-import site.root3287.lwjgl.fontMeshCreator.FontType;
-import site.root3287.lwjgl.fontMeshCreator.GUIText;
-import site.root3287.lwjgl.input.objects.UIText;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.world.World;
@@ -33,12 +25,10 @@ import site.root3287.lwjgl.world.World;
 public class Test extends Screen{
 	private List<Entity> allEntity = new ArrayList<Entity>();
 	private List<Light> lights = new ArrayList<Light>();
-	private Map<FontType, List<GUIText>> fonts = new HashMap<>();
 	private Light light;
 	private Camera c;
 	private World world;
 	private NullEntity entity;
-	private GUIText text;
 	
 	public Test(Render render, Loader loader, GameState state) {
 		super(render, loader, state);
@@ -55,11 +45,6 @@ public class Test extends Screen{
         this.light = new Light(new Vector3f(20,100000000,20), new Vector3f(7, 7, 7));
         this.lights.add(light);
         allEntity.add(new StandfordBunny(loader));
-        
-        UIText.init(loader);
-        text = new GUIText("hi", 12, new FontType(loader.loadTexture("res/fonts/Times New Roman/TNR.png"), new File("res/fonts/Times New Roman/TNR.fnt")), new Vector2f(0, 0), 0, true);
-        
-        
 	}
 
 	@Override
@@ -79,7 +64,6 @@ public class Test extends Screen{
 			this.render.processEntity(e);
 		}
 		this.render.render(lights, c);
-		UIText.render();
 	}
 
 	@Override
