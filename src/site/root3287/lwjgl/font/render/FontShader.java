@@ -7,7 +7,7 @@ import site.root3287.lwjgl.shader.Shader;
 
 public class FontShader extends Shader{
 
-	private static final String VERTEX_FILE = "res/shaders/font/fontVertex.glsl";
+	private static final String VERTEX_FILE = "res/shaders/fonts/fontVertex.glsl";
 	private static final String FRAGMENT_FILE = "res/shaders/fonts/fontFragment.glsl";
 	
 	private int location_colour;

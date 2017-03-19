@@ -1,9 +1,11 @@
 package site.root3287.lwjgl.screen.screens;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.audio.Audio;
@@ -18,6 +20,9 @@ import site.root3287.lwjgl.entities.NullEntity;
 import site.root3287.lwjgl.entities.Camera.Camera;
 import site.root3287.lwjgl.entities.Camera.FirstPerson;
 import site.root3287.lwjgl.entities.model.StandfordBunny;
+import site.root3287.lwjgl.font.FontText;
+import site.root3287.lwjgl.font.FontType;
+import site.root3287.lwjgl.font.GUIText;
 import site.root3287.lwjgl.screen.Screen;
 import site.root3287.lwjgl.terrain.Terrain;
 import site.root3287.lwjgl.world.World;
@@ -37,6 +42,12 @@ public class Test extends Screen{
 	@Override
 	public void init() {
 		Audio.init();
+		FontText.init(loader);
+		FontText.loadText(
+				new GUIText("Hello World", 
+						12, 
+						new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
+						new Vector2f(0, 0), 1, true));
 		//int seed = new Random().nextInt();
 		int seed = -1251497298;
         this.world = new World(this.loader, seed);
@@ -64,10 +75,12 @@ public class Test extends Screen{
 			this.render.processEntity(e);
 		}
 		this.render.render(lights, c);
+		FontText.render();
 	}
 
 	@Override
 	public void dispose() {
+		FontText.dispose();
 		for(Entity e : allEntity){
 			e.dispose();
 		}
