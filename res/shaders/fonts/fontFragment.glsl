@@ -8,5 +8,7 @@ uniform vec3 colour;
 uniform sampler2D fontAtlas;
 
 void main(void){
+
 	out_colour = vec4(colour, texture(fontAtlas, pass_textureCoords).a);
+
 }

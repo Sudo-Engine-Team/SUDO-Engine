@@ -45,7 +45,7 @@ public class Test extends Screen{
 		FontText.init(loader);
 		FontText.loadText(
 				new GUIText("Hello World", 
-						12, 
+						1, 
 						new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
 						new Vector2f(0, 0), 1, true));
 		//int seed = new Random().nextInt();
