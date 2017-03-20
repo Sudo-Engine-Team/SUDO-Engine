@@ -18,6 +18,8 @@ import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import site.root3287.lwjgl.logger.LogLevel;
+import site.root3287.lwjgl.logger.Logger;
 import site.root3287.lwjgl.model.RawModel;
 
 public class Loader {
@@ -25,7 +27,7 @@ public class Loader {
 	private List<Integer> vbos = new ArrayList<Integer>();
 	private List<Integer> textures = new ArrayList<Integer>();
 	
-	public Map<Integer, List<Integer>> vaoCache= new HashMap<>();
+	public Map<Integer, List<Integer>> vaoText = new HashMap<>();
 	
 	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices){ //3d models
 		int vaoID = createVAO();
@@ -51,17 +53,41 @@ public class Loader {
 	}
 	public int loadToVAO(float[] positions, float[] textureCoords){
 		int vaoID = createVAO();
-		vaoCache.get(vaoID).add(storeDataInAttributeList(0, 2, positions));
-		vaoCache.get(vaoID).add(storeDataInAttributeList(1, 2, textureCoords));
+		storeDataInAttributeList(0, 2, positions);
+		storeDataInAttributeList(0, 2, textureCoords);
 		unbindVAO();
 		return vaoID;
 	}
-	
+	public int loadText(float[] position, float[] textureCoords){
+		int vaoID = GL30.glGenVertexArrays();
+		GL30.glBindVertexArray(vaoID);
+		List<Integer> vboBatch = new ArrayList<>();
+		
+		//StoreDataInAttibArray
+		int vboPosition = GL15.glGenBuffers();
+		vboBatch.add(vboPosition);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboPosition);
+		FloatBuffer positionBuffer = storeDataInFloatBuffer(position);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, positionBuffer, GL15.GL_STATIC_DRAW);
+		GL20.glVertexAttribPointer(0, 2, GL11.GL_FLOAT, false, 0, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		
+		int vboTextureCoords = GL15.glGenBuffers();
+		vboBatch.add(vboTextureCoords);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboTextureCoords);
+		FloatBuffer textureBuffer = storeDataInFloatBuffer(textureCoords);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, textureBuffer, GL15.GL_STATIC_DRAW);
+		GL20.glVertexAttribPointer(1, 2, GL11.GL_FLOAT, false, 0, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);		
+		unbindVAO();
+		
+		vaoText.put(vaoID, vboBatch);
+		
+		return vaoID;
+	}
 	private int createVAO(){
 		int vaoID = GL30.glGenVertexArrays();
 		vaos.add(vaoID);
-		List<Integer> associatedVbos = new ArrayList<Integer>(); 
-		vaoCache.put(vaoID, associatedVbos);
 		GL30.glBindVertexArray(vaoID);
 		return vaoID;
 	}
@@ -72,7 +98,7 @@ public class Loader {
 		IntBuffer b = storeDataInIntBuffer(indices);
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, b, GL15.GL_STATIC_DRAW);
 	}
-	private int storeDataInAttributeList(int attributeNumber, int coordnateSize, float[] data){
+	private void storeDataInAttributeList(int attributeNumber, int coordnateSize, float[] data){
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
@@ -80,7 +106,6 @@ public class Loader {
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 		GL20.glVertexAttribPointer(attributeNumber, coordnateSize, GL11.GL_FLOAT, false, 0, 0);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-		return vboID;
 	}
 	private void unbindVAO(){
 		GL30.glBindVertexArray(0);
@@ -114,26 +139,40 @@ public class Loader {
 		return textureID;
 	}
 	public void removeTextFromMemory(int vao){
-		 List<Integer> vbos = vaoCache.remove(vao); 
-		 for (int vbo : vbos){
-			 GL15.glDeleteBuffers(vbo);
-			 if(this.vbos.contains(vbo)){
-				 System.out.println("I have the vbo");
-			 }else{
-				 System.out.println("I don't have the vbo");
-			 }
-		 }
-		 GL30.glDeleteVertexArrays(vao);
-		 
-		 vaos.remove(vao);
-	}
-	public void destory(){
-		for(int vao: vaos){
-			GL30.glDeleteVertexArrays(vao);
-		}
-		for(int vbo: vbos){
+		Logger.log(LogLevel.DEBUG_RENDER, "Removing Text from memory");
+		List<Integer> vbos = vaoText.remove(vao); 
+		for (int vbo : vbos){
 			GL15.glDeleteBuffers(vbo);
 		}
+		GL30.glDeleteVertexArrays(vao);
+	}
+	
+	public void destory(){
+		Logger.log(LogLevel.INFO, "Disposing Loader");
+		int size = 0;
+		for(int vao: vaos){
+			GL30.glDeleteVertexArrays(vao);
+			size++;
+		}
+		Logger.log(LogLevel.INFO, "Deleted "+size+" VAOS");
+		size =0;
+		for(int vbo: vbos){
+			GL15.glDeleteBuffers(vbo);
+			size++;
+		}
+		Logger.log(LogLevel.INFO, "Deleted "+size+" VBOS");
+		size =0;
+		int vaoSize = 0;
+		int vboSize = 0;
+		for(List<Integer> textVBO : vaoText.values()){
+			for(int textvbo : textVBO){
+				GL15.glDeleteBuffers(textvbo);
+				vboSize++;
+			}
+			vaoSize++;
+		}
+		Logger.log(LogLevel.INFO, "Deleted "+vaoSize+" Text VAOS");
+		Logger.log("Deleted "+vboSize+" Text VBOS");
 		for(int texture:textures){
 			GL11.glDeleteTextures(texture);
 		}

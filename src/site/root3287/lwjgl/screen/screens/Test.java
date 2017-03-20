@@ -1,5 +1,6 @@
 package site.root3287.lwjgl.screen.screens;
 
+import java.awt.Font;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +46,13 @@ public class Test extends Screen{
 	public void init() {
 		Audio.init();
 		FontText.init(loader);
-		text.add(new GUIText("Version Alpha 0.0.1", 
+		
+		// text 0
+		FontText.loadText(new GUIText("Version Alpha 0.0.1", 
 				1, 
 				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
-				new Vector2f(-0.435f, 0), 1, true));
-		FontText.loadText(text.get(0));
+				new Vector2f(0, 0), 1, true));
+		
 		//int seed = new Random().nextInt();
 		int seed = -1251497298;
         this.world = new World(this.loader, seed);
@@ -58,24 +61,25 @@ public class Test extends Screen{
         this.light = new Light(new Vector3f(20,100000000,20), new Vector3f(7, 7, 7));
         this.lights.add(light);
         allEntity.add(new StandfordBunny(loader));
-        text.add(new GUIText("X: "+c.getComponent(TransformationComponent.class).position.x+" Y: "+ c.getComponent(TransformationComponent.class).position.y+" Z: "+c.getComponent(TransformationComponent.class).position.z, 
+        
+        //Text 1
+        FontText.loadText(new GUIText("X: "+ c.getComponent(TransformationComponent.class).position.x + " Y: "+ c.getComponent(TransformationComponent.class).position.y + " Z: "+ c.getComponent(TransformationComponent.class).position.z, 
 				1, 
 				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
-				new Vector2f(-0.435f, 0.10f), 1, true));
-        FontText.loadText(text.get(1));
-	}
+				new Vector2f(-0.25f, 0), 1, true));
+        //Text 2
+        FontText.loadText(new GUIText("Delta Time: "+ DisplayManager.DELTA, 
+				1, 
+				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
+				new Vector2f(0.25f, 0), 1, true));
+    }
 
 	@Override
 	public void update() {
 		c.update(world.getTerrainForCollision(), DisplayManager.DELTA);
 		allEntity.get(0).update(DisplayManager.DELTA);
-		FontText.removeText(text.get(1));
-		text.remove(1);
-		text.add(new GUIText("X: "+c.getComponent(TransformationComponent.class).position.x+" Y: "+ c.getComponent(TransformationComponent.class).position.y+" Z: "+c.getComponent(TransformationComponent.class).position.z, 
-						1, 
-						new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
-						new Vector2f(-0.435f, 0.10f), 1, true));
-		FontText.loadText(text.get(1));
+		FontText.getAllText().get(1).updateText("X: "+ c.getComponent(TransformationComponent.class).position.x + " Y: "+ c.getComponent(TransformationComponent.class).position.y + " Z: "+ c.getComponent(TransformationComponent.class).position.z);
+		FontText.getAllText().get(2).updateText("Delta Time: "+ DisplayManager.DELTA);
 	}
 
 	@Override

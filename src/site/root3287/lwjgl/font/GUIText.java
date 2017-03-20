@@ -3,6 +3,8 @@ package site.root3287.lwjgl.font;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import site.root3287.lwjgl.engine.Loader;
+
 /**
  * Represents a piece of text in the game.
  * 
@@ -178,8 +180,22 @@ public class GUIText {
 	/**
 	 * @return The string of text.
 	 */
-	protected String getTextString() {
+	public String getTextString() {
 		return textString;
 	}
-
+	
+	/**
+	 * Set the text.
+	 * @param text
+	 */
+	public void setText(String text){
+		this.textString = text;
+	}
+	
+	public void updateText(String message){
+		FontText.loader.removeTextFromMemory(getMesh());
+		this.textString = message;
+		FontText.updateText(this);
+	}
+	
 }

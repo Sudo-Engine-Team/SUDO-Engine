@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GL30;
 
 import site.root3287.lwjgl.font.FontType;
 import site.root3287.lwjgl.font.GUIText;
+import site.root3287.lwjgl.logger.LogLevel;
+import site.root3287.lwjgl.logger.Logger;
 
 public class FontRender {
 
@@ -22,9 +24,11 @@ public class FontRender {
     public void render(Map<FontType, List<GUIText>> texts){
         prepare();
         for(FontType font : texts.keySet()){
+        	Logger.log(LogLevel.DEBUG_RENDER, "Preparing to render some text");
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, font.getTextureAtlas());
             for(GUIText text : texts.get(font)){
+            	Logger.log(LogLevel.DEBUG_RENDER, "Rendering Text");
                 renderText(text);
             }
         }
