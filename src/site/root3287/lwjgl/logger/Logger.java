@@ -53,6 +53,9 @@ public class Logger {
 			}
 		}
 	}
+	public static void log(String message){
+		Logger.log(LogLevel.INFO, message);
+	}
 	public static List<String> getLogsByLevel(LogLevel level){
 		return logsMap.get(level);
 	}
