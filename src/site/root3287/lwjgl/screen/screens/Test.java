@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.audio.Audio;
 import site.root3287.lwjgl.component.PlayerControlsComponent;
+import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.GameState;
 import site.root3287.lwjgl.engine.Loader;
@@ -30,6 +31,7 @@ import site.root3287.lwjgl.world.World;
 public class Test extends Screen{
 	private List<Entity> allEntity = new ArrayList<Entity>();
 	private List<Light> lights = new ArrayList<Light>();
+	private List<GUIText> text = new ArrayList<>();
 	private Light light;
 	private Camera c;
 	private World world;
@@ -43,11 +45,11 @@ public class Test extends Screen{
 	public void init() {
 		Audio.init();
 		FontText.init(loader);
-		FontText.loadText(
-				new GUIText("Hello World", 
-						1, 
-						new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
-						new Vector2f(0, 0), 1, true));
+		text.add(new GUIText("Version Alpha 0.0.1", 
+				1, 
+				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
+				new Vector2f(-0.435f, 0), 1, true));
+		FontText.loadText(text.get(0));
 		//int seed = new Random().nextInt();
 		int seed = -1251497298;
         this.world = new World(this.loader, seed);
@@ -56,12 +58,24 @@ public class Test extends Screen{
         this.light = new Light(new Vector3f(20,100000000,20), new Vector3f(7, 7, 7));
         this.lights.add(light);
         allEntity.add(new StandfordBunny(loader));
+        text.add(new GUIText("X: "+c.getComponent(TransformationComponent.class).position.x+" Y: "+ c.getComponent(TransformationComponent.class).position.y+" Z: "+c.getComponent(TransformationComponent.class).position.z, 
+				1, 
+				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
+				new Vector2f(-0.435f, 0.10f), 1, true));
+        FontText.loadText(text.get(1));
 	}
 
 	@Override
 	public void update() {
 		c.update(world.getTerrainForCollision(), DisplayManager.DELTA);
 		allEntity.get(0).update(DisplayManager.DELTA);
+		FontText.removeText(text.get(1));
+		text.remove(1);
+		text.add(new GUIText("X: "+c.getComponent(TransformationComponent.class).position.x+" Y: "+ c.getComponent(TransformationComponent.class).position.y+" Z: "+c.getComponent(TransformationComponent.class).position.z, 
+						1, 
+						new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
+						new Vector2f(-0.435f, 0.10f), 1, true));
+		FontText.loadText(text.get(1));
 	}
 
 	@Override

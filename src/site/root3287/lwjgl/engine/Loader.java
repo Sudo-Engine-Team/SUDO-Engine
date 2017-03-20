@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -22,6 +24,8 @@ public class Loader {
 	private List<Integer> vaos = new ArrayList<Integer>();
 	private List<Integer> vbos = new ArrayList<Integer>();
 	private List<Integer> textures = new ArrayList<Integer>();
+	
+	public Map<Integer, List<Integer>> vaoCache= new HashMap<>();
 	
 	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices){ //3d models
 		int vaoID = createVAO();
@@ -47,8 +51,8 @@ public class Loader {
 	}
 	public int loadToVAO(float[] positions, float[] textureCoords){
 		int vaoID = createVAO();
-		storeDataInAttributeList(0, 2, positions);
-		storeDataInAttributeList(1, 2, textureCoords);
+		vaoCache.get(vaoID).add(storeDataInAttributeList(0, 2, positions));
+		vaoCache.get(vaoID).add(storeDataInAttributeList(1, 2, textureCoords));
 		unbindVAO();
 		return vaoID;
 	}
@@ -56,6 +60,8 @@ public class Loader {
 	private int createVAO(){
 		int vaoID = GL30.glGenVertexArrays();
 		vaos.add(vaoID);
+		List<Integer> associatedVbos = new ArrayList<Integer>(); 
+		vaoCache.put(vaoID, associatedVbos);
 		GL30.glBindVertexArray(vaoID);
 		return vaoID;
 	}
@@ -66,7 +72,7 @@ public class Loader {
 		IntBuffer b = storeDataInIntBuffer(indices);
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, b, GL15.GL_STATIC_DRAW);
 	}
-	private void storeDataInAttributeList(int attributeNumber, int coordnateSize, float[] data){
+	private int storeDataInAttributeList(int attributeNumber, int coordnateSize, float[] data){
 		int vboID = GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
@@ -74,6 +80,7 @@ public class Loader {
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 		GL20.glVertexAttribPointer(attributeNumber, coordnateSize, GL11.GL_FLOAT, false, 0, 0);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		return vboID;
 	}
 	private void unbindVAO(){
 		GL30.glBindVertexArray(0);
@@ -105,6 +112,20 @@ public class Loader {
 		int textureID = texture.getTextureID();
 		textures.add(textureID);
 		return textureID;
+	}
+	public void removeTextFromMemory(int vao){
+		 List<Integer> vbos = vaoCache.remove(vao); 
+		 for (int vbo : vbos){
+			 GL15.glDeleteBuffers(vbo);
+			 if(this.vbos.contains(vbo)){
+				 System.out.println("I have the vbo");
+			 }else{
+				 System.out.println("I don't have the vbo");
+			 }
+		 }
+		 GL30.glDeleteVertexArrays(vao);
+		 
+		 vaos.remove(vao);
 	}
 	public void destory(){
 		for(int vao: vaos){

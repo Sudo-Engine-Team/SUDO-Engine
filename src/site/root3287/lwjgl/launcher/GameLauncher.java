@@ -15,6 +15,7 @@ public class GameLauncher implements Runnable{
 	private GameState state;
 	public GameLauncher() {
 		game = new Thread(this);
+		game.setDaemon(false);
 		game.start();
 	}
 	
@@ -36,11 +37,6 @@ public class GameLauncher implements Runnable{
 		stop();
 	}
 	private void stop(){
-		try {
-			game.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		game.interrupt();
 	}
 }

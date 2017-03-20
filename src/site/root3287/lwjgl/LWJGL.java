@@ -6,12 +6,12 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
-import site.root3287.lwjgl.launcher.Launcher;
+import site.root3287.lwjgl.launcher.GameLauncher;
 import site.root3287.lwjgl.logger.LogLevel;
 import site.root3287.lwjgl.logger.Logger;
 
 public class LWJGL {
-	public static File file;
+	//public static File file;
 	public static void main(String[] args){
 		if(System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("windows")){
 			Logger.log(LogLevel.INFO, "Loading LWJGL natives using windows");
@@ -19,7 +19,7 @@ public class LWJGL {
 		}
 		if(System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("mac")){
 			Logger.log(LogLevel.INFO, "Loading LWJGL natives using MacOS");
-			System.setProperty("org.lwjgl.librarypath", new File("lib/native/mac").getAbsolutePath());
+			System.setProperty("org.lwjgl.librarypath", new File("lib/native/macosx").getAbsolutePath());
 		}
 		Logger.log(LogLevel.INFO, "System.getProperty('os.name') == " + System.getProperty("os.name"));
 		Logger.log(LogLevel.INFO, "System.getProperty('os.version') == " + System.getProperty("os.version"));
@@ -27,8 +27,8 @@ public class LWJGL {
 		Logger.log(LogLevel.INFO, "System.getProperty('java.version') == " + System.getProperty("java.version"));
 		Logger.log(LogLevel.INFO, "System.getProperty('java.vendor') == " + System.getProperty("java.vendor"));
 		Logger.log(LogLevel.INFO, "System.getProperty('sun.arch.data.model') == " + System.getProperty("sun.arch.data.model"));
-		new Launcher();
-		//new GameLauncher();
+		//new Launcher();
+		new GameLauncher();
 	}
 	
 	public static Vector2f getNormalisedMouseCoords(){

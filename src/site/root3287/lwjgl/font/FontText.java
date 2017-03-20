@@ -41,6 +41,7 @@ public class FontText {
         textBatch.remove(text);
         if(textBatch.isEmpty()){
             texts.remove(texts.get(text.getFont()));
+            loader.removeTextFromMemory(text.getMesh());
         }
     }
     
