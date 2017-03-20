@@ -1,6 +1,5 @@
 package site.root3287.lwjgl.screen.screens;
 
-import java.awt.Font;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public class Test extends Screen{
         FontText.loadText(new GUIText("X: "+ c.getComponent(TransformationComponent.class).position.x + " Y: "+ c.getComponent(TransformationComponent.class).position.y + " Z: "+ c.getComponent(TransformationComponent.class).position.z, 
 				1, 
 				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
-				new Vector2f(-0.25f, 0), 1, true));
+				new Vector2f(0f, 0), 1, false));
         //Text 2
         FontText.loadText(new GUIText("Delta Time: "+ DisplayManager.DELTA, 
 				1, 
@@ -78,7 +77,7 @@ public class Test extends Screen{
 	public void update() {
 		c.update(world.getTerrainForCollision(), DisplayManager.DELTA);
 		allEntity.get(0).update(DisplayManager.DELTA);
-		FontText.getAllText().get(1).updateText("X: "+ c.getComponent(TransformationComponent.class).position.x + " Y: "+ c.getComponent(TransformationComponent.class).position.y + " Z: "+ c.getComponent(TransformationComponent.class).position.z);
+		FontText.getAllText().get(1).updateText("X: "+ c.getComponent(TransformationComponent.class).position.x + " \nY: "+ c.getComponent(TransformationComponent.class).position.y + " \nZ: "+ c.getComponent(TransformationComponent.class).position.z);
 		FontText.getAllText().get(2).updateText("Delta Time: "+ DisplayManager.DELTA);
 	}
 

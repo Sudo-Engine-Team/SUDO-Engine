@@ -21,6 +21,8 @@ public class GUIText {
 	private Vector3f colour = new Vector3f(0f, 0f, 0f);
 
 	private Vector2f position;
+	private Vector3f rotation = new Vector3f(0,0,0); // Technically we don't need to rotate... but just incase...
+	private final float scale = 1f;// Technically we don't need to scale... but just incase...
 	private float lineMaxSize;
 	private int numberOfLines;
 
@@ -196,6 +198,14 @@ public class GUIText {
 		FontText.loader.removeTextFromMemory(getMesh());
 		this.textString = message;
 		FontText.updateText(this);
+	}
+
+	public Vector3f getRotation() {
+		return rotation;
+	}
+
+	public float getScale() {
+		return scale;
 	}
 	
 }

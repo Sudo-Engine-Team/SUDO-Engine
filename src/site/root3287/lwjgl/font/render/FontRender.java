@@ -7,11 +7,14 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 
 import site.root3287.lwjgl.font.FontType;
 import site.root3287.lwjgl.font.GUIText;
 import site.root3287.lwjgl.logger.LogLevel;
 import site.root3287.lwjgl.logger.Logger;
+import site.root3287.lwjgl.utils.LWJGLMaths;
 
 public class FontRender {
 
@@ -47,7 +50,8 @@ public class FontRender {
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         shader.loadColour(text.getColour());
-        shader.loadTranslation(text.getPosition());
+        Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(text.getPosition(), text.getRotation(), new Vector2f(text.getScale(), text.getScale()));
+        shader.loadTranslation(transformationMatrix);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, text.getVertexCount());
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);

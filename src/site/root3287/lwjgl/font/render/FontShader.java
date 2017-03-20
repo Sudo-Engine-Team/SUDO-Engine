@@ -1,6 +1,6 @@
 package site.root3287.lwjgl.font.render;
 
-import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.lwjgl.shader.Shader;
@@ -33,8 +33,8 @@ public class FontShader extends Shader{
         super.loadVector(location_colour, colour);
     }
      
-    protected void loadTranslation(Vector2f translation){
-        super.loadVector(location_translation, translation);
+    protected void loadTranslation(Matrix4f translation){
+        super.loadMatrix(location_translation, translation);
     }
 
 }
