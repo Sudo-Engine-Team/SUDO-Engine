@@ -14,13 +14,14 @@ import site.root3287.lwjgl.component.TransformationComponent;
 import site.root3287.lwjgl.engine.DisplayManager;
 import site.root3287.lwjgl.engine.GameState;
 import site.root3287.lwjgl.engine.Loader;
+import site.root3287.lwjgl.engine.frustum.FrustumCuller;
 import site.root3287.lwjgl.engine.render.Render;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.entities.NullEntity;
 import site.root3287.lwjgl.entities.Camera.Camera;
 import site.root3287.lwjgl.entities.Camera.FirstPerson;
-import site.root3287.lwjgl.entities.model.StandfordBunny;
+import site.root3287.lwjgl.entities.model.Cube;
 import site.root3287.lwjgl.font.FontText;
 import site.root3287.lwjgl.font.FontType;
 import site.root3287.lwjgl.font.GUIText;
@@ -36,6 +37,7 @@ public class Test extends Screen{
 	private Camera c;
 	private World world;
 	private NullEntity entity;
+	private FrustumCuller culler;
 	
 	public Test(Render render, Loader loader, GameState state) {
 		super(render, loader, state);
@@ -45,31 +47,34 @@ public class Test extends Screen{
 	public void init() {
 		Audio.init();
 		FontText.init(loader);
-		
+		FontType fontType = new FontType(loader.loadTexture("res/fonts/DistanceFields/Arial/Arial.png"), new File("res/fonts/DistanceFields/Arial/Arial.fnt"), 8, true);
 		// text 0
 		FontText.loadText(new GUIText("Version Alpha 0.0.1", 
 				1, 
-				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
+				fontType, 
 				new Vector2f(0, 0), 1, true));
 		
 		//int seed = new Random().nextInt();
 		int seed = -1251497298;
         this.world = new World(this.loader, seed);
-		this.c = new FirstPerson(new Vector3f(0, 10f, 20));
+		this.c = new FirstPerson(new Vector3f(-1, 0f, -1));
+		//culler = new FrustumCuller(c);
+		//Render.culler = culler;
 		Mouse.setGrabbed(c.getComponent(PlayerControlsComponent.class).isGrabbed);
         this.light = new Light(new Vector3f(20,100000000,20), new Vector3f(7, 7, 7));
         this.lights.add(light);
-        allEntity.add(new StandfordBunny(loader));
+       // allEntity.add(new StandfordBunny(loader));
+        allEntity.add(new Cube(loader));
         
         //Text 1
         FontText.loadText(new GUIText("X: "+ c.getComponent(TransformationComponent.class).position.x + " Y: "+ c.getComponent(TransformationComponent.class).position.y + " Z: "+ c.getComponent(TransformationComponent.class).position.z, 
 				1, 
-				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
+				fontType,
 				new Vector2f(0f, 0), 1, false));
         //Text 2
         FontText.loadText(new GUIText("Delta Time: "+ DisplayManager.DELTA, 
 				1, 
-				new FontType(loader.loadTexture("res/fonts/Arial/Arial.png"), new File("res/fonts/Arial/Arial.fnt")), 
+				fontType,
 				new Vector2f(0.25f, 0), 1, true));
     }
 
@@ -79,6 +84,7 @@ public class Test extends Screen{
 		allEntity.get(0).update(DisplayManager.DELTA);
 		FontText.getAllText().get(1).updateText("X: "+ c.getComponent(TransformationComponent.class).position.x + " \nY: "+ c.getComponent(TransformationComponent.class).position.y + " \nZ: "+ c.getComponent(TransformationComponent.class).position.z);
 		FontText.getAllText().get(2).updateText("Delta Time: "+ DisplayManager.DELTA);
+		//culler.update();
 	}
 
 	@Override

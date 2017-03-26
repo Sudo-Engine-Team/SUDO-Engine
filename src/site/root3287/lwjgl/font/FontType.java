@@ -13,6 +13,7 @@ public class FontType {
 
 	private int textureAtlas;
 	private TextMeshCreator loader;
+	private boolean distanceField;
 
 	/**
 	 * Creates a new font and loads up the data about each character from the
@@ -24,9 +25,10 @@ public class FontType {
 	 *            - the font file containing information about each character in
 	 *            the texture atlas.
 	 */
-	public FontType(int textureAtlas, File fontFile) {
+	public FontType(int textureAtlas, File fontFile, int padding, boolean distanceField) {
 		this.textureAtlas = textureAtlas;
-		this.loader = new TextMeshCreator(fontFile);
+		this.loader = new TextMeshCreator(fontFile, padding);
+		this.distanceField = distanceField;
 	}
 
 	/**
@@ -47,6 +49,14 @@ public class FontType {
 	 */
 	public TextMeshData loadText(GUIText text) {
 		return loader.createTextMesh(text);
+	}
+	
+	public boolean isDistanceField(){
+		return this.distanceField;
+	}
+
+	public void setDistanceField(boolean b) {
+		this.distanceField = true;
 	}
 
 }

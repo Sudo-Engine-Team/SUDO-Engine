@@ -16,6 +16,7 @@ import site.root3287.lwjgl.logger.LogLevel;
 import site.root3287.lwjgl.logger.Logger;
 import site.root3287.lwjgl.model.RawModel;
 import site.root3287.lwjgl.model.TexturedModel;
+import site.root3287.lwjgl.physics.component.AABBComponent;
 import site.root3287.lwjgl.shader.shaders.StaticShader;
 import site.root3287.lwjgl.texture.ModelTexture;
 import site.root3287.lwjgl.utils.LWJGLMaths;
@@ -40,8 +41,23 @@ public class EntityRender {
 			prepareTexturedModel(model);
 			List<Entity> batch = entities.get(model);
 			for (Entity entity : batch) {
-				prepareInstance(entity);
-				GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+				if(entity.hasComponent(AABBComponent.class) && Render.culler !=null){
+					if(
+					Render.culler.isInFrustum(
+					entity.getComponent(AABBComponent.class).aabb.getMinExtent(), 
+					entity.getComponent(AABBComponent.class).aabb.getMaxExtent()
+					)){
+						System.out.println("Rendering an entity with frustum culling");
+						prepareInstance(entity);
+						GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+					}else{
+						//prepareInstance(entity);
+						//GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+					}
+				}else{
+					prepareInstance(entity);
+					GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+				}
 			}
 			unbindTexturedModel();
 		}

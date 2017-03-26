@@ -85,4 +85,7 @@ public class LWJGLMaths {
 		}
 		return maxVal;
 	}
+	public static float degreesToRadians(float degree){
+		return (float) (degree * (Math.PI / 180f));
+	}
 }

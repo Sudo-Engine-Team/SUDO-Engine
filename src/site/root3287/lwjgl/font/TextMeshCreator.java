@@ -11,8 +11,8 @@ public class TextMeshCreator {
 
 	private MetaFile metaData;
 
-	protected TextMeshCreator(File metaFile) {
-		metaData = new MetaFile(metaFile);
+	protected TextMeshCreator(File metaFile, int padding) {
+		metaData = new MetaFile(metaFile, padding);
 	}
 
 	protected TextMeshData createTextMesh(GUIText text) {

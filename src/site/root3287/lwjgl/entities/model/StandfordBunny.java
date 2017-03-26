@@ -1,7 +1,5 @@
 package site.root3287.lwjgl.entities.model;
 
-import java.util.UUID;
-
 import site.root3287.lwjgl.component.ModelComponent;
 import site.root3287.lwjgl.component.SoundComponent;
 import site.root3287.lwjgl.component.TransformationComponent;

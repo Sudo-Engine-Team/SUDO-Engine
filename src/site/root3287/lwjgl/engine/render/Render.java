@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector4f;
 
 import site.root3287.lwjgl.component.ModelComponent;
+import site.root3287.lwjgl.engine.frustum.FrustumCuller;
 import site.root3287.lwjgl.entities.Entity;
 import site.root3287.lwjgl.entities.Light;
 import site.root3287.lwjgl.entities.Quad2D;
@@ -24,9 +25,9 @@ import site.root3287.lwjgl.shader.shaders.TerrainShader;
 import site.root3287.lwjgl.terrain.Terrain;
 
 public class Render {
-	private static final float FOV = 70;
-	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1000;
+	public static final float FOV = 90;
+	public static final float NEAR_PLANE = 0.2f;
+	public static final float FAR_PLANE = 1000;
 	public static Vector4f colour = new Vector4f(0.5f, 0.5f, 0.5f, 1);
 
 	private Matrix4f projectionMatrix;
@@ -43,6 +44,8 @@ public class Render {
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<>();
 	private List<Terrain> terrains = new ArrayList<>();
 	private List<Quad2D> gui = new ArrayList<>();
+	
+	public static FrustumCuller culler;
 	
 	public Render() {
 		enableCulling();
@@ -137,5 +140,4 @@ public class Render {
 	public void setBackgroundColour(Vector4f vector4f) {
 		this.colour = vector4f;
 	}
-
 }

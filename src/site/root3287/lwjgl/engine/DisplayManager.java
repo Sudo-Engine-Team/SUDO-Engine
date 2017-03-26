@@ -159,4 +159,7 @@ public class DisplayManager {
 	public static void setScreen(Screen screen){
 		DisplayManager.screen = screen;
 	}
+	public static float getAspectRatio(){
+		return Display.getWidth()/Display.getHeight();
+	}
 }

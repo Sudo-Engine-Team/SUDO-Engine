@@ -50,6 +50,10 @@ public class FontRender {
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         shader.loadColour(text.getColour());
+        // Larger text, less edge higher width (0.51, 0.2)
+        // small text, MOre edge less width (0.46, 0.19)
+        shader.isDistanceField(text.getFont().isDistanceField());
+        shader.loadDistanceFields(0.46f, 0.19f);
         Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(text.getPosition(), text.getRotation(), new Vector2f(text.getScale(), text.getScale()));
         shader.loadTranslation(transformationMatrix);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, text.getVertexCount());

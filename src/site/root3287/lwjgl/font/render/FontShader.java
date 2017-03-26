@@ -12,6 +12,11 @@ public class FontShader extends Shader{
 	
 	private int location_colour;
     private int location_translation;
+    private int location_distanceField;
+    private int location_width;
+    private int location_edge;
+    private int location_borderWidth;
+    private int location_borderEdge;
      
     public FontShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -21,6 +26,11 @@ public class FontShader extends Shader{
     protected void getAllUniformLocations() {
         location_colour = super.getUniformLocation("colour");
         location_translation = super.getUniformLocation("translation");
+        location_distanceField = super.getUniformLocation("isDistanceField");
+        location_width = super.getUniformLocation("width");
+        location_edge = super.getUniformLocation("edge");
+        location_borderWidth = super.getUniformLocation("borderWidth");
+        location_borderEdge = super.getUniformLocation("borderEdge");
     }
  
     @Override
@@ -35,6 +45,15 @@ public class FontShader extends Shader{
      
     protected void loadTranslation(Matrix4f translation){
         super.loadMatrix(location_translation, translation);
+    }
+    
+    protected void isDistanceField(boolean df){
+    	super.loadBoolean(location_distanceField, df);
+    }
+    
+    protected void loadDistanceFields(float width, float edge){
+    	super.loadFloat(location_width, width);
+    	super.loadFloat(location_edge, edge);
     }
 
 }
