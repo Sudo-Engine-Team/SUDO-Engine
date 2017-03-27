@@ -10,7 +10,7 @@ import site.root3287.sudo.launcher.GameLauncher;
 import site.root3287.sudo.logger.LogLevel;
 import site.root3287.sudo.logger.Logger;
 
-public class LWJGL {
+public class Sudo {
 	//public static File file;
 	public static void main(String[] args){
 		if(System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("windows")){
