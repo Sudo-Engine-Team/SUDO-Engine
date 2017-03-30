@@ -25,11 +25,11 @@ void main(void){
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
-	pass_textureCoordinates = textureCoordinates * 40.0;
+	pass_textureCoordinates = textureCoordinates * 100.0;
 	
 	vec3 actualNormal = normal;
-	if(useFakeLight > 0.5){
-		actualNormal = vec3(1.0,1.0,1.0);
+	if(useFakeLight == 1.0){
+		actualNormal = vec3(0.0,1.0,0.0);
 	}
 	
 	surfaceNormal = (transformationMatrix * vec4(actualNormal,0.0)).xyz;

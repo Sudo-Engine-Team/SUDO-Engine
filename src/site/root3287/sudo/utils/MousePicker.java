@@ -17,17 +17,17 @@ public class MousePicker {
 	public MousePicker(Camera camera, Matrix4f projectionMatrix) {
 		this.projectionMatrix = projectionMatrix;
 		this.camera = camera;
-		this.viewMatrix = LWJGLMaths.createViewMatrix(this.camera);
+		this.viewMatrix = this.camera.viewMatrix;
 	}
 	public Vector3f getCurrentRay() {
 		return currentRay;
 	}
 	public void update(){
-		this.viewMatrix = LWJGLMaths.createViewMatrix(this.camera);
+		this.viewMatrix = this.camera.viewMatrix;
 		this.currentRay = calculateCurrentMouseRay();
 	}
 	public void update(Vector2f position){
-		this.viewMatrix = LWJGLMaths.createViewMatrix(this.camera);
+		this.viewMatrix = this.camera.viewMatrix;
 		this.currentRay = calculateCurrentMouseRay(position.x, position.y);
 	}
 	private Vector3f calculateCurrentMouseRay(){

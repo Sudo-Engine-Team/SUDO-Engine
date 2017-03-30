@@ -12,6 +12,7 @@ public class PerlinTerrain extends Terrain{
 	
 	public PerlinTerrain(int gridX, int gridZ, Loader loader, ModelTexture texture, int vertexCount, int seed){
 		super(gridX, gridZ, loader, texture, vertexCount);
+	//	this.vertexCount = ;
     	this.seed = seed;
         HeightGenerator generator = new HeightGenerator(gridX, gridZ, this.vertexCount, this.seed);
         this.model = generateTerrain(loader, generator);
@@ -26,8 +27,9 @@ public class PerlinTerrain extends Terrain{
     	float heightR = getHeight(x+1, z, generator);
     	float heightD = getHeight(x, z-1, generator);
     	float heightU = getHeight(x, z+1, generator);
-    	Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD-heightU);
+    	Vector3f normal = new Vector3f(heightL-heightR, 1f, heightD-heightU);
     	normal.normalise();
+    	//normal = new Vector3f(0,1,0);
     	return normal;
     }
 	
@@ -52,7 +54,8 @@ public class PerlinTerrain extends Terrain{
 				vertices[vertexPointer * 3 + 1] = height;
 				vertices[vertexPointer * 3 + 2] = (float) i / ((float) VERTEX_COUNT - 1) * SIZE;
 				
-				Vector3f normal = calculateNormal(j, i, generator);
+				//Vector3f normal = calculateNormal(j, i, generator);
+				Vector3f normal = new Vector3f(0,1,0);
 				normals[vertexPointer * 3] = normal.x;
 				normals[vertexPointer * 3 + 1] = normal.y;
 				normals[vertexPointer * 3 + 2] = normal.z;

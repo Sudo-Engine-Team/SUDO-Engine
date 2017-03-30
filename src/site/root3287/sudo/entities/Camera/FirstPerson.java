@@ -3,12 +3,14 @@ package site.root3287.sudo.entities.Camera;
 import java.util.HashMap;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.sudo.component.AudioListenerComponent;
 import site.root3287.sudo.component.PlayerControlsComponent;
 import site.root3287.sudo.component.TransformationComponent;
 import site.root3287.sudo.terrain.Terrain;
+import site.root3287.sudo.utils.LWJGLMaths;
 
 public class FirstPerson extends Camera{
 	
@@ -20,12 +22,17 @@ public class FirstPerson extends Camera{
 
 	@Override
 	public void update(HashMap<Integer, HashMap<Integer, Terrain>> terrain, float delta) {
+		viewMatrix = LWJGLMaths.createViewMatrix(this);
+		Matrix4f.mul(viewMatrix, projectionMatrix, projectionView);
+		frustum.update(projectionView);
 		getComponent(PlayerControlsComponent.class).update(terrain, delta);
 		getComponent(AudioListenerComponent.class).update(delta);
 	}
 
 	@Override
 	public void update(float delta) {
+		viewMatrix = LWJGLMaths.createViewMatrix(this);
+		frustum.update(projectionView);
 		if(hasComponent(TransformationComponent.class) && hasComponent(PlayerControlsComponent.class)){
 			Vector3f position = getComponent(TransformationComponent.class).position;
 			float yaw = getComponent(TransformationComponent.class).yaw;

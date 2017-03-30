@@ -1,14 +1,5 @@
 package site.root3287.sudo;
 
-import org.lwjgl.util.vector.Vector3f;
-
-import site.root3287.sudo.component.TransformationComponent;
-import site.root3287.sudo.entities.Entity;
-import site.root3287.sudo.entities.EntityInstance;
-import site.root3287.sudo.physics.collision.IntersectData;
-import site.root3287.sudo.physics.collision.aabb.AABB;
-import site.root3287.sudo.physics.component.PhysicsComponent;
-
 public class PhysicsTest {
 	public static void main(String[] args){
 		/** bounding spheres Test

@@ -1,11 +1,15 @@
 package site.root3287.sudo.utils;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.sudo.component.TransformationComponent;
+import site.root3287.sudo.engine.render.Render;
 import site.root3287.sudo.entities.Camera.Camera;
+import site.root3287.sudo.logger.LogLevel;
+import site.root3287.sudo.logger.Logger;
 
 public class LWJGLMaths {
 	public static Matrix4f createTransformationMatrix(Vector3f translation, float rx,float ry, float rz, float scale){
@@ -54,6 +58,23 @@ public class LWJGLMaths {
         Vector3f negativeCameraPos = new Vector3f(-cameraPos.x,-cameraPos.y,-cameraPos.z);
         Matrix4f.translate(negativeCameraPos, viewMatrix, viewMatrix);
         return viewMatrix;
+	}
+	public static Matrix4f createProjectionMatrix(){
+		Logger.log(LogLevel.INFO, "Creating projection Matrix");
+		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
+		float y_scale = (float) ((1f / Math.tan(Math.toRadians(Render.FOV / 2f))) * aspectRatio);
+		float x_scale = y_scale / aspectRatio;
+		float frustum_length = Render.FAR_PLANE - Render.NEAR_PLANE;
+
+		Matrix4f projectionMatrix = new Matrix4f();
+		projectionMatrix.m00 = x_scale;
+		projectionMatrix.m11 = y_scale;
+		projectionMatrix.m22 = -((Render.FAR_PLANE + Render.NEAR_PLANE) / frustum_length);
+		projectionMatrix.m23 = -1;
+		projectionMatrix.m32 = -((2 * Render.NEAR_PLANE * Render.FAR_PLANE) / frustum_length);
+		projectionMatrix.m33 = 0;
+		
+		return projectionMatrix;
 	}
 	public static float barryCentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {
 		float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);

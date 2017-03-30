@@ -5,13 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector4f;
 
 import site.root3287.sudo.component.ModelComponent;
-import site.root3287.sudo.engine.frustum.FrustumCuller;
+import site.root3287.sudo.engine.frustum.Frustum;
 import site.root3287.sudo.entities.Entity;
 import site.root3287.sudo.entities.Light;
 import site.root3287.sudo.entities.Quad2D;
@@ -23,6 +22,7 @@ import site.root3287.sudo.shader.shaders.Shader2D;
 import site.root3287.sudo.shader.shaders.StaticShader;
 import site.root3287.sudo.shader.shaders.TerrainShader;
 import site.root3287.sudo.terrain.Terrain;
+import site.root3287.sudo.utils.LWJGLMaths;
 
 public class Render {
 	public static final float FOV = 90;
@@ -45,11 +45,11 @@ public class Render {
 	private List<Terrain> terrains = new ArrayList<>();
 	private List<Quad2D> gui = new ArrayList<>();
 	
-	public static FrustumCuller culler;
+	public static Frustum culler;
 	
 	public Render() {
 		enableCulling();
-		createProjectionMatrix();
+		this.projectionMatrix = LWJGLMaths.createProjectionMatrix();
 		renderer = new EntityRender(shader, projectionMatrix);
 		terrainRenderer = new TerrainRender(terrainShader, projectionMatrix);
 		render2d = new Render2D(shader2d, projectionMatrix);
@@ -67,15 +67,17 @@ public class Render {
 	public void render(List<Light> sun, Camera camera) {
 		prepare();
 		
+		culler = camera.frustum;
+		
 		shader.start();
 		shader.loadLight(sun);
-		shader.loadViewMatrix(camera);
+		shader.loadViewMatrix();
 		renderer.render(entities);
 		shader.stop();
 		
 		terrainShader.start();
 		terrainShader.loadLight(sun);
-		terrainShader.loadViewMatrix(camera);
+		terrainShader.loadViewMatrix();
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
 		
@@ -111,7 +113,6 @@ public class Render {
 		shader.dispose();
 		terrainShader.dispose();
 		shader2d.dispose();
-		
 		render2d.dispose();
 	}
 
@@ -122,21 +123,6 @@ public class Render {
 		GL11.glClearColor(colour.x, colour.y, colour.z, colour.w);
 	}
 
-	private void createProjectionMatrix() {
-		Logger.log(LogLevel.INFO, "Creating projection Matrix");
-		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
-		float x_scale = y_scale / aspectRatio;
-		float frustum_length = FAR_PLANE - NEAR_PLANE;
-
-		projectionMatrix = new Matrix4f();
-		projectionMatrix.m00 = x_scale;
-		projectionMatrix.m11 = y_scale;
-		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
-		projectionMatrix.m23 = -1;
-		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
-		projectionMatrix.m33 = 0;
-	}
 	public void setBackgroundColour(Vector4f vector4f) {
 		this.colour = vector4f;
 	}

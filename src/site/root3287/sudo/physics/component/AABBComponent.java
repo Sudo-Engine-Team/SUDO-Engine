@@ -4,27 +4,28 @@ import java.util.UUID;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import site.root3287.sudo.component.TransformationComponent;
+import site.root3287.sudo.entities.Entity;
 import site.root3287.sudo.physics.collision.aabb.AABB;
 
 public class AABBComponent extends PhysicsComponent{
-	public Vector3f minExtent, maxExtent;
 	public AABB aabb;
 	public AABBComponent(UUID id) {
 		super(id);
-		this.aabb = new AABB(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0));
+		if(!Entity.hasComponent(id, TransformationComponent.class)){
+			throw new IllegalArgumentException("The object does not have a transformation component!");
+		}
+		this.aabb = new AABB(Entity.getComponent(id, TransformationComponent.class).position, new Vector3f(1, 1, 1));
 	}
 	
-	public AABBComponent(UUID id, Vector3f minExtent, Vector3f maxExtent) {
+	public AABBComponent(UUID id, Vector3f maxExtent) {
 		super(id);
-		this.minExtent = minExtent;
-		this.maxExtent = maxExtent;
-		this.aabb = new AABB(minExtent, maxExtent);
+		this.aabb = new AABB(Entity.getComponent(id, TransformationComponent.class).position, maxExtent);
 	}
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-		
+		this.aabb.update(Entity.getComponent(id, TransformationComponent.class).position);
 	}
 
 }

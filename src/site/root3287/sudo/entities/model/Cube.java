@@ -20,7 +20,7 @@ public class Cube extends Entity{
 		ModelData data = OBJFileLoader.loadOBJ("res/model/Cube/cube.obj");
 		ModelComponent model = new ModelComponent(new TexturedModel(loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices()), new ModelTexture(loader.loadTexture("res/image/white.png"))));
 		addComponent(model);
-		addComponent(new AABBComponent(this.id, new Vector3f(-2, 0, -2), new Vector3f(2, 2, 2)));
+		addComponent(new AABBComponent(id, new Vector3f(2, 2, 2)));
 	}
 
 	@Override

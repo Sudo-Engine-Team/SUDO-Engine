@@ -13,7 +13,7 @@ import site.root3287.sudo.screen.Screen;
 public class DisplayManager {
 	public static Screen screen;
 	public static float DELTA;
-	public static int WIDTH, HEIGHT, DISPLAY_RATIO;
+	public static float WIDTH, HEIGHT, DISPLAY_RATIO;
 	public static String TITLE;
 	public static boolean isFullScreen;
 	public static int FPS_CAP =60;
@@ -27,9 +27,9 @@ public class DisplayManager {
 					isTitleSet = false;
 	
 	public static void createDisplay(String[] args){
-		WIDTH = 900;
+		WIDTH = 900f;
 		DISPLAY_RATIO = 16*9;
-		HEIGHT = WIDTH / DISPLAY_RATIO;
+		HEIGHT = (float) (WIDTH / DISPLAY_RATIO);
 		isFullScreen = false;
 		TITLE = "LWJGL";
 		
@@ -92,13 +92,13 @@ public class DisplayManager {
 			Display.setResizable(true);
 			Display.setTitle(DisplayManager.TITLE);
 			Display.setFullscreen(DisplayManager.isFullScreen);
-			Display.setDisplayMode(new DisplayMode(DisplayManager.WIDTH, DisplayManager.HEIGHT));
+			Display.setDisplayMode(new DisplayMode((int)DisplayManager.WIDTH, (int)DisplayManager.HEIGHT));
 			Display.create(new PixelFormat(), attribs);
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		GL11.glViewport(0, 0, DisplayManager.WIDTH, DisplayManager.HEIGHT);
+		GL11.glViewport(0, 0, (int)DisplayManager.WIDTH, (int)DisplayManager.HEIGHT);
 	}
 
 	public static void createDisplay(){
@@ -111,13 +111,13 @@ public class DisplayManager {
 		Display.setTitle(DisplayManager.TITLE);
 		try {
 			Display.setFullscreen(DisplayManager.isFullScreen);
-			Display.setDisplayMode(new DisplayMode(DisplayManager.WIDTH, DisplayManager.HEIGHT));
-			Display.create(new PixelFormat().withSamples(4), attribs);
+			Display.setDisplayMode(new DisplayMode((int)DisplayManager.WIDTH, (int)DisplayManager.HEIGHT));
+			Display.create(new PixelFormat().withSamples(8), attribs);
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		GL11.glViewport(0, 0, DisplayManager.WIDTH, DisplayManager.HEIGHT);
+		GL11.glViewport(0, 0, (int)DisplayManager.WIDTH, (int)DisplayManager.HEIGHT);
 	}
 	
 	public static void updateDisplay(){
@@ -125,7 +125,7 @@ public class DisplayManager {
 		if(Display.wasResized()){
 			DisplayManager.WIDTH = Display.getWidth();
 			DisplayManager.HEIGHT = Display.getHeight();
-			GL11.glViewport(0, 0, DisplayManager.WIDTH, DisplayManager.HEIGHT);
+			GL11.glViewport(0, 0, (int)DisplayManager.WIDTH, (int)DisplayManager.HEIGHT);
 		}
 		Display.sync(DisplayManager.FPS_CAP);
 		Display.update();

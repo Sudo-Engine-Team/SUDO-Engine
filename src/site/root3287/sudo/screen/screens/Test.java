@@ -14,7 +14,7 @@ import site.root3287.sudo.component.TransformationComponent;
 import site.root3287.sudo.engine.DisplayManager;
 import site.root3287.sudo.engine.GameState;
 import site.root3287.sudo.engine.Loader;
-import site.root3287.sudo.engine.frustum.FrustumCuller;
+import site.root3287.sudo.engine.frustum.Frustum;
 import site.root3287.sudo.engine.render.Render;
 import site.root3287.sudo.entities.Entity;
 import site.root3287.sudo.entities.Light;
@@ -37,7 +37,6 @@ public class Test extends Screen{
 	private Camera c;
 	private World world;
 	private NullEntity entity;
-	private FrustumCuller culler;
 	
 	public Test(Render render, Loader loader, GameState state) {
 		super(render, loader, state);
@@ -57,11 +56,9 @@ public class Test extends Screen{
 		//int seed = new Random().nextInt();
 		int seed = -1251497298;
         this.world = new World(this.loader, seed);
-		this.c = new FirstPerson(new Vector3f(-1, 0f, -1));
-		//culler = new FrustumCuller(c);
-		//Render.culler = culler;
+		this.c = new FirstPerson(new Vector3f(0, 0f, 0));
 		Mouse.setGrabbed(c.getComponent(PlayerControlsComponent.class).isGrabbed);
-        this.light = new Light(new Vector3f(20,100000000,20), new Vector3f(7, 7, 7));
+        this.light = new Light(new Vector3f(0, 0, 0), new Vector3f(2, 2, 2));
         this.lights.add(light);
        // allEntity.add(new StandfordBunny(loader));
         allEntity.add(new Cube(loader));

@@ -42,15 +42,10 @@ public class EntityRender {
 			List<Entity> batch = entities.get(model);
 			for (Entity entity : batch) {
 				if(entity.hasComponent(AABBComponent.class) && Render.culler !=null){
-					if(
-					Render.culler.isInFrustum(
-					entity.getComponent(AABBComponent.class).aabb.getMinExtent(), 
-					entity.getComponent(AABBComponent.class).aabb.getMaxExtent()
-					)){
-						System.out.println("Rendering an entity with frustum culling");
+					if(Render.culler.isAABBinFrustum(entity.getComponent(AABBComponent.class).aabb)){
 						prepareInstance(entity);
 						GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-					}else{
+					}else{						
 						//prepareInstance(entity);
 						//GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 					}

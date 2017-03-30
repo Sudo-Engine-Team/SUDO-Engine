@@ -33,12 +33,18 @@ void main(void){
 		float specularFactor = dot(reflectedLightDirection , unitVectorToCamera);
 		specularFactor = max(specularFactor,0.0);
 		float dampedFactor = pow(specularFactor,shineDamper);
+
 		totalSpecular = totalSpecular + dampedFactor * reflectivity * lightColour[i];
 		totalDiffuse = totalDiffuse + brightness * lightColour[i];
 	}
 	
-	totalDiffuse = max(totalDiffuse, 0.2);
+	totalDiffuse = max(totalDiffuse, 0.1);
 	
-	out_Color =  vec4(totalDiffuse,1.0) * texture(modelTexture,pass_textureCoordinates) + vec4(totalSpecular,1.0);
+	vec4 textureColour = texture(modelTexture, pass_textureCoordinates);
+	if(textureColour.a < 0.5){
+		discard;
+	}
+
+	out_Color =  vec4(totalDiffuse,1.0) * textureColour + vec4(totalSpecular,1.0);
 	out_Color = mix(vec4(skyColour, 1.0), out_Color, visibility);
 }

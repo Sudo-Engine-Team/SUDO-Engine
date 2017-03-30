@@ -83,8 +83,8 @@ public class StaticShader extends Shader{
     	}
     }
      
-    public void loadViewMatrix(Camera camera){
-        Matrix4f viewMatrix = LWJGLMaths.createViewMatrix(camera);
+    public void loadViewMatrix(){
+        Matrix4f viewMatrix = Camera.viewMatrix;
         super.loadMatrix(location_viewMatrix, viewMatrix);
     }
      
