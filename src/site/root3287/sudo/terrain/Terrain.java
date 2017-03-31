@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.model.RawModel;
+import site.root3287.sudo.physics.collision.aabb.AABB;
 import site.root3287.sudo.texture.ModelTexture;
 import site.root3287.sudo.utils.LWJGLMaths;
 
@@ -16,6 +17,7 @@ public abstract class Terrain {
     protected RawModel model;
     protected ModelTexture texture;
     protected float[][] heights;
+    protected AABB bounds;
     
     public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture, int vertexCount){
     	this.vertexCount = vertexCount;
@@ -62,6 +64,9 @@ public abstract class Terrain {
  
     public ModelTexture getTexture() {
         return texture;
+    }
+    public AABB getAABB(){
+    	return null;
     }
     //protected abstract Vector3f calculateNormal(int x, int z, HeightGenerator generator);
 //	protected abstract RawModel generateTerrain(Loader loader);

@@ -24,7 +24,7 @@ public abstract class Camera extends Entity{
 		projectionMatrix = LWJGLMaths.createProjectionMatrix();
 		
 		projectionView = new Matrix4f();
-		Matrix4f.mul(viewMatrix, projectionMatrix, projectionView);
+		Matrix4f.mul(projectionMatrix, viewMatrix, projectionView);
 		frustum = new Frustum(projectionView);
 	}
 

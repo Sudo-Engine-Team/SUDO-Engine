@@ -3,6 +3,7 @@ package site.root3287.sudo.screen.screens;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -14,7 +15,6 @@ import site.root3287.sudo.component.TransformationComponent;
 import site.root3287.sudo.engine.DisplayManager;
 import site.root3287.sudo.engine.GameState;
 import site.root3287.sudo.engine.Loader;
-import site.root3287.sudo.engine.frustum.Frustum;
 import site.root3287.sudo.engine.render.Render;
 import site.root3287.sudo.entities.Entity;
 import site.root3287.sudo.entities.Light;
@@ -58,10 +58,19 @@ public class Test extends Screen{
         this.world = new World(this.loader, seed);
 		this.c = new FirstPerson(new Vector3f(0, 0f, 0));
 		Mouse.setGrabbed(c.getComponent(PlayerControlsComponent.class).isGrabbed);
-        this.light = new Light(new Vector3f(0, 0, 0), new Vector3f(2, 2, 2));
+        this.light = new Light(new Vector3f(10000, 10000, 10000), new Vector3f(2, 2, 2));
         this.lights.add(light);
        // allEntity.add(new StandfordBunny(loader));
-        allEntity.add(new Cube(loader));
+        
+        for(int i = 0; i < 1000; i++){
+        	Random rand = new Random();
+        	float x = rand.nextFloat() * 100;
+        	float z = rand.nextFloat() * 100;
+        	int xChunk = (int) Math.floor(x/Terrain.SIZE);
+        	int yChunk = (int) Math.floor(z/Terrain.SIZE);
+        	float y = this.world.getTerrainForCollision().get(xChunk).get(yChunk).getTerrainHeightByCoords(x, z);
+        	allEntity.add(new Cube(loader, new Vector3f(x, y, z)));
+        }
         
         //Text 1
         FontText.loadText(new GUIText("X: "+ c.getComponent(TransformationComponent.class).position.x + " Y: "+ c.getComponent(TransformationComponent.class).position.y + " Z: "+ c.getComponent(TransformationComponent.class).position.z, 

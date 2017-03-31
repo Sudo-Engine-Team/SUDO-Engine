@@ -13,10 +13,10 @@ import site.root3287.sudo.screen.Screen;
 public class DisplayManager {
 	public static Screen screen;
 	public static float DELTA;
-	public static float WIDTH, HEIGHT, DISPLAY_RATIO;
-	public static String TITLE;
+	public static float WIDTH = 900, HEIGHT = WIDTH /16*9, DISPLAY_RATIO = 16*9;
+	public static String TITLE = "Sudo-Engine";
 	public static boolean isFullScreen;
-	public static int FPS_CAP =60;
+	public static int FPS_CAP =-1;
 	public static long lastTime;
 	public static long lastFPSTime;
 	public static int frames = 0;
@@ -31,7 +31,7 @@ public class DisplayManager {
 		DISPLAY_RATIO = 16*9;
 		HEIGHT = (float) (WIDTH / DISPLAY_RATIO);
 		isFullScreen = false;
-		TITLE = "LWJGL";
+		TITLE = "Sudo-Engine";
 		
 		ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
 		try {
@@ -103,10 +103,6 @@ public class DisplayManager {
 
 	public static void createDisplay(){
 		ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
-		WIDTH = 900;
-		HEIGHT = WIDTH / 16*9;
-		isFullScreen = false;
-		TITLE = "LWJGL";
 		Display.setResizable(true);
 		Display.setTitle(DisplayManager.TITLE);
 		try {

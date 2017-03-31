@@ -27,10 +27,17 @@ public class TerrainRender{
  
     public void render(List<Terrain> terrains) {
         for (Terrain terrain : terrains) {
-            prepareTerrain(terrain);
-            loadModelMatrix(terrain);
-            GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
-            unbindTexturedModel();
+            if(Render.culler != null && terrain.getAABB() != null &&Render.culler.isAABBinFrustum(terrain.getAABB())){
+            	prepareTerrain(terrain);
+            	loadModelMatrix(terrain);
+            	GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+            	unbindTexturedModel();
+            }else if(Render.culler == null || terrain.getAABB() == null){
+            	prepareTerrain(terrain);
+            	loadModelMatrix(terrain);
+            	GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getModel().getVertexCount(),GL11.GL_UNSIGNED_INT, 0);
+            	unbindTexturedModel();
+            }
         }
     }
  

@@ -4,6 +4,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.model.RawModel;
+import site.root3287.sudo.physics.collision.aabb.AABB;
 import site.root3287.sudo.texture.ModelTexture;
 
 public class PerlinTerrain extends Terrain{
@@ -14,6 +15,7 @@ public class PerlinTerrain extends Terrain{
 		super(gridX, gridZ, loader, texture, vertexCount);
 	//	this.vertexCount = ;
     	this.seed = seed;
+    	this.bounds = new AABB(new Vector3f(this.x*SIZE, 0, this.z*SIZE), new Vector3f(SIZE*2,2000,SIZE*2));
         HeightGenerator generator = new HeightGenerator(gridX, gridZ, this.vertexCount, this.seed);
         this.model = generateTerrain(loader, generator);
         this.texture.setFakeLight(true);

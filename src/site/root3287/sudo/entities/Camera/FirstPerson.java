@@ -2,6 +2,7 @@ package site.root3287.sudo.entities.Camera;
 
 import java.util.HashMap;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
@@ -23,8 +24,10 @@ public class FirstPerson extends Camera{
 	@Override
 	public void update(HashMap<Integer, HashMap<Integer, Terrain>> terrain, float delta) {
 		viewMatrix = LWJGLMaths.createViewMatrix(this);
-		Matrix4f.mul(viewMatrix, projectionMatrix, projectionView);
-		frustum.update(projectionView);
+		if(!Keyboard.isKeyDown(Keyboard.KEY_M)){
+			Matrix4f.mul(projectionMatrix, viewMatrix, projectionView);
+			frustum.update(projectionView);
+		}
 		getComponent(PlayerControlsComponent.class).update(terrain, delta);
 		getComponent(AudioListenerComponent.class).update(delta);
 	}
@@ -32,6 +35,7 @@ public class FirstPerson extends Camera{
 	@Override
 	public void update(float delta) {
 		viewMatrix = LWJGLMaths.createViewMatrix(this);
+		Matrix4f.mul(projectionMatrix, viewMatrix, projectionView);
 		frustum.update(projectionView);
 		if(hasComponent(TransformationComponent.class) && hasComponent(PlayerControlsComponent.class)){
 			Vector3f position = getComponent(TransformationComponent.class).position;

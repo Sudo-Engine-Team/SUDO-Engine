@@ -13,16 +13,10 @@ public class Frustum {
 		for(int i = 0; i < 6; i++){
 			planes[i] = new FrustumPlane();
 		}
-		createPlanes(projectionMatrix);
 	}
 	
 	public void update(Matrix4f projectionMatrix){
 		createPlanes(projectionMatrix);
-		for(FrustumPlane p : planes){
-			float length = p.normal.length();
-			p.normal.scale(length);
-			p.point.scale(length);
-		}
 	}
 	private void createPlanes(Matrix4f projectionMatrix){
 		planes[LEFT].normal.x = projectionMatrix.m03 + projectionMatrix.m00;
@@ -54,6 +48,11 @@ public class Frustum {
 		planes[FAR].normal.y = projectionMatrix.m13 - projectionMatrix.m12;
 		planes[FAR].normal.z = projectionMatrix.m23 - projectionMatrix.m22;
 		planes[FAR].distance = projectionMatrix.m33 - projectionMatrix.m32;
+		for(FrustumPlane p : planes){
+			float length = 1/p.normal.length();
+			p.normal.normalise();
+			p.distance *= length;
+		}
 	}
 	
 	public boolean isPointInFrustum(Vector3f point){
@@ -66,14 +65,20 @@ public class Frustum {
 	}
 	
 	public boolean isAABBinFrustum(AABB box){
-		boolean res = false;
-		for(FrustumPlane p : planes){
-			if(p.distanceToPoint(box.getVP(p.normal)) < 0){
-				return false;
-			}else if(p.distanceToPoint(box.getVN(p.normal)) < 0){
-				res = true;
-			}
-		}
-		return res;
+		 boolean result = true;
+
+		    for (FrustumPlane plane : planes)
+		    {
+		        if (plane.distanceToPoint(box.getVP(plane.normal)) < 0)
+		        {
+		            return false;
+		        }
+		        else if (plane.distanceToPoint(box.getVN(plane.normal)) < 0)
+		        {
+		            result = true;
+		        }
+		    }
+
+		return result;
 	}
 }

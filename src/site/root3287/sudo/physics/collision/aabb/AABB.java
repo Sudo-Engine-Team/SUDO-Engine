@@ -16,30 +16,40 @@ public class AABB {
 	}
 	
 	public Vector3f getVN(Vector3f normal){
-		Vector3f res = new Vector3f(point.x, point.y, point.z);
-		if(normal.x < 0){
-			res.x += diemension.x;
-		}
-		if(normal.y < 0){
-			res.y += diemension.y;
-		}
-		if(normal.z < 0){
-			res.z += diemension.z;
-		}
-		return res;
+		Vector3f res =  new Vector3f(point.x, point.y,point.z);
+
+	    if (normal.x < 0)
+	    {
+	        res.x += diemension.x;
+	    }
+	    if (normal.y < 0)
+	    {
+	        res.y += diemension.y;
+	    }
+	        if (normal.z < 0)
+	    {
+	        res.z += diemension.z;
+	    }
+
+	 return res;
 	}
 	public Vector3f getVP(Vector3f normal){
-		Vector3f res = new Vector3f(point.x, point.y, point.z);;
-		if(normal.x > 0){
-			res.x += diemension.x;
-		}
-		if(normal.y > 0){
-			res.y += diemension.y;
-		}
-		if(normal.z > 0){
-			res.z += diemension.z;
-		}
-		return res;
+		Vector3f res = new Vector3f(point.x, point.y,point.z);
+
+	    if (normal.x > 0)
+	    {
+	        res.x += diemension.x;
+	    }
+	    if (normal.y > 0)
+	    {
+	        res.y += diemension.y;
+	    }
+	        if (normal.z > 0)
+	    {
+	        res.z += diemension.z;
+	    }
+
+	return res;
 	}
 	@Override
 	public String toString() {

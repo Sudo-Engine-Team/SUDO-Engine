@@ -22,6 +22,17 @@ public class Cube extends Entity{
 		addComponent(model);
 		addComponent(new AABBComponent(id, new Vector3f(2, 2, 2)));
 	}
+	
+	public Cube(Loader loader, Vector3f position){
+		super();
+		TransformationComponent transform = new TransformationComponent();
+		transform.position = position;
+		addComponent(transform);
+		ModelData data = OBJFileLoader.loadOBJ("res/model/Cube/cube.obj");
+		ModelComponent model = new ModelComponent(new TexturedModel(loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices()), new ModelTexture(loader.loadTexture("res/image/white.png"))));
+		addComponent(model);
+		addComponent(new AABBComponent(id, new Vector3f(2, 2, 2)));
+	}
 
 	@Override
 	public void dispose() {
