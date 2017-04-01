@@ -41,6 +41,7 @@ public class EntityRender {
 			prepareTexturedModel(model);
 			List<Entity> batch = entities.get(model);
 			for (Entity entity : batch) {
+				prepareTexturedModel(model);
 				boolean render = false;
 				if(entity.hasComponent(AABBComponent.class) && Render.culler !=null){
 					if(Render.culler.isAABBinFrustum(entity.getComponent(AABBComponent.class).aabb)){
@@ -54,8 +55,8 @@ public class EntityRender {
 					prepareInstance(entity);
 					GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 				}
+				unbindTexturedModel();
 			}
-			unbindTexturedModel();
 		}
 	}
 

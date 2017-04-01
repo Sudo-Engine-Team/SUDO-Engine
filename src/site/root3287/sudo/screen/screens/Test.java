@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -21,7 +22,7 @@ import site.root3287.sudo.entities.Light;
 import site.root3287.sudo.entities.NullEntity;
 import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.entities.Camera.FirstPerson;
-import site.root3287.sudo.entities.model.Cube;
+import site.root3287.sudo.entities.model.CubeEntity;
 import site.root3287.sudo.font.FontText;
 import site.root3287.sudo.font.FontType;
 import site.root3287.sudo.font.GUIText;
@@ -64,12 +65,14 @@ public class Test extends Screen{
         
         for(int i = 0; i < 1000; i++){
         	Random rand = new Random();
-        	float x = rand.nextFloat() * 100;
-        	float z = rand.nextFloat() * 100;
+        	float valuex = (rand.nextFloat() * 2) -1;
+        	float valuez = (rand.nextFloat() * 2) -1;
+        	float x = (rand.nextFloat() * 500) * valuex;
+        	float z = (rand.nextFloat() * 500)*valuez;
         	int xChunk = (int) Math.floor(x/Terrain.SIZE);
         	int yChunk = (int) Math.floor(z/Terrain.SIZE);
         	float y = this.world.getTerrainForCollision().get(xChunk).get(yChunk).getTerrainHeightByCoords(x, z);
-        	allEntity.add(new Cube(loader, new Vector3f(x, y, z)));
+        	allEntity.add(new CubeEntity(loader, new Vector3f(x, y, z)));
         }
         
         //Text 1
@@ -96,7 +99,7 @@ public class Test extends Screen{
 	@Override
 	public void render() {
 		//GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
-		//GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+		GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 		for(Terrain t: this.world.getTerrains()){
 			this.render.processTerrain(t);
 		}
