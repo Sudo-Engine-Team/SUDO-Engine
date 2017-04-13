@@ -43,7 +43,7 @@ public class EntityRender {
 			for (Entity entity : batch) {
 				prepareTexturedModel(model);
 				boolean render = false;
-				if(entity.hasComponent(AABBComponent.class) && Render.culler !=null){
+				if(Render.culler !=null && entity.hasComponent(AABBComponent.class)){
 					if(Render.culler.isAABBinFrustum(entity.getComponent(AABBComponent.class).aabb)){
 						render = true;
 					}

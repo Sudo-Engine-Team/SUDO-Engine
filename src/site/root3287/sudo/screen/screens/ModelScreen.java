@@ -44,11 +44,8 @@ public class ModelScreen extends Screen {
 		ModelData data = OBJFileLoader.loadOBJ("res/model/standfordDragon/dragon.obj");
 		RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 		TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("res/image/white.png")));
-		Random rand = new Random();
-		for(int i = 0; i < 1; i ++){
-			Entity entity = new NullEntity(new Vector3f(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()), texturedModel);
-			allEntity.add(entity);
-		}
+		
+		allEntity.add(new NullEntity(new Vector3f(0,0,0), texturedModel));
 	}
 
 	@Override

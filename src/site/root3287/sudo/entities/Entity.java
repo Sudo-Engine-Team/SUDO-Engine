@@ -63,11 +63,15 @@ public abstract class Entity implements Disposeable{
 	}
 	
 	public <T> boolean hasComponent(Class<T> exampleClass){
-		HashMap<UUID, ? extends Component> store = componentStores.get(exampleClass);
-		T result = (T) store.get(this.id);
-		if(result == null)
+		try{
+			HashMap<UUID, ? extends Component> store = componentStores.get(exampleClass);
+			T result = (T) store.get(this.id);
+			if(result == null)
+				return false;
+			return true;
+		}catch(Exception e){
 			return false;
-		return true;
+		}
 	}
 	
 	public static <T> boolean hasComponent(UUID id, Class<T> exampleClass){
