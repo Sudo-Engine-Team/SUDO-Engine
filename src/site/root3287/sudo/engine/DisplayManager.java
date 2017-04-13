@@ -26,7 +26,7 @@ public class DisplayManager {
 					isRatioSet = false, 
 					isTitleSet = false;
 	
-	public static void createDisplay(String[] args){
+	/*public static void createDisplay(String[] args){
 		WIDTH = 900f;
 		DISPLAY_RATIO = 16*9;
 		HEIGHT = (float) (WIDTH / DISPLAY_RATIO);
@@ -99,13 +99,14 @@ public class DisplayManager {
 			e.printStackTrace();
 		}
 		GL11.glViewport(0, 0, (int)DisplayManager.WIDTH, (int)DisplayManager.HEIGHT);
-	}
+	}*/
 
 	public static void createDisplay(){
 		ContextAttribs attribs = new ContextAttribs(3,2).withForwardCompatible(true).withProfileCore(true);
 		Display.setResizable(true);
 		Display.setTitle(DisplayManager.TITLE);
 		try {
+			Display.setVSyncEnabled(true);
 			Display.setFullscreen(DisplayManager.isFullScreen);
 			Display.setDisplayMode(new DisplayMode((int)DisplayManager.WIDTH, (int)DisplayManager.HEIGHT));
 			Display.create(new PixelFormat().withSamples(8), attribs);

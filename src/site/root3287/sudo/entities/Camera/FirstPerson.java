@@ -36,7 +36,7 @@ public class FirstPerson extends Camera{
 	public void update(float delta) {
 		viewMatrix = LWJGLMaths.createViewMatrix(this);
 		Matrix4f.mul(projectionMatrix, viewMatrix, projectionView);
-		frustum.update(projectionView);
+		//frustum.update(projectionView);
 		if(hasComponent(TransformationComponent.class) && hasComponent(PlayerControlsComponent.class)){
 			Vector3f position = getComponent(TransformationComponent.class).position;
 			float yaw = getComponent(TransformationComponent.class).yaw;

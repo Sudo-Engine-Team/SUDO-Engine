@@ -86,7 +86,7 @@ public class EntityRender {
 		Vector3f position = entity.getComponent(TransformationComponent.class).position;
 		Vector3f rotation = entity.getComponent(TransformationComponent.class).rotation;
 		float scale = entity.getComponent(TransformationComponent.class).scale;
-		Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(position, rotation.x, rotation.y, rotation.z, scale);
+		Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(position, rotation, scale);
 		shader.loadTransformationMatrix(transformationMatrix);
 		
 		Logger.log(LogLevel.DEBUG_RENDER, "Rendering Entity");

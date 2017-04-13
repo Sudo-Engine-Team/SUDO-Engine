@@ -12,7 +12,7 @@ import site.root3287.sudo.terrain.Terrain;
 import site.root3287.sudo.utils.LWJGLMaths;
 
 public abstract class Camera extends Entity{
-	public static Matrix4f projectionMatrix;
+	public static Matrix4f projectionMatrix = LWJGLMaths.createProjectionMatrix();
 	public static Matrix4f viewMatrix;
 	public static Matrix4f projectionView;
 	public Frustum frustum;
@@ -21,7 +21,6 @@ public abstract class Camera extends Entity{
 		transform.position = position;
 		addComponent(transform);
 		viewMatrix = LWJGLMaths.createViewMatrix(this);
-		projectionMatrix = LWJGLMaths.createProjectionMatrix();
 		
 		projectionView = new Matrix4f();
 		Matrix4f.mul(projectionMatrix, viewMatrix, projectionView);

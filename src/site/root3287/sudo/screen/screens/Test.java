@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -63,7 +64,7 @@ public class Test extends Screen{
         this.lights.add(light);
        // allEntity.add(new StandfordBunny(loader));
         
-        for(int i = 0; i < 1000; i++){
+        for(int i = 0; i < 200; i++){
         	Random rand = new Random();
         	float valuex = (rand.nextFloat() * 2) -1;
         	float valuez = (rand.nextFloat() * 2) -1;
@@ -93,13 +94,12 @@ public class Test extends Screen{
 		allEntity.get(0).update(DisplayManager.DELTA);
 		FontText.getAllText().get(1).updateText("X: "+ c.getComponent(TransformationComponent.class).position.x + " \nY: "+ c.getComponent(TransformationComponent.class).position.y + " \nZ: "+ c.getComponent(TransformationComponent.class).position.z);
 		FontText.getAllText().get(2).updateText("Delta Time: "+ DisplayManager.DELTA);
-		//culler.update();
 	}
 
 	@Override
 	public void render() {
 		//GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
-		GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+		//GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 		for(Terrain t: this.world.getTerrains()){
 			this.render.processTerrain(t);
 		}

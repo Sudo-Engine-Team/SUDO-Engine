@@ -49,7 +49,7 @@ public class Render {
 	
 	public Render() {
 		enableCulling();
-		this.projectionMatrix = LWJGLMaths.createProjectionMatrix();
+		this.projectionMatrix = Camera.projectionMatrix;
 		renderer = new EntityRender(shader, projectionMatrix);
 		terrainRenderer = new TerrainRender(terrainShader, projectionMatrix);
 		render2d = new Render2D(shader2d, projectionMatrix);
