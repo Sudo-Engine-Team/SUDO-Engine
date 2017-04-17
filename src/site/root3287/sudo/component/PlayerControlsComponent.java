@@ -24,7 +24,7 @@ public class PlayerControlsComponent extends Component{
 	private Vector3f position, rotation, velocity;
 	private float pauseCooldown = 0;
 	private UUID id;
-	public float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0;
+	public float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0, flySpeed = 0.12f;
 	private int direction;
 	
 	public PlayerControlsComponent(UUID id) {
@@ -166,5 +166,98 @@ public class PlayerControlsComponent extends Component{
 	
 	public boolean isGrabbed(){
 		return this.isGrabbed;
+	}
+	
+	@Override
+	public void update(float delta) {
+		this.position = Entity.getComponent(this.id, TransformationComponent.class).position;
+		this.pitch = Entity.getComponent(this.id, TransformationComponent.class).pitch;
+		this.yaw = Entity.getComponent(this.id, TransformationComponent.class).yaw;
+		this.direction = Entity.getComponent(this.id, TransformationComponent.class).direction;
+		this.velocity = Entity.getComponent(this.id, TransformationComponent.class).velocity;
+		
+		if(pauseCooldown<0){
+			this.pauseCooldown = 0;
+		}
+		if(this.pauseCooldown<=5){
+			this.pauseCooldown += delta;
+		}
+		
+		if(isGrabbed){
+			this.pitch -= Mouse.getDY() * sensitivity;
+			this.yaw += Mouse.getDX() * sensitivity;
+			
+			if(this.pitch > 90){
+				this.pitch = 90;
+			}else if(this.pitch < -90){
+				this.pitch = -90;
+			}
+			
+			if(this.yaw > 360){
+				this.yaw = 0;
+			}else if(this.yaw < 0){
+				this.yaw = 360-Math.abs(this.yaw);
+			}
+		}
+		
+		this.direction = (int) (this.yaw/90);
+
+		float finalDistance = Math.abs(this.distance*delta*flySpeed);
+		
+		if(Mouse.hasWheel()){
+			flySpeed += Mouse.getDWheel()*delta;
+			if(flySpeed < 0){
+				flySpeed = 0.00000001f;
+			}
+			if(flySpeed > 1){
+				flySpeed = 1;
+			}
+			System.out.println("Fly Speed"+ flySpeed);
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+			position.x += finalDistance * (float)Math.sin(Math.toRadians(yaw));
+		    position.z -= finalDistance * (float)Math.cos(Math.toRadians(yaw));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+			position.x -= finalDistance * (float)Math.sin(Math.toRadians(yaw));
+		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+			position.x -= finalDistance * (float)Math.sin(Math.toRadians(yaw+90));
+		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw+90));
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+			position.x -= finalDistance * (float)Math.sin(Math.toRadians(yaw-90));
+		    position.z += finalDistance * (float)Math.cos(Math.toRadians(yaw-90));
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+			if(pauseCooldown >= 0.75){
+				this.isMouseGrabbedRequest = true;
+				pauseCooldown = 0;
+			}
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			position.y += finalDistance;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+			position.y -= finalDistance;
+		}
+		
+		Entity.getComponent(this.id, TransformationComponent.class).position = this.position;
+		Entity.getComponent(this.id, TransformationComponent.class).pitch = this.pitch;
+		Entity.getComponent(this.id, TransformationComponent.class).yaw = this.yaw;
+		if(isMouseGrabbedRequest){
+			isMouseGrabbedRequest = false;
+			if(isGrabbed){
+				this.isGrabbed = false;
+			}else{
+				this.isGrabbed = true;
+			}
+			Mouse.setGrabbed(this.isGrabbed);
+		}
 	}
 }

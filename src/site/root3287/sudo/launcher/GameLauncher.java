@@ -25,7 +25,7 @@ public class GameLauncher implements Runnable{
 		DisplayManager.createDisplay();
 		this.r = new Render();
 		this.l = new Loader();
-		DisplayManager.setScreen(new ModelScreen(r, l, state));
+		DisplayManager.setScreen(new Test(r, l, state));
 		DisplayManager.screen.init();
 		while(!Display.isCloseRequested()){
 			DisplayManager.DELTA = DisplayManager.getDelta();

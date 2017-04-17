@@ -38,33 +38,7 @@ public class FirstPerson extends Camera{
 		Matrix4f.mul(projectionMatrix, viewMatrix, projectionView);
 		//frustum.update(projectionView);
 		if(hasComponent(TransformationComponent.class) && hasComponent(PlayerControlsComponent.class)){
-			Vector3f position = getComponent(TransformationComponent.class).position;
-			float yaw = getComponent(TransformationComponent.class).yaw;
-			float pitch = getComponent(TransformationComponent.class).pitch;
-			float sensitivity = getComponent(PlayerControlsComponent.class).sensitivity;
-			boolean isGrabbed = getComponent(PlayerControlsComponent.class).isGrabbed;
-			System.out.println(yaw);
-			if(isGrabbed){
-				pitch -= Mouse.getDY() * sensitivity;
-				yaw += Mouse.getDX() * sensitivity;
-				
-				if(pitch > 90){
-					pitch = 90;
-				}else if(pitch < -90){
-					pitch = -90;
-				}
-				
-				if(yaw > 360){
-					yaw = 0;
-				}else if(yaw < 0){
-					yaw = 360-Math.abs(yaw);
-				}
-			}
-			getComponent(TransformationComponent.class).position = position;
-			getComponent(TransformationComponent.class).yaw = yaw;
-			getComponent(TransformationComponent.class).pitch = pitch;
-			getComponent(PlayerControlsComponent.class).sensitivity = sensitivity;
-			getComponent(PlayerControlsComponent.class).isGrabbed = isGrabbed;
+			getComponent(PlayerControlsComponent.class).update(delta);
 		}
 	}
 
