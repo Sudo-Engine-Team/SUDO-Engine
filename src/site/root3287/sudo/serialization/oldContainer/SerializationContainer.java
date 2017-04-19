@@ -1,4 +1,4 @@
-package site.root3287.sudo.serialization.container;
+package site.root3287.sudo.serialization.oldContainer;
 
 public abstract class SerializationContainer {
 	protected short nameLength;

@@ -1,217 +1,239 @@
 package site.root3287.sudo.serialization.container;
 
-import java.nio.ByteBuffer;
-
 public class SerializationUtils {
-
-	public static int writeBytes(byte[] dest, int pointer, byte[] src) {
-		assert(dest.length > pointer + src.length);
-		for (int i = 0; i < src.length; i++)
-			dest[pointer++] = src[i];
-		return pointer;
-	}
+	/**
+	 * A 8-bit identifier
+	 */
+	public static byte[] HEADER = "--------".getBytes(); //8-bit id
 	
-	public static int writeBytes(byte[] dest, int pointer, char[] src) {
-		assert(dest.length > pointer + src.length);
-		for (int i = 0; i < src.length; i++)
-			pointer = writeBytes(dest, pointer, src[i]);
-		return pointer;
-	}
+	/**
+	 * Current version
+	 */
+	public static short VERSION = 0x0200;
 	
-	public static int writeBytes(byte[] dest, int pointer, short[] src) {
-		assert(dest.length > pointer + src.length);
-		for (int i = 0; i < src.length; i++)
-			pointer = writeBytes(dest, pointer, src[i]);
-		return pointer;
-	}
+	/**
+	 * Anything special that we need to know
+	 */
+	public static byte flags = 0x000;
 	
-	public static int writeBytes(byte[] dest, int pointer, int[] src) {
-		assert(dest.length > pointer + src.length);
-		for (int i = 0; i < src.length; i++)
-			pointer = writeBytes(dest, pointer, src[i]);
-		return pointer;
-	}
-	
-	public static int writeBytes(byte[] dest, int pointer, long[] src) {
-		assert(dest.length > pointer + src.length);
-		for (int i = 0; i < src.length; i++)
-			pointer = writeBytes(dest, pointer, src[i]);
-		return pointer;
-	}
-	
-	public static int writeBytes(byte[] dest, int pointer, float[] src) {
-		assert(dest.length > pointer + src.length);
-		for (int i = 0; i < src.length; i++)
-			pointer = writeBytes(dest, pointer, src[i]);
-		return pointer;
-	}
-	
-	public static int writeBytes(byte[] dest, int pointer, double[] src) {
-		assert(dest.length > pointer + src.length);
-		for (int i = 0; i < src.length; i++)
-			pointer = writeBytes(dest, pointer, src[i]);
-		return pointer;
-	}
-
-	public static int writeBytes(byte[] dest, int pointer, boolean[] src) {
-		assert(dest.length > pointer + src.length);
-		for (int i = 0; i < src.length; i++)
-			pointer = writeBytes(dest, pointer, src[i]);
-		return pointer;
-	}
-	
-	public static int writeBytes(byte[] dest, int pointer, byte value) {
-		assert(dest.length > pointer + SerializationType.getSize(SerializationType.BYTE));
+	/**
+	 * Add a byte to the already made list
+	 * @param dest the list that we want to add the bytes in
+	 * @param pointer the place we want to write from
+	 * @param value the thing that we need to write in.
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, byte value){
 		dest[pointer++] = value;
 		return pointer;
 	}
 	
-	public static int writeBytes(byte[] dest, int pointer, short value) {
-		assert(dest.length > pointer + SerializationType.getSize(SerializationType.SHORT));
-		dest[pointer++] = (byte)((value >> 8) & 0xff);
-		dest[pointer++] = (byte)((value >> 0) & 0xff);
+	/**
+	 * Add a byte array to the already made list
+	 * @param dest the list that we want to add the bytes in
+	 * @param pointer the place we want to write from
+	 * @param value the thing that we need to write in.
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, byte[] value){
+		for(int i = 0; i< value.length; i++){
+			pointer = write(dest, pointer, value[i]);
+		}
 		return pointer;
 	}
 	
-	public static int writeBytes(byte[] dest, int pointer, char value) {
-		assert(dest.length > pointer + SerializationType.getSize(SerializationType.CHAR));
-		dest[pointer++] = (byte)((value >> 8) & 0xff);
-		dest[pointer++] = (byte)((value >> 0) & 0xff);
+	/**
+	 * Convert short to bytes, then push it to bytes
+	 * @param dest the list that we want to append
+	 * @param pointer the last place we left off.
+	 * @param value the item we want to append
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, short value){
+		dest[pointer++] = (byte) ((value>>8) & 0xff);
+		dest[pointer++] = (byte) ((value>>0) & 0xff);
 		return pointer;
 	}
 	
-	public static int writeBytes(byte[] dest, int pointer, int value) {
-		assert(dest.length > pointer + SerializationType.getSize(SerializationType.INTEGER));
-		dest[pointer++] = (byte)((value >> 24) & 0xff);
-		dest[pointer++] = (byte)((value >> 16) & 0xff);
-		dest[pointer++] = (byte)((value >> 8) & 0xff);
-		dest[pointer++] = (byte)((value >> 0) & 0xff);
+	/**
+	 * Convert char to bytes, then push it to bytes
+	 * @param dest the list that we want to append
+	 * @param pointer the last place we left off.
+	 * @param value the item we want to append
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, char value){
+		dest[pointer++] = (byte) ((value>>8) & 0xff);
+		dest[pointer++] = (byte) ((value>>0) & 0xff);
 		return pointer;
 	}
 	
-	public static int writeBytes(byte[] dest, int pointer, long value) {
-		assert(dest.length > pointer + SerializationType.getSize(SerializationType.LONG));
-		dest[pointer++] = (byte)((value >> 56) & 0xff);
-		dest[pointer++] = (byte)((value >> 48) & 0xff);
-		dest[pointer++] = (byte)((value >> 40) & 0xff);
-		dest[pointer++] = (byte)((value >> 32) & 0xff);
-		dest[pointer++] = (byte)((value >> 24) & 0xff);
-		dest[pointer++] = (byte)((value >> 16) & 0xff);
-		dest[pointer++] = (byte)((value >> 8) & 0xff);
-		dest[pointer++] = (byte)((value >> 0) & 0xff);
+	/**
+	 * Convert int to bytes, then push it to bytes
+	 * @param dest the list that we want to append
+	 * @param pointer the last place we left off.
+	 * @param value the item we want to append
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, int value){
+		dest[pointer++] = (byte) ((value>>24) & 0xff);
+		dest[pointer++] = (byte) ((value>>16) & 0xff);
+		dest[pointer++] = (byte) ((value>>8) & 0xff);
+		dest[pointer++] = (byte) ((value>>0) & 0xff);
 		return pointer;
 	}
 	
-	public static int writeBytes(byte[] dest, int pointer, float value) {
-		assert(dest.length > pointer + SerializationType.getSize(SerializationType.FLOAT));
-		int data = Float.floatToIntBits(value);
-		return writeBytes(dest, pointer, data);
-	}
-	
-	public static int writeBytes(byte[] dest, int pointer, double value) {
-		assert(dest.length > pointer + SerializationType.getSize(SerializationType.DOUBLE));
-		long data = Double.doubleToLongBits(value);
-		return writeBytes(dest, pointer, data);
-	}
-	
-	public static int writeBytes(byte[] dest, int pointer, boolean value) {
-		assert(dest.length > pointer + SerializationType.getSize(SerializationType.BOOLEAN));
-		dest[pointer++] = (byte)(value ? 1 : 0);
+	/**
+	 * Convert long to bytes, then push it to bytes
+	 * @param dest the list that we want to append
+	 * @param pointer the last place we left off.
+	 * @param value the item we want to append
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, long value){
+		dest[pointer++] = (byte) ((value>>56) & 0xff);
+		dest[pointer++] = (byte) ((value>>48) & 0xff);
+		dest[pointer++] = (byte) ((value>>40) & 0xff);
+		dest[pointer++] = (byte) ((value>>32) & 0xff);
+		dest[pointer++] = (byte) ((value>>24) & 0xff);
+		dest[pointer++] = (byte) ((value>>16) & 0xff);
+		dest[pointer++] = (byte) ((value>>8) & 0xff);
+		dest[pointer++] = (byte) ((value>>0) & 0xff);
 		return pointer;
 	}
 	
-	public static int writeBytes(byte[] dest, int pointer, String string) {
-		pointer = writeBytes(dest, pointer, (short) string.length());
-		return writeBytes(dest, pointer, string.getBytes());
+	/**
+	 * Convert float to bytes, then push it to bytes
+	 * @param dest the list that we want to append
+	 * @param pointer the last place we left off.
+	 * @param value the item we want to append
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, float value){
+		return write(dest, pointer, Float.floatToIntBits(value));
 	}
 	
-	public static byte readByte(byte[] src, int pointer) {
+	/**
+	 * Convert double to bytes, then push it to bytes
+	 * @param dest the list that we want to append
+	 * @param pointer the last place we left off.
+	 * @param value the item we want to append
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, double value){
+		return write(dest, pointer, Double.doubleToLongBits(value));
+	}
+	
+	/**
+	 * Convert boolean to bytes, then push it to bytes
+	 * @param dest the list that we want to append
+	 * @param pointer the last place we left off.
+	 * @param value the item we want to append
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, boolean value){
+		return write(dest, pointer, (byte)((value)?1:0));
+	}
+	
+	/**
+	 * Convert String to bytes, then push it to bytes
+	 * @param dest the list that we want to append
+	 * @param pointer the last place we left off.
+	 * @param value the item we want to append
+	 * @return the pointer
+	 */
+	public static int write(byte[] dest, int pointer, String value){
+		pointer = write(dest, pointer, (short)value.length());
+		return write(dest, pointer, value.getBytes());
+	}
+	
+	/**
+	 * Read bytes
+	 * @param src the data
+	 * @param pointer where to start
+	 * @return data
+	 */
+	public static byte readByte(byte[] src, int pointer){
 		return src[pointer];
 	}
 	
-	public static void readBytes(byte[] src, int pointer, byte[] dest) {
-		for (int i = 0; i < dest.length; i++)
-			dest[i] = src[pointer + i];
+	/**
+	 * Read char
+	 * @param src the data
+	 * @param pointer where to start
+	 * @return data
+	 */
+	public static char readChar(byte[] src, int pointer){
+		return (char) (src[pointer] << 8 | src[pointer+1]);
 	}
 	
-	public static void readShorts(byte[] src, int pointer, short[] dest) {
-		for (int i = 0; i < dest.length; i++) {
-			dest[i] = readShort(src, pointer);
-			pointer += SerializationType.getSize(SerializationType.SHORT);
-		}
+	/**
+	 * Read short
+	 * @param src the data
+	 * @param pointer where to start
+	 * @return data
+	 */
+	public static short readShort(byte[] src, int pointer){
+		return (short) (src[pointer] << 8 | src[pointer+1]);
 	}
 	
-	public static void readChars(byte[] src, int pointer, char[] dest) {
-		for (int i = 0; i < dest.length; i++) {
-			dest[i] = readChar(src, pointer);
-			pointer += SerializationType.getSize(SerializationType.CHAR);
-		}
+	/**
+	 * Read int
+	 * @param src the data
+	 * @param pointer where to start
+	 * @return data
+	 */
+	public static int readInt(byte[] src, int pointer){
+		return src[pointer] << 24 | src[pointer+1] << 16 | src[pointer+2] << 8 | src[pointer+3]; 
 	}
 	
-	public static void readInts(byte[] src, int pointer, int[] dest) {
-		for (int i = 0; i < dest.length; i++) {
-			dest[i] = readInt(src, pointer);
-			pointer += SerializationType.getSize(SerializationType.INTEGER);
-		}
+	/**
+	 * Read long
+	 * @param src the data
+	 * @param pointer where to start
+	 * @return data
+	 */
+	public static long readLong(byte[] src, int pointer){
+		return src[pointer] << 56 | src[pointer+1] << 48 | src[pointer+2] << 40 | src[pointer+3] >> 32 | src[pointer+4] >> 24 | src[pointer+5] >> 16 | src[pointer+6] >> 8 | src[pointer+7]; 
 	}
 	
-	public static void readLongs(byte[] src, int pointer, long[] dest) {
-		for (int i = 0; i < dest.length; i++) {
-			dest[i] = readLong(src, pointer);
-			pointer += SerializationType.getSize(SerializationType.LONG);
-		}
-	}
-	
-	public static void readFloats(byte[] src, int pointer, float[] dest) {
-		for (int i = 0; i < dest.length; i++) {
-			dest[i] = readFloat(src, pointer);
-			pointer += SerializationType.getSize(SerializationType.FLOAT);
-		}
-	}
-	
-	public static void readDoubles(byte[] src, int pointer, double[] dest) {
-		for (int i = 0; i < dest.length; i++) {
-			dest[i] = readDouble(src, pointer);
-			pointer += SerializationType.getSize(SerializationType.DOUBLE);
-		}
-	}
-	
-	public static void readBooleans(byte[] src, int pointer, boolean[] dest) {
-		for (int i = 0; i < dest.length; i++) {
-			dest[i] = readBoolean(src, pointer);
-			pointer += SerializationType.getSize(SerializationType.BOOLEAN);
-		}
-	}
-	public static short readShort(byte[] src, int pointer) {
-		return ByteBuffer.wrap(src, pointer, 2).getShort();
-	}
-	
-	public static char readChar(byte[] src, int pointer) {
-		return ByteBuffer.wrap(src, pointer, 2).getChar();
-	}
-	
-	public static int readInt(byte[] src, int pointer) {
-		return ByteBuffer.wrap(src, pointer, 4).getInt();
-	}
-	
-	public static long readLong(byte[] src, int pointer) {
-		return ByteBuffer.wrap(src, pointer, 8).getLong();
-	}
-	
-	public static float readFloat(byte[] src, int pointer) {
+	/**
+	 * Read float
+	 * @param src the data
+	 * @param pointer where to start
+	 * @return data
+	 */
+	public static float readFloat(byte[] src, int pointer){
 		return Float.intBitsToFloat(readInt(src, pointer));
 	}
 	
-	public static double readDouble(byte[] src, int pointer) {
+	/**
+	 * Read double
+	 * @param src the data
+	 * @param pointer where to start
+	 * @return data
+	 */
+	public static double readDouble(byte[] src, int pointer){
 		return Double.longBitsToDouble(readLong(src, pointer));
 	}
 	
-	public static boolean readBoolean(byte[] src, int pointer) {
-		assert(src[pointer] == 0 || src[pointer] == 1);
-		return src[pointer] != 0;
+	/**
+	 * Read boolean
+	 * @param src the data
+	 * @param pointer where to start
+	 * @return data
+	 */
+	public static boolean readBoolean(byte[] src, int pointer){
+		return (readByte(src, pointer) == 0)? false: true;
 	}
 	
-	public static String readString(byte[] src, int pointer, int length) {
+	public static String readString(byte[] src, int pointer, int length){
 		return new String(src, pointer, length);
-}
+	}
+	
+	public static void printBytes(byte[] data){
+		for(int i =0; i<data.length; i++){
+			System.out.printf("0x%x ", data[i]);
+		}
+	}
 }

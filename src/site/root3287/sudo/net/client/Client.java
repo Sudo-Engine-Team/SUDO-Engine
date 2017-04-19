@@ -7,39 +7,11 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import site.root3287.sudo.net.BinaryWriter;
-import site.root3287.sudo.net.packet.PacketType;
-
 public class Client {
-	public enum Error{
-		NONE, INVALID_HOST, SOCKET_EXCEPTION
-	}
 	private int port;
 	private String address;
 	private InetAddress server;
-	@SuppressWarnings("unused")
-	private Error errorCode = Error.NONE;
 	private DatagramSocket socket;
-	
-	/*
-	 * @param host
-	 * E.G 192.168.1.1:8123
-	 */
-	public Client(String host){
-		String[] parts = host.split(":");
-		if(parts.length !=2){
-			errorCode = Error.INVALID_HOST;
-			return;
-		}
-		this.address = parts[0];
-		try{
-			this.port = Integer.parseInt(parts[1]);
-		}catch(NumberFormatException e){
-			e.printStackTrace();
-			errorCode = Error.INVALID_HOST;
-			return;
-		}
-	}
 	
 	public Client(String host, int port){
 		this.address = host;
@@ -52,33 +24,16 @@ public class Client {
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			errorCode = Error.INVALID_HOST;
 			return false;
 		}
 		try {
 			this.socket = new DatagramSocket();
 		} catch (SocketException e) {
 			e.printStackTrace();
-			errorCode = Error.SOCKET_EXCEPTION;
 			return false;
 		}
-		sendConnectionPacket();
 		//TODO: wait for server to reply
 		return true;
-	}
-	
-	public void disconnect(){
-		BinaryWriter writer = new BinaryWriter();
-		writer.write(PacketType.DISCONNECT.getLength());
-		writer.write(PacketType.DISCONNECT.getType().getBytes());
-		//writer.write();
-		send(writer.getBuffer());
-	}
-	
-	private void sendConnectionPacket(){
-		@SuppressWarnings("unused")
-		BinaryWriter writer = new BinaryWriter();
-		send(new String(""+PacketType.CONNECT.getLength()+PacketType.CONNECT.getType()).getBytes());
 	}
 	
 	public void send(byte[] data){

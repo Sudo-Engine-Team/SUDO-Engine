@@ -1,14 +1,11 @@
 package site.root3287.sudo.serialization.container;
 
-import static site.root3287.sudo.serialization.container.SerializationUtils.*;
-
-public class SerializationString extends SerializationContainer {
-
-	public static final byte CONTAINER_TYPE = ContainerType.STRING;
+public class SerializationString extends SerializationBase{
+	public static final byte CONTAINER_TYPE = SerializationType.STRING;
 	public int count;
 	private char[] characters;
 	
-	private SerializationString() {
+	private RCString() {
 		size += 1 + 4;
 	}
 	
@@ -35,7 +32,7 @@ public class SerializationString extends SerializationContainer {
 	}
 	
 	public int getDataSize() {
-		return characters.length * SerializationType.getSize(SerializationType.CHAR);
+		return characters.length * Type.getSize(Type.CHAR);
 	}
 	
 	public static SerializationString Create(String name, String data) {
@@ -66,8 +63,7 @@ public class SerializationString extends SerializationContainer {
 		result.characters = new char[result.count];
 		readChars(data, pointer, result.characters);
 		
-		pointer += result.count * SerializationType.getSize(SerializationType.CHAR);
+		pointer += result.count * Type.getSize(Type.CHAR);
 		return result;
 }
-
 }

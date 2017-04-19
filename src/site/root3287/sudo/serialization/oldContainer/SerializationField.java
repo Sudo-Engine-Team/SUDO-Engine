@@ -1,6 +1,6 @@
-package site.root3287.sudo.serialization.container;
+package site.root3287.sudo.serialization.oldContainer;
 
-import static site.root3287.sudo.serialization.container.SerializationUtils.*;
+import static site.root3287.sudo.serialization.oldContainer.SerializationUtils.*;
 
 public class SerializationField extends SerializationContainer {
 	public static final byte CONTAINER_TYPE = ContainerType.FIELD;

@@ -1,10 +1,11 @@
 package site.root3287.sudo.net;
 
 import java.net.InetAddress;
+import java.util.UUID;
 
 public class ServerClient {
 	
-	public int userID;
+	public UUID sessionToken;
 	public InetAddress address;
 	public int port;
 	public boolean status = false;
@@ -12,7 +13,8 @@ public class ServerClient {
 	private static int userIDCounter = 0;
 	
 	public ServerClient(InetAddress address, int port){
-		this.userID = userIDCounter++;
+		userIDCounter++;
+		this.sessionToken = UUID.randomUUID();
 		this.address = address;
 		this.port = port;
 		this.status = true;
@@ -20,6 +22,6 @@ public class ServerClient {
 	
 	@Override
 	public int hashCode() {
-		return userID;
+		return sessionToken.hashCode();
 	}
 }
