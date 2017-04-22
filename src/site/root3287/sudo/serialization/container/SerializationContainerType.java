@@ -1,6 +1,6 @@
 package site.root3287.sudo.serialization.container;
 
-public class SerializationType {
+public class SerializationContainerType {
 	public static final byte UNKNOWN 	= 0;
 	public static final byte FIELD 		= 1;
 	public static final byte ARRAY 		= 2;
