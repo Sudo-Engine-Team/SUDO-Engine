@@ -27,8 +27,8 @@ import site.root3287.sudo.entities.model.CubeEntity;
 import site.root3287.sudo.model.RawModel;
 import site.root3287.sudo.model.TexturedModel;
 import site.root3287.sudo.screen.Screen;
-import site.root3287.sudo.terrain.PerlinTerrain;
 import site.root3287.sudo.terrain.Terrain;
+import site.root3287.sudo.terrain.perlin.PerlinTerrain;
 import site.root3287.sudo.texture.ModelTexture;
 
 public class ModelScreen extends Screen {

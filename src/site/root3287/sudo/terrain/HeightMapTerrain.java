@@ -1,7 +1,5 @@
 package site.root3287.sudo.terrain;
 
-import org.lwjgl.util.vector.Vector3f;
-
 import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.model.RawModel;
 import site.root3287.sudo.texture.ModelTexture;
@@ -50,5 +48,11 @@ public class HeightMapTerrain extends Terrain{
         }
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
+
+	@Override
+	public void update(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

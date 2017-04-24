@@ -9,8 +9,8 @@ import org.lwjgl.util.vector.Vector3f;
 import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.logger.LogLevel;
 import site.root3287.sudo.logger.Logger;
-import site.root3287.sudo.terrain.PerlinTerrain;
 import site.root3287.sudo.terrain.Terrain;
+import site.root3287.sudo.terrain.perlin.PerlinTerrain;
 import site.root3287.sudo.texture.ModelTexture;
 
 public class World {
@@ -46,7 +46,7 @@ public class World {
 						new ModelTexture(
 								this.loader.loadTexture("res/image/grass-plane.png")
 						), 
-						64, 
+						128, 
 						this.seed
         				);
         		terrains.add(t1);

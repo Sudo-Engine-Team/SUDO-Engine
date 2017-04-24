@@ -15,8 +15,8 @@ import site.root3287.sudo.entities.Light;
 import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.entities.Camera.FirstPerson;
 import site.root3287.sudo.screen.Screen;
-import site.root3287.sudo.terrain.PerlinTerrain;
 import site.root3287.sudo.terrain.Terrain;
+import site.root3287.sudo.terrain.perlin.PerlinTerrain;
 import site.root3287.sudo.texture.ModelTexture;
 
 public class MainGame extends Screen{

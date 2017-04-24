@@ -152,7 +152,14 @@ public class Loader {
 		}
 		GL30.glDeleteVertexArrays(vao);
 	}
-	
+	public void removeVAO(int vaoID){
+		Logger.log("Removing VAO from memory: "+vaoID);
+		List<Integer> vbos = vaos.remove(vaoID);
+		for(int vbo : vbos){
+			GL15.glDeleteBuffers(vbo);
+		}
+		GL30.glDeleteVertexArrays(vaoID);
+	}
 	public void destory(){
 		Logger.log(LogLevel.INFO, "Disposing Loader");
 		int vboSize = 0;
@@ -186,5 +193,5 @@ public class Loader {
 			texturesSize++;
 		}
 		Logger.log("Deleted "+texturesSize+" textures");
-	}
+	} 
 }

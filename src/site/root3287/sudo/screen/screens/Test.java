@@ -58,7 +58,7 @@ public class Test extends Screen{
         this.world = new World(this.loader, seed);
 		this.c = new FirstPerson(new Vector3f(0, 0f, 0));
 		Mouse.setGrabbed(c.getComponent(PlayerControlsComponent.class).isGrabbed);
-        this.light = new Light(new Vector3f(10000, 1000, 10000), new Vector3f(1, 1, 1));
+        this.light = new Light(new Vector3f(0, 10000, 0), new Vector3f(2.5f, 2.5f, 2.5f));
         this.lights.add(light);
        // allEntity.add(new StandfordBunny(loader));
         for(int i = 0; i < 100; i++){

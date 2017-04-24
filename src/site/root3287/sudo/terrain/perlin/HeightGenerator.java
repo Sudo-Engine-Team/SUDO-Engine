@@ -1,19 +1,27 @@
-package site.root3287.sudo.terrain;
+package site.root3287.sudo.terrain.perlin;
 
 import java.util.Random;
 
 public class HeightGenerator {
-	private static final float AMPLITUDE = 100f;
-    private static final int OCTAVES = 10;
-    private static final float ROUGHNESS = 0.8f;
+	private static final float AMPLITUDE = 85;
+    private static final int OCTAVES = 3;
+    private static final float ROUGHNESS = 0.3f;
  
     private Random random = new Random();
-    private int seed;
+    private long seed;
     private int xOffset = 0;
     private int zOffset = 0;
  
     public HeightGenerator() {
         this.seed = random.nextInt(1000000000);
+    }
+    
+    public HeightGenerator(String seed){
+    	for(char x : seed.toCharArray()){
+    		int position = x-' ';
+    		int temp = (int) Math.pow(x*31, position);
+    		seed += temp;
+    	}
     }
      
     //only works with POSITIVE gridX and gridZ values!
@@ -40,7 +48,13 @@ public class HeightGenerator {
         total += getInterpolatedNoise(x+xOffset/1, z+zOffset/1) *AMPLITUDE /9;
         return total;
     }
-     
+    
+    /**
+     * Final perlin nose
+     * @param x x position
+     * @param z y position
+     * @return float height
+     */
     private float getInterpolatedNoise(float x, float z){
         int intX = (int) x;
         int intZ = (int) z;
