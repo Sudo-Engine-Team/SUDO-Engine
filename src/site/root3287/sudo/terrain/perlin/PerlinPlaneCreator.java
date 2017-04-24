@@ -6,12 +6,7 @@ import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.model.RawModel;
 
 public class PerlinPlaneCreator {
-	private int x, y;
 	public float[][] heights;
-	public PerlinPlaneCreator(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
 	public RawModel generatePerlinPlane(Loader loader, int vertexCount, int size, HeightGenerator generator, int lod){
 		int simplificationMultiplier = lod *2+1;
 		int vpl = vertexCount/simplificationMultiplier;
@@ -34,7 +29,6 @@ public class PerlinPlaneCreator {
 				vertices[vertexPointer * 3 + 2] = (float) i / ((float) vpl - 1) * size;
 				
 				Vector3f normal = calculateNormal(j, i, generator);
-				//System.out.println(normal);
 				normals[vertexPointer * 3] = normal.x;
 				normals[vertexPointer * 3 + 1] = normal.y;
 				normals[vertexPointer * 3 + 2] = normal.z;
@@ -69,7 +63,7 @@ public class PerlinPlaneCreator {
     	float heightR = getHeight(j+1, i, generator);
     	float heightD = getHeight(j, i-1, generator);
     	float heightU = getHeight(j, i+1, generator);
-    	Vector3f normal = new Vector3f(heightL-heightR, 1f, heightD-heightU);
+    	Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD-heightU);
     	normal.normalise();
     	return normal;
 	}

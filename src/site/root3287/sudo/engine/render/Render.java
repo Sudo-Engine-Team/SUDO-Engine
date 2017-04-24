@@ -76,7 +76,7 @@ public class Render {
 		shader.stop();
 		
 		terrainShader.start();
-		terrainShader.loadLight(sun);
+		terrainShader.loadLight(sun.get(0));
 		terrainShader.loadViewMatrix();
 		terrainRenderer.render(terrains);
 		terrainShader.stop();

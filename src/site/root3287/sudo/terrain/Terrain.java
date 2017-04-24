@@ -9,7 +9,7 @@ import site.root3287.sudo.texture.ModelTexture;
 import site.root3287.sudo.utils.LWJGLMaths;
 
 public abstract class Terrain {
-    public static int SIZE = 1000;
+    public static int SIZE = 800;
     protected int lod;
     protected int vertexCount;
     protected float x;

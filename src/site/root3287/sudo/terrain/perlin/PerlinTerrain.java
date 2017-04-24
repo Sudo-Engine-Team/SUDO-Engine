@@ -1,7 +1,5 @@
 package site.root3287.sudo.terrain.perlin;
 
-import org.lwjgl.input.Keyboard;
-
 import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.terrain.Terrain;
 import site.root3287.sudo.texture.ModelTexture;
@@ -19,14 +17,14 @@ public class PerlinTerrain extends Terrain{
 		this.lod = 1;
     	this.seed = seed;
         generator = new HeightGenerator(gridX, gridZ, this.vertexCount, this.seed);
-        plane = new PerlinPlaneCreator(gridX, gridZ);
+        plane = new PerlinPlaneCreator();
         this.model = plane.generatePerlinPlane(loader, this.vertexCount, SIZE, generator, lod);
         this.heights = plane.heights;
     }
 
 	@Override
 	public void update(float delta) {
-		if(cooldown > 0){
+	/*	if(cooldown > 0){
 			System.out.println(cooldown);
 			this.cooldown -= delta;
 		}
@@ -40,5 +38,6 @@ public class PerlinTerrain extends Terrain{
 			this.heights = plane.heights;
 			this.cooldown = 5;
 		}
+		*/
 	}
 }
