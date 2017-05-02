@@ -14,11 +14,15 @@ public abstract class Terrain {
     protected int vertexCount;
     protected float x;
     protected float z;
+    protected int gridX;
+    protected int gridZ;
     protected RawModel model;
     protected ModelTexture texture;
     protected float[][] heights;
     protected Loader loader;
     public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture, int vertexCount){
+    	this.gridX = gridX;
+    	this.gridZ = gridZ;
     	this.loader = loader;
     	this.vertexCount = vertexCount;
         this.texture = texture;
@@ -66,5 +70,21 @@ public abstract class Terrain {
         return texture;
     }
     
+    public int getGridX(){
+    	return this.gridX;
+    }
+    public int getGridZ(){
+    	return this.gridZ;
+    }
     public abstract void update(float delta);
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if(obj instanceof Terrain){
+    		if(((Terrain) obj).getGridX() == this.gridX && ((Terrain) obj).getGridZ() == this.gridZ){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 }

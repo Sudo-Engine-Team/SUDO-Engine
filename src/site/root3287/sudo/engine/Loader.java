@@ -26,8 +26,8 @@ public class Loader {
 	private static Loader _instance = null;
 	private HashMap<Integer, List<Integer>> vaos= new HashMap<>();
 	private List<Integer> textures = new ArrayList<Integer>();
-	
 	public Map<Integer, List<Integer>> vaoText = new HashMap<>();
+	private Map<String, Integer> textureCache = new HashMap<>();
 	
 	public Loader(){
 		
@@ -143,17 +143,23 @@ public class Loader {
 	}
 	public int loadTexture(String fileName){
 		Texture texture = null;
-		try {
-			texture = TextureLoader.getTexture("PNG", new FileInputStream(fileName));
-			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int textureID;
+		if(!textureCache.containsKey(fileName)){
+			try {
+				texture = TextureLoader.getTexture("PNG", new FileInputStream(fileName));
+				GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+				GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.4f);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			textureID = texture.getTextureID();
+			textures.add(textureID);
+			textureCache.put(fileName, textureID);
+		}else{
+			textureID = textureCache.get(fileName);
 		}
-		int textureID = texture.getTextureID();
-		textures.add(textureID);
 		return textureID;
 	}
 	public void removeTextFromMemory(int vao){

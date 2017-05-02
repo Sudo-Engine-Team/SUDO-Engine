@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.sudo.audio.Audio;
@@ -17,6 +18,7 @@ import site.root3287.sudo.engine.render.Render;
 import site.root3287.sudo.entities.Light;
 import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.entities.Camera.FirstPerson;
+import site.root3287.sudo.logger.Logger;
 import site.root3287.sudo.screen.Screen;
 import site.root3287.sudo.terrain.Terrain;
 import site.root3287.sudo.terrain.perlin.PerlinTerrain;
@@ -42,6 +44,12 @@ public class TerrainScreen extends Screen{
 		this.light = new Light(new Vector3f(c.getComponent(TransformationComponent.class).position.x, 100, c.getComponent(TransformationComponent.class).position.x), 
 				new Vector3f(1.25f, 1.25f, 1.25f));
 		this.lights.add(this.light);
+		
+		PerlinTerrain t = new PerlinTerrain(0, 0, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 128, 123);
+		terrain.add(t);
+		HashMap<Integer, Terrain> batch = new HashMap<>();
+		batch.put(0, t);
+		heights.put(0, batch);
 	}
 
 	@Override
@@ -49,30 +57,26 @@ public class TerrainScreen extends Screen{
 		int chunkX = (int) Math.floor(this.c.getComponent(TransformationComponent.class).position.x / Terrain.SIZE);
 		int chunkY = (int) Math.floor(this.c.getComponent(TransformationComponent.class).position.z / Terrain.SIZE);
 		
-		if(heights.containsKey(chunkX) && heights.get(chunkX).containsKey(chunkY)){
-			
-		}else{
-			for(HashMap<Integer, Terrain> t: heights.values()){
-				for(Terrain tx : t.values()){
-					loader.removeVAO(tx.getModel().getVaoID());
-					loader.removeTexture(tx.getTexture().getTextureID());
-				}
+		Vector2f[] position = new Vector2f[9];
+		int k = 0;
+		for(int i=-1; i<1; i++){
+			for(int j =-1; j <1; j++){
+				position[k] = new Vector2f(chunkX+i, chunkY+j);
+				k++;
 			}
-			heights.clear();
-			terrain.clear();
-			PerlinTerrain toLoad = new PerlinTerrain(chunkX, chunkY, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 128, 123);
-			HashMap<Integer, Terrain> batch = new HashMap<>();
-			batch.put(chunkY, toLoad);
-			heights.put(chunkX, batch);
-			terrain.add(toLoad);
 		}
+		
+		
+		
 		this.c.update(heights, DisplayManager.DELTA);
 	}
 
 	@Override
 	public void render() {
 		//GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
-		this.render.processTerrain(this.terrain.get(0));
+		for(Terrain t: terrain){
+			this.render.processTerrain(t);
+		}
 		this.render.render(this.lights, this.c);
 	}
 
@@ -81,6 +85,32 @@ public class TerrainScreen extends Screen{
 		this.render.dispose();
 		this.loader.destory();
 		Audio.dispose();
+	}
+	
+	public void addToWorld(Terrain t){
+		HashMap<Integer, Terrain> batch;
+		if(heights.containsKey(t.getGridX())){
+			batch = heights.get(t.getGridX());
+		}else{
+			batch = new HashMap<>();
+		}
+		if(!terrain.contains(t)){
+			batch.put(t.getGridZ(), t);
+			terrain.add(t);
+		}
+	}
+	
+	public void removeTerrain(int x, int z){
+		int i = 0;
+		for(Terrain t : terrain){
+			if(terrain.get(i).getGridX() == x && terrain.get(i).getGridZ() == z){
+				terrain.remove(i);
+			}
+			i++;
+		}
+		loader.removeVAO(heights.get(x).get(z).getModel().getVaoID());
+		loader.removeTexture(heights.get(x).get(z).getTexture().getTextureID());
+		heights.get(x).remove(z);
 	}
 	
 }
