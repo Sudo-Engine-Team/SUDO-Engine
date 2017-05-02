@@ -23,10 +23,22 @@ import site.root3287.sudo.logger.Logger;
 import site.root3287.sudo.model.RawModel;
 
 public class Loader {
+	private static Loader _instance = null;
 	private HashMap<Integer, List<Integer>> vaos= new HashMap<>();
 	private List<Integer> textures = new ArrayList<Integer>();
 	
 	public Map<Integer, List<Integer>> vaoText = new HashMap<>();
+	
+	public Loader(){
+		
+	}
+	
+	public static Loader getInstance(){
+		if(_instance == null){
+			_instance = new Loader();
+		}
+		return _instance;
+	}
 	
 	public RawModel loadToVAO(float[] positions){
 		int vaoID = createVAO();
@@ -159,6 +171,11 @@ public class Loader {
 			GL15.glDeleteBuffers(vbo);
 		}
 		GL30.glDeleteVertexArrays(vaoID);
+	}
+	public void removeTexture(int textureID){
+		Logger.log("Removing Texture form memory "+textureID);
+		GL11.glDeleteTextures(textureID);
+		textures.remove(new Integer(textureID));
 	}
 	public void destory(){
 		Logger.log(LogLevel.INFO, "Disposing Loader");

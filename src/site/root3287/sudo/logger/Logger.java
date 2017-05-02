@@ -47,7 +47,11 @@ public class Logger {
 				System.out.println(format);
 				logString.append(format+"\n");
 			}
-			if(Logger.level < 3 && level.toString().equalsIgnoreCase("warning")){
+			if(Logger.level < 3 && level.toString().equalsIgnoreCase("network")){
+				System.out.println(format);
+				logString.append(format+"\n");
+			}
+			if(Logger.level < 4 && level.toString().equalsIgnoreCase("warning")){
 				System.out.println(format);
 				logString.append(format+"\n");
 			}

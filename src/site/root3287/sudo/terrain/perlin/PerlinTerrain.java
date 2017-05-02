@@ -6,13 +6,13 @@ import site.root3287.sudo.texture.ModelTexture;
 
 public class PerlinTerrain extends Terrain{
 	
-	private int seed;
+	private long seed;
 	public boolean updateMesh = false;
 	private float cooldown = 0;
 	private PerlinPlaneCreator plane;
 	private HeightGenerator generator;
 	
-	public PerlinTerrain(int gridX, int gridZ, Loader loader, ModelTexture texture, int vertexCount, int seed){
+	public PerlinTerrain(int gridX, int gridZ, Loader loader, ModelTexture texture, int vertexCount, long seed){
 		super(gridX, gridZ, loader, texture, vertexCount);
 		this.lod = 1;
     	this.seed = seed;

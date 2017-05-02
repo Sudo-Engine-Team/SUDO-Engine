@@ -42,17 +42,31 @@ public class TerrainScreen extends Screen{
 		this.light = new Light(new Vector3f(c.getComponent(TransformationComponent.class).position.x, 100, c.getComponent(TransformationComponent.class).position.x), 
 				new Vector3f(1.25f, 1.25f, 1.25f));
 		this.lights.add(this.light);
-		this.terrain.add(new PerlinTerrain(0, 0, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 128, 123));
-		HashMap<Integer, Terrain> temp = new HashMap<>();
-		temp.put(0, this.terrain.get(0));
-		this.heights.put(0, temp);
 	}
 
 	@Override
 	public void update() {
+		int chunkX = (int) Math.floor(this.c.getComponent(TransformationComponent.class).position.x / Terrain.SIZE);
+		int chunkY = (int) Math.floor(this.c.getComponent(TransformationComponent.class).position.z / Terrain.SIZE);
+		
+		if(heights.containsKey(chunkX) && heights.get(chunkX).containsKey(chunkY)){
+			
+		}else{
+			for(HashMap<Integer, Terrain> t: heights.values()){
+				for(Terrain tx : t.values()){
+					loader.removeVAO(tx.getModel().getVaoID());
+					loader.removeTexture(tx.getTexture().getTextureID());
+				}
+			}
+			heights.clear();
+			terrain.clear();
+			PerlinTerrain toLoad = new PerlinTerrain(chunkX, chunkY, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 128, 123);
+			HashMap<Integer, Terrain> batch = new HashMap<>();
+			batch.put(chunkY, toLoad);
+			heights.put(chunkX, batch);
+			terrain.add(toLoad);
+		}
 		this.c.update(heights, DisplayManager.DELTA);
-		this.lights.get(0).setPosition(new Vector3f(c.getComponent(TransformationComponent.class).position.x, 100, c.getComponent(TransformationComponent.class).position.z));
-		this.terrain.get(0).update(DisplayManager.DELTA);
 	}
 
 	@Override
