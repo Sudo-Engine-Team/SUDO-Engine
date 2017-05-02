@@ -24,7 +24,7 @@ public class PlayerControlsComponent extends Component{
 	private Vector3f position, rotation, velocity;
 	private float pauseCooldown = 0;
 	private UUID id;
-	public float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0, flySpeed = 0.12f;
+	public float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0, flySpeed = 20f;
 	private int direction;
 	
 	public PlayerControlsComponent(UUID id) {
@@ -209,10 +209,6 @@ public class PlayerControlsComponent extends Component{
 			if(flySpeed < 0){
 				flySpeed = 0.00000001f;
 			}
-			if(flySpeed > 1){
-				flySpeed = 1;
-			}
-			System.out.println("Fly Speed"+ flySpeed);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){

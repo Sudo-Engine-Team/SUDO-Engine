@@ -27,7 +27,7 @@ import site.root3287.sudo.utils.LWJGLMaths;
 public class Render {
 	public static final float FOV = 90;
 	public static final float NEAR_PLANE = 0.1f;
-	public static final float FAR_PLANE = 1000;
+	public static final float FAR_PLANE = 10000;
 	public static Vector4f colour = new Vector4f(0.5f, 0.5f, 0.5f, 1);
 
 	private Matrix4f projectionMatrix;
