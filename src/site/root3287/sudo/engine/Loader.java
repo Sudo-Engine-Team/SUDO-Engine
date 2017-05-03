@@ -42,6 +42,7 @@ public class Loader {
 	
 	public RawModel loadToVAO(float[] positions){
 		int vaoID = createVAO();
+		Logger.log("Loading VAO "+vaoID);
 		List<Integer> vbos = new ArrayList<>();
 		vbos.add(storeDataInAttributeList(0, 2, positions));
 		vaos.put(vaoID, vbos);
@@ -50,6 +51,7 @@ public class Loader {
 	}
 	public RawModel loadToVAO(float[] positions, int[] indices){
 		int vaoID = createVAO();
+		Logger.log("Loading VAO "+vaoID);
 		List<Integer> vbos = new ArrayList<>();
 		vbos.add(bindIndicesBuffer(indices));
 		vbos.add(storeDataInAttributeList(0, 2, positions));
@@ -59,6 +61,7 @@ public class Loader {
 	}
 	public int loadToVAO(float[] positions, float[] textureCoords){
 		int vaoID = createVAO();
+		Logger.log("Loading VAO "+vaoID);
 		List<Integer> vbos = new ArrayList<>();
 		vbos.add(storeDataInAttributeList(0, 2, positions));
 		vbos.add(storeDataInAttributeList(0, 2, textureCoords));
@@ -68,6 +71,7 @@ public class Loader {
 	}
 	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices){ //3d models
 		int vaoID = createVAO();
+		Logger.log("Loading VAO "+vaoID);
 		List<Integer> vbos = new ArrayList<>();
 		vbos.add(bindIndicesBuffer(indices));
 		vbos.add(storeDataInAttributeList(0, 3, positions));
@@ -79,6 +83,7 @@ public class Loader {
 	}
 	public int loadText(float[] position, float[] textureCoords){
 		int vaoID = GL30.glGenVertexArrays();
+		Logger.log("Loading text VAO "+vaoID);
 		GL30.glBindVertexArray(vaoID);
 		List<Integer> vboBatch = new ArrayList<>();
 		
