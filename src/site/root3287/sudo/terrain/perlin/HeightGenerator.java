@@ -9,12 +9,12 @@ public class HeightGenerator {
     private static final float ROUGHNESS = 0.5f;
  
     private Random random = new Random();
-    private int seed;
+    private long seed;
     private int xOffset = 0;
     private int zOffset = 0;
     
     //only works with POSITIVE gridX and gridZ values!
-    public HeightGenerator(int gridX, int gridZ, int vertexCount, int seed) {
+    public HeightGenerator(int gridX, int gridZ, int vertexCount, long seed) {
         this.seed = seed;
         xOffset = gridX * (vertexCount-1);
         zOffset = gridZ * (vertexCount-1);
