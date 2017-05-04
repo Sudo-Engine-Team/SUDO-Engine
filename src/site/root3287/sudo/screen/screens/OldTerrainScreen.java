@@ -46,11 +46,11 @@ public class OldTerrainScreen extends Screen {
 		
 		for(int i=0; i<4;i++){
 			for(int j =0; j <4; j++){
-				PerlinTerrain t = new PerlinTerrain(i, j, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 128, 123);
+				/*PerlinTerrain t = new PerlinTerrain(i, j, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 128, 123);
 				terrain.add(t);
 				HashMap<Integer, Terrain> batch = new HashMap<>();
 				batch.put(j, t);
-				heights.put(i, batch);
+				heights.put(i, batch);*/
 			}
 		}
 	}

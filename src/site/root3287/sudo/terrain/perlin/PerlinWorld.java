@@ -9,13 +9,16 @@ import org.lwjgl.util.vector.Vector2f;
 import site.root3287.sudo.component.TransformationComponent;
 import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.entities.Camera.Camera;
+import site.root3287.sudo.event.EventDispatcher;
+import site.root3287.sudo.event.events.FinishedHeightMappingEvent;
+import site.root3287.sudo.event.listeners.EventListener;
+import site.root3287.sudo.event.type.Event;
+import site.root3287.sudo.event.type.EventType;
 import site.root3287.sudo.terrain.Terrain;
 import site.root3287.sudo.texture.ModelTexture;
 
-public class PerlinWorld implements Runnable{
+public class PerlinWorld extends EventListener{
 	
-	private Thread t;
-	public boolean running = false;
 	private Loader loader;
 	private List<Vector2f> lastPosition = new ArrayList<>();
 	public List<Terrain> terrain = new ArrayList<>();
@@ -23,34 +26,37 @@ public class PerlinWorld implements Runnable{
 	private Camera c;
 	private HashMap<Integer, HashMap<Integer, Terrain>> heights =new HashMap<>();
 	
-	public PerlinWorld(Loader loader, Camera c) {
-		this.loader = loader;
-		this.t = new Thread(this);
-		this.t.setDaemon(true);
-		updateCamera(c);
-	}
+	public static EventDispatcher finishedHeightMapDispatcher = new EventDispatcher(EventType.FinishedHeightMapping);
+	public static EventDispatcher generateTerrainListener = new EventDispatcher(EventType.GENERATE_TERRAIN);
+
 	
-	@Override
-	public void run() {
+	public PerlinWorld(Loader loader, Camera c) {
+		super(EventType.GENERATE_TERRAIN);
+		this.loader = loader;
+		generateTerrainListener.addListener(this);
+		updateCamera(c);
 		for(Vector2f p : getChunkPositionsInRadius(new Vector2f(0,0), WORLD_SIZE)){
 			addToWorld((int)p.x, (int)p.y);
 			lastPosition.add(p);
 		}
-		while(running){
-			int chunkX = (int) Math.floor(this.c.getComponent(TransformationComponent.class).position.x / Terrain.SIZE);
-			int chunkY = (int) Math.floor(this.c.getComponent(TransformationComponent.class).position.z / Terrain.SIZE);
-			
-			List<Vector2f> current = getChunkPositionsInRadius(new Vector2f(chunkX, chunkY), WORLD_SIZE);
-			List<Vector2f> chunkNeedToBeAdded = compareAdded(current, lastPosition);
-			List<Vector2f> chunkNeedToBeRemoved = compareRemoved(current, lastPosition);
-			for(Vector2f remove : chunkNeedToBeRemoved){
-				removeTerrain((int)remove.x, (int)remove.y);
-			}
-			for(Vector2f add : chunkNeedToBeAdded){
-				addToWorld((int)add.x, (int)add.y);
-			}
-			lastPosition = current;
+	}
+	
+	public void update(){
+		int chunkX = (int) Math.floor(this.c.getComponent(TransformationComponent.class).position.x / Terrain.SIZE);
+		int chunkY = (int) Math.floor(this.c.getComponent(TransformationComponent.class).position.z / Terrain.SIZE);
+		
+		List<Vector2f> current = getChunkPositionsInRadius(new Vector2f(chunkX, chunkY), WORLD_SIZE);
+		List<Vector2f> chunkNeedToBeAdded = compareAdded(current, lastPosition);
+		List<Vector2f> chunkNeedToBeRemoved = compareRemoved(current, lastPosition);
+		for(Vector2f remove : chunkNeedToBeRemoved){
+			removeTerrain((int)remove.x, (int)remove.y);
 		}
+		for(Vector2f add : chunkNeedToBeAdded){
+			ThreadedHeightGenerator terrain = new ThreadedHeightGenerator((int)add.x, (int)add.y, 128, 123);
+			terrain.start();
+			
+		}
+		lastPosition = current;
 	}
 	
 	private List<Vector2f> getChunkPositionsInRadius(Vector2f chunkPosition, int radius){
@@ -89,6 +95,18 @@ public class PerlinWorld implements Runnable{
 		heights.put(x, batch);
 	}
 	
+	public void addToWorld(Terrain t){
+		HashMap<Integer, Terrain> batch;
+		if(heights.containsKey(t.getGridX())){
+			batch = heights.get(t.getGridX());
+		}else{
+			batch = new HashMap<>();
+		}
+		terrain.add(t);
+		batch.put(t.getGridZ(), t);
+		heights.put(t.getGridX(), batch);
+	}
+	
 	public void removeTerrain(int x, int z){
 		int i = 0;
 		if(heights.containsKey(x) && heights.get(x).containsKey(z)){
@@ -108,6 +126,25 @@ public class PerlinWorld implements Runnable{
 		}
 	}
 	
+	public void removeTerrain(Terrain t){
+		int i = 0;
+		if(heights.containsKey(t.getGridX()) && heights.get(t.getGridX()).containsKey(t.getGridZ())){
+			int removeIndex = -1;
+			for(Terrain tx : terrain){
+				if(tx.getGridX() == t.getGridX() && tx.getGridZ() == t.getGridZ()){
+					removeIndex = i;
+				}
+				i++;
+			}
+			terrain.remove(removeIndex);
+			loader.removeVAO(heights.get(t.getGridX()).get(t.getGridZ()).getModel().getVaoID());
+			heights.get(t.getGridX()).remove(t.getGridZ());
+			if(heights.get(t.getGridX()).isEmpty()){
+				heights.remove(t.getGridX());
+			}
+		}
+	}
+	
 	public void updateCamera(Camera c){
 		this.c = c;
 	}
@@ -115,13 +152,15 @@ public class PerlinWorld implements Runnable{
 	public synchronized List<Terrain> getTerrain(){
 		return this.terrain;
 	}
-	
-	public synchronized HashMap<Integer, HashMap<Integer, Terrain>> getHeight(){
-		return this.heights;
-	}
-	
-	public void start(){
-		this.running = true;
-		t.start();
+
+	@Override
+	public boolean onEvent(Event e) {
+		if(e.getType() == EventType.FinishedHeightMapping){
+			if(e instanceof FinishedHeightMappingEvent){
+				e.setHandle(true);
+				System.out.println("got heights");
+			}
+		}
+		return true;
 	}
 }
