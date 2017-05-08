@@ -47,7 +47,7 @@ public class MainGame extends Screen{
 		for(int tX = 0; tX <= 5; tX++){
         	for(int tY = 0; tY <= 5; tY++){
         		System.out.println("Processing terrain for "+tX+" "+tY);
-        		Terrain t1 = new PerlinTerrain(
+        		/*Terrain t1 = new PerlinTerrain(
         				tX,
 						tY, 
 						this.loader, 
@@ -58,7 +58,7 @@ public class MainGame extends Screen{
 						seed
         				);
         		allTerrain.add(t1);
-        		terrainForCollision[tX][tY] = t1;
+        		terrainForCollision[tX][tY] = t1;*/
         	}
         }
 	}

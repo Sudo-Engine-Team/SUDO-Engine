@@ -41,8 +41,8 @@ public class ModelScreen extends Screen {
 	private List<Entity> allEntity = new ArrayList<Entity>();
 	private List<Light> lights = new ArrayList<Light>();
 	private RawModel model;
-	private Terrain terrain = new PerlinTerrain(0, 0, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 64, 125);
-	@Override
+	/*private Terrain terrain = new PerlinTerrain(0, 0, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 64, 125);
+	*/@Override
 	public void init() {
 		sun = new Light(new Vector3f(0, 1000, 0), new Vector3f(7, 7, 7));
 		lights.add(sun);
@@ -74,7 +74,7 @@ public class ModelScreen extends Screen {
 		for(Entity e : this.allEntity){
 			render.processEntity(e);
 		}
-		render.processTerrain(terrain);
+		//render.processTerrain(terrain);
 		render.render(this.lights, camera);
 	}
 

@@ -32,7 +32,7 @@ public class HeightGenerator {
     }
      
     //only works with POSITIVE gridX and gridZ values!
-    public HeightGenerator(int gridX, int gridZ, int vertexCount, int seed) {
+    public HeightGenerator(int gridX, int gridZ, int vertexCount, long seed) {
         this.seed = seed;
         xOffset = gridX * (vertexCount-1);
         zOffset = gridZ * (vertexCount-1);

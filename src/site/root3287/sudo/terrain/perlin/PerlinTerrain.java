@@ -21,7 +21,6 @@ public class PerlinTerrain extends Terrain{
         this.model = plane.generatePerlinPlane(loader, this.vertexCount, SIZE, generator, lod);
         this.heights = plane.heights;
     }
-
 	@Override
 	public void update(float delta) {
 	/*	if(cooldown > 0){
