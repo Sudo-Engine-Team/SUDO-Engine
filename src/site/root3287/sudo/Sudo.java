@@ -11,6 +11,9 @@ import site.root3287.sudo.logger.LogLevel;
 import site.root3287.sudo.logger.Logger;
 
 public class Sudo {
+	/**
+	 * Happy 100th commit!
+	 */
 	//public static File file;
 	public static void main(String[] args){
 		if(System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("windows")){

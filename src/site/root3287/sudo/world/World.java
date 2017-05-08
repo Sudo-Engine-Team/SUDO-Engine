@@ -39,7 +39,7 @@ public class World {
 		for(int tX = -2; tX <= 2; tX++){
 			HashMap<Integer, Terrain> temp = new HashMap<Integer, Terrain>();
         	for(int tY = -2; tY <= 2; tY++){
-        		Terrain t1 = new PerlinTerrain(
+        		/*Terrain t1 = new PerlinTerrain(
         				tX,
 						tY, 
 						this.loader, 
@@ -51,7 +51,7 @@ public class World {
         				);
         		terrains.add(t1);
         		Logger.log(LogLevel.INFO, "Proccessing:" + tX + " " + tY);
-        		temp.put(tY, t1);
+        		temp.put(tY, t1);*/
         	}
         	this.terrainCollision.put(tX, temp);
         }
