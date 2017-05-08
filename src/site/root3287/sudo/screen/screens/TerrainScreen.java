@@ -1,9 +1,11 @@
 package site.root3287.sudo.screen.screens;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.sudo.audio.Audio;
@@ -20,12 +22,9 @@ import site.root3287.sudo.event.EventDispatcher;
 import site.root3287.sudo.event.type.EventType;
 import site.root3287.sudo.screen.Screen;
 import site.root3287.sudo.terrain.Terrain;
-<<<<<<< HEAD
 import site.root3287.sudo.terrain.perlin.PerlinTerrain;
-import site.root3287.sudo.texture.ModelTexture;
-=======
 import site.root3287.sudo.terrain.perlin.PerlinWorld;
->>>>>>> branch 'dev' of https://github.com/Root3287/SUDO-Engine
+import site.root3287.sudo.texture.ModelTexture;
 
 public class TerrainScreen extends Screen{
 
@@ -35,13 +34,11 @@ public class TerrainScreen extends Screen{
 	private List<Vector2f> lastPosition = new ArrayList<>();
 	private Light light;
 	private Camera c;
-<<<<<<< HEAD
+
 	private Vector2f worldOffset = new Vector2f(1, 2);
-=======
 	private PerlinWorld world;
 	private EventDispatcher generateTerrainDispatcher = new EventDispatcher(EventType.GENERATE_TERRAIN);
->>>>>>> branch 'dev' of https://github.com/Root3287/SUDO-Engine
-	
+
 	public TerrainScreen(Render render, Loader loader, GameState state) {
 		super(render, loader, state);
 	}
@@ -54,14 +51,10 @@ public class TerrainScreen extends Screen{
 		this.light = new Light(new Vector3f(c.getComponent(TransformationComponent.class).position.x, 100, c.getComponent(TransformationComponent.class).position.x), 
 				new Vector3f(1.25f, 1.25f, 1.25f));
 		this.lights.add(this.light);
-<<<<<<< HEAD
 		for(Vector2f p : getChunkPositionsInRadius(new Vector2f(0,0), 3)){
 			addToWorld((int)p.x, (int)p.y);
 			lastPosition.add(p);
 		}
-=======
-		world = new PerlinWorld(loader, c);
->>>>>>> branch 'dev' of https://github.com/Root3287/SUDO-Engine
 	}
 
 	@Override
