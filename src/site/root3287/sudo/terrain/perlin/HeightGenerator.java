@@ -3,16 +3,34 @@ package site.root3287.sudo.terrain.perlin;
 import java.util.Random;
 
 public class HeightGenerator {
-	 
-    private static final float AMPLITUDE = 7f;
+	private static final float AMPLITUDE = 85;
     private static final int OCTAVES = 3;
-    private static final float ROUGHNESS = 0.5f;
+    private static final float ROUGHNESS = 0.3f;
  
     private Random random = new Random();
-    private int seed;
+    private long seed;
     private int xOffset = 0;
     private int zOffset = 0;
+ 
+    public HeightGenerator() {
+        this.seed = random.nextInt(1000000000);
+    }
     
+    public HeightGenerator(int gridX, int gridZ, int vertexCount, String seed){
+    	for(char x : seed.toCharArray()){
+    		int position = x-' ';
+    		int temp = (int) Math.pow(x*31, position);
+    		seed += temp;
+    	}
+    	xOffset = gridX * (vertexCount-1);
+        zOffset = gridZ * (vertexCount-1);
+    }
+    public HeightGenerator(int gridX, int gridZ, int vertexCount, long seed){
+    	this.seed = seed;
+    	xOffset = gridX * (vertexCount-1);
+        zOffset = gridZ * (vertexCount-1);
+    }
+     
     //only works with POSITIVE gridX and gridZ values!
     public HeightGenerator(int gridX, int gridZ, int vertexCount, int seed) {
         this.seed = seed;
@@ -30,7 +48,20 @@ public class HeightGenerator {
         }
         return total;
     }
-     
+    public float generateHeight2(int x, int z) {
+        float total = 0;
+        total += getInterpolatedNoise(x+xOffset/4, z+zOffset/4) *AMPLITUDE;
+        total += getInterpolatedNoise(x+xOffset/2, z+zOffset/2) *AMPLITUDE /3;
+        total += getInterpolatedNoise(x+xOffset/1, z+zOffset/1) *AMPLITUDE /9;
+        return total;
+    }
+    
+    /**
+     * Final perlin nose
+     * @param x x position
+     * @param z y position
+     * @return float height
+     */
     private float getInterpolatedNoise(float x, float z){
         int intX = (int) x;
         int intZ = (int) z;
