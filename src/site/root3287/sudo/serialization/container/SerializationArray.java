@@ -6,8 +6,8 @@ public class SerializationArray extends SerializationBase{
 	public static final byte CONTAINER_TYPE = SerializationContainerType.ARRAY;
 	public byte type;
 	public int count;
-	public byte[] data;
 	
+	public byte[] data;
 	private short[] shortData;
 	private char[] charData;
 	private int[] intData;
@@ -79,7 +79,7 @@ public class SerializationArray extends SerializationBase{
 		return 0;
 	}
 
-	public static SerializationArray Byte(String name, byte[] data) {
+	public static SerializationArray createByteArray(String name, byte[] data) {
 		SerializationArray array = new SerializationArray();
 		array.setName(name);
 		array.type = SerializationFieldType.BYTE;
@@ -89,7 +89,7 @@ public class SerializationArray extends SerializationBase{
 		return array;
 	}
 	
-	public static SerializationArray Short(String name, short[] data) {
+	public static SerializationArray createShortArray(String name, short[] data) {
 		SerializationArray array = new SerializationArray();
 		array.setName(name);
 		array.type = SerializationFieldType.SHORT;
@@ -215,5 +215,42 @@ public class SerializationArray extends SerializationBase{
 		pointer += result.count * SerializationFieldType.getSize(result.type);
 		
 		return result;
+	}
+	
+	@Override
+	public String toString() {
+		return  getName();
+	}
+
+	public byte[] getData() {
+		return data;
+	}
+
+	public short[] getShortData() {
+		return shortData;
+	}
+	
+	public char[] getCharData() {
+		return charData;
+	}
+
+	public int[] getIntData() {
+		return intData;
+	}
+
+	public long[] getLongData() {
+		return longData;
+	}
+
+	public float[] getFloatData() {
+		return floatData;
+	}
+
+	public double[] getDoubleData() {
+		return doubleData;
+	}
+
+	public boolean[] getBooleanData() {
+		return booleanData;
 	}
 }
