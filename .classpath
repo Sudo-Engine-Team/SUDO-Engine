@@ -10,5 +10,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/slick-util.jar"/>
+	<classpathentry kind="lib" path="H:/git/SUDO-Engine/lib/SoundSystemJPCT.jar" sourcepath="lib/src/PaulsCode SoundSystem/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
