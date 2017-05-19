@@ -21,10 +21,10 @@ public class PlayerControlsComponent extends Component{
 	private final float GRAVITY = (float) (-30f), 
 			JUMP = 10, 
 			CAMERA_HEIGHT = 3.5f;
-	private Vector3f position, rotation, velocity;
+	private Vector3f position, /*rotation,*/ velocity;
 	private float pauseCooldown = 0;
 	private UUID id;
-	public float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0, flySpeed = 20f;
+	public float sensitivity = 0.25f, pitch, yaw, distance = 20f, dy = 0, flySpeed = 1f;
 	private int direction;
 	
 	public PlayerControlsComponent(UUID id) {
@@ -37,7 +37,7 @@ public class PlayerControlsComponent extends Component{
 			this.position = Entity.getComponent(this.id, TransformationComponent.class).position;
 			this.pitch = Entity.getComponent(this.id, TransformationComponent.class).pitch;
 			this.yaw = Entity.getComponent(this.id, TransformationComponent.class).yaw;
-			this.direction = Entity.getComponent(this.id, TransformationComponent.class).direction;
+			this.setDirection(Entity.getComponent(this.id, TransformationComponent.class).direction);
 			this.velocity = Entity.getComponent(this.id, TransformationComponent.class).velocity;
 			this.dy = this.velocity.y;
 			move(terrain, delta);
@@ -81,7 +81,7 @@ public class PlayerControlsComponent extends Component{
 			}
 		}
 		
-		this.direction = (int) (this.yaw/90);
+		this.setDirection((int) (this.yaw/90));
 
 		float finalDistance = this.distance*delta;
 		
@@ -173,7 +173,7 @@ public class PlayerControlsComponent extends Component{
 		this.position = Entity.getComponent(this.id, TransformationComponent.class).position;
 		this.pitch = Entity.getComponent(this.id, TransformationComponent.class).pitch;
 		this.yaw = Entity.getComponent(this.id, TransformationComponent.class).yaw;
-		this.direction = Entity.getComponent(this.id, TransformationComponent.class).direction;
+		this.setDirection(Entity.getComponent(this.id, TransformationComponent.class).direction);
 		this.velocity = Entity.getComponent(this.id, TransformationComponent.class).velocity;
 		
 		if(pauseCooldown<0){
@@ -200,7 +200,7 @@ public class PlayerControlsComponent extends Component{
 			}
 		}
 		
-		this.direction = (int) (this.yaw/90);
+		this.setDirection((int) (this.yaw/90));
 
 		float finalDistance = Math.abs(this.distance*delta*flySpeed);
 		
@@ -255,5 +255,13 @@ public class PlayerControlsComponent extends Component{
 			}
 			Mouse.setGrabbed(this.isGrabbed);
 		}
+	}
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 }

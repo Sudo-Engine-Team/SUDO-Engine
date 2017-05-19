@@ -3,7 +3,6 @@ package site.root3287.sudo.entities.Camera;
 import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 

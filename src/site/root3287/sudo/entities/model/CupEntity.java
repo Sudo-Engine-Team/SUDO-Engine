@@ -10,11 +10,8 @@ import site.root3287.sudo.model.TexturedModel;
 import site.root3287.sudo.texture.ModelTexture;
 
 public class CupEntity extends Entity {
-	
-	private Loader loader;
 
 	public CupEntity(Loader loader) {
-		this.loader = loader;
 		TransformationComponent transform = new TransformationComponent();
 		ModelData data = OBJFileLoader.loadOBJ("res/model/Cup/Cup.obj");
 		ModelComponent model = new ModelComponent(new TexturedModel(loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices()), new ModelTexture(loader.loadTexture("res/model/Cup/Cup.png"))));

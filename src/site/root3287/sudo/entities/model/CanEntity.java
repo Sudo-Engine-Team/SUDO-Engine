@@ -9,9 +9,7 @@ import site.root3287.sudo.model.TexturedModel;
 import site.root3287.sudo.texture.ModelTexture;
 
 public class CanEntity extends Entity {
-	private Loader loader;
 	public CanEntity(Loader loader) {
-		this.loader = loader;
 		TransformationComponent transform = new TransformationComponent();
 		ModelComponent model = new ModelComponent(new TexturedModel(OBJLoader.loadObjModel("res/model/Can/Can.obj", loader), new ModelTexture(loader.loadTexture("res/model/Can/Can.obj"))));
 		this.addComponent(model);

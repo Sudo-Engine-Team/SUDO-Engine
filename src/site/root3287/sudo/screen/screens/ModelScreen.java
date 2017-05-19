@@ -7,29 +7,19 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.sun.org.apache.xerces.internal.impl.dv.dtd.NMTOKENDatatypeValidator;
-
 import site.root3287.sudo.component.PlayerControlsComponent;
 import site.root3287.sudo.component.TransformationComponent;
 import site.root3287.sudo.engine.DisplayManager;
 import site.root3287.sudo.engine.GameState;
 import site.root3287.sudo.engine.Loader;
-import site.root3287.sudo.engine.objConverter.ModelData;
-import site.root3287.sudo.engine.objConverter.OBJFileLoader;
 import site.root3287.sudo.engine.render.Render;
 import site.root3287.sudo.entities.Entity;
 import site.root3287.sudo.entities.Light;
-import site.root3287.sudo.entities.NullEntity;
 import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.entities.Camera.FirstPerson;
 import site.root3287.sudo.entities.model.BeerEntity;
 import site.root3287.sudo.entities.model.CubeEntity;
-import site.root3287.sudo.model.RawModel;
-import site.root3287.sudo.model.TexturedModel;
 import site.root3287.sudo.screen.Screen;
-import site.root3287.sudo.terrain.Terrain;
-import site.root3287.sudo.terrain.perlin.PerlinTerrain;
-import site.root3287.sudo.texture.ModelTexture;
 
 public class ModelScreen extends Screen {
 	public ModelScreen(Render render, Loader loader, GameState state) {
@@ -40,7 +30,6 @@ public class ModelScreen extends Screen {
 	private Light sun;
 	private List<Entity> allEntity = new ArrayList<Entity>();
 	private List<Light> lights = new ArrayList<Light>();
-	private RawModel model;
 	/*private Terrain terrain = new PerlinTerrain(0, 0, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 64, 125);
 	*/@Override
 	public void init() {

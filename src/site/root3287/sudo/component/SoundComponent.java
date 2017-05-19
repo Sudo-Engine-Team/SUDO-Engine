@@ -13,7 +13,7 @@ public class SoundComponent extends Component implements Disposeable{
 	public Map<String, Integer> sounds;
 	private UUID id;
 	public SoundComponent(UUID id, String name, String file) {
-		this.id = id;
+		this.setId(id);
 		sounds = new HashMap<>();
 		player = new AudioSource();
 		sounds.put(name, Audio.loadSound(file));
@@ -23,5 +23,11 @@ public class SoundComponent extends Component implements Disposeable{
 	}
 	public void dispose(){
 		player.delete();
+	}
+	public UUID getId() {
+		return id;
+	}
+	public void setId(UUID id) {
+		this.id = id;
 	}
 }

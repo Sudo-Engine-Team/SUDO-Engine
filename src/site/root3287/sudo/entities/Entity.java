@@ -9,6 +9,8 @@ import site.root3287.sudo.component.Component;
 import site.root3287.sudo.engine.Disposeable;
 
 public abstract class Entity implements Disposeable{
+	
+	@SuppressWarnings("rawtypes")
 	protected static HashMap<Class, HashMap<UUID, ? extends Component>> componentStores = new HashMap<Class, HashMap<UUID,? extends Component>>();
 	public static List<UUID> allEntities = new ArrayList<>();
 	protected UUID id;
@@ -20,6 +22,7 @@ public abstract class Entity implements Disposeable{
 
 	public abstract void update(float delta);
 	
+	@SuppressWarnings("unchecked")
 	public static <T extends Component> void addComponent(UUID entity, T component){
 
 		synchronized (componentStores){
@@ -33,6 +36,8 @@ public abstract class Entity implements Disposeable{
 			((HashMap<UUID, T>) store).put(entity, component);
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
 	public <T extends Component> void addComponent(T component){
 
 		synchronized (componentStores){
@@ -46,6 +51,8 @@ public abstract class Entity implements Disposeable{
 			((HashMap<UUID, T>) store).put(this.id, component);
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
 	public static <T> T getComponent(UUID e, Class<T> exampleClass ){
 		HashMap<UUID, ? extends Component> store = componentStores.get( exampleClass );
 		T result = (T) store.get(e);
@@ -54,6 +61,7 @@ public abstract class Entity implements Disposeable{
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> T getComponent(Class<T> exampleClass){ 
 		HashMap<UUID, ? extends Component> store = componentStores.get(exampleClass);
 		T result = (T) store.get(this.id);
@@ -62,6 +70,7 @@ public abstract class Entity implements Disposeable{
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> boolean hasComponent(Class<T> exampleClass){
 		try{
 			HashMap<UUID, ? extends Component> store = componentStores.get(exampleClass);
@@ -74,6 +83,7 @@ public abstract class Entity implements Disposeable{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T> boolean hasComponent(UUID id, Class<T> exampleClass){
 		HashMap<UUID, ? extends Component> store = componentStores.get(exampleClass);
 		T result = (T) store.get(id);

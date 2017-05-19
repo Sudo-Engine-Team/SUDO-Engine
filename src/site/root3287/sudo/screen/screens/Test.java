@@ -18,7 +18,6 @@ import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.engine.render.Render;
 import site.root3287.sudo.entities.Entity;
 import site.root3287.sudo.entities.Light;
-import site.root3287.sudo.entities.NullEntity;
 import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.entities.Camera.FirstPerson;
 import site.root3287.sudo.entities.model.CubeEntity;
@@ -32,11 +31,11 @@ import site.root3287.sudo.world.World;
 public class Test extends Screen{
 	private List<Entity> allEntity = new ArrayList<Entity>();
 	private List<Light> lights = new ArrayList<Light>();
-	private List<GUIText> text = new ArrayList<>();
+	//private List<GUIText> text = new ArrayList<>();
 	private Light light;
 	private Camera c;
 	private World world;
-	private NullEntity entity;
+	//private NullEntity entity;
 	
 	public Test(Render render, Loader loader, GameState state) {
 		super(render, loader, state);

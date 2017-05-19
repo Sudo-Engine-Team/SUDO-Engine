@@ -13,7 +13,7 @@ public class ServerClient {
 	private static int userIDCounter = 0;
 	
 	public ServerClient(InetAddress address, int port){
-		userIDCounter++;
+		setUserIDCounter(getUserIDCounter() + 1);
 		this.sessionToken = UUID.randomUUID();
 		this.address = address;
 		this.port = port;
@@ -23,5 +23,13 @@ public class ServerClient {
 	@Override
 	public int hashCode() {
 		return sessionToken.hashCode();
+	}
+
+	public static int getUserIDCounter() {
+		return userIDCounter;
+	}
+
+	public static void setUserIDCounter(int userIDCounter) {
+		ServerClient.userIDCounter = userIDCounter;
 	}
 }

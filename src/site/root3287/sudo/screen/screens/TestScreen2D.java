@@ -3,11 +3,9 @@ package site.root3287.sudo.screen.screens;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import site.root3287.sudo.engine.DisplayManager;
 import site.root3287.sudo.engine.GameState;
 import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.engine.render.Render;

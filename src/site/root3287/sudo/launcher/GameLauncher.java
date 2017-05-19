@@ -6,7 +6,7 @@ import site.root3287.sudo.engine.DisplayManager;
 import site.root3287.sudo.engine.GameState;
 import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.engine.render.Render;
-import site.root3287.sudo.screen.screens.TerrainScreen;
+import site.root3287.sudo.screen.screens.Splash;
 
 public class GameLauncher implements Runnable{
 	private Thread game;
@@ -24,7 +24,7 @@ public class GameLauncher implements Runnable{
 		DisplayManager.createDisplay();
 		this.r = new Render();
 		this.l = new Loader();
-		DisplayManager.setScreen(new TerrainScreen(r, l, state));
+		DisplayManager.setScreen(new Splash(r, l, state));
 		DisplayManager.screen.init();
 		while(!Display.isCloseRequested()){
 			DisplayManager.DELTA = DisplayManager.getDelta();
@@ -33,6 +33,8 @@ public class GameLauncher implements Runnable{
 			DisplayManager.updateDisplay();
 		}
 		DisplayManager.screen.dispose();
+		this.r.dispose();
+		this.l.destory();
 		DisplayManager.closeDisplay();
 		stop();
 	}

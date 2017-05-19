@@ -2,8 +2,6 @@ package site.root3287.sudo.physics.component;
 
 import java.util.UUID;
 
-import site.root3287.sudo.component.TransformationComponent;
-import site.root3287.sudo.entities.Entity;
 import site.root3287.sudo.physics.collision.boundingSphere.BoundingSphere;
 
 public class BoundingSphereComponent extends PhysicsComponent{

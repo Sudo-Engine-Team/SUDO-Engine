@@ -22,7 +22,6 @@ import site.root3287.sudo.shader.shaders.Shader2D;
 import site.root3287.sudo.shader.shaders.StaticShader;
 import site.root3287.sudo.shader.shaders.TerrainShader;
 import site.root3287.sudo.terrain.Terrain;
-import site.root3287.sudo.utils.LWJGLMaths;
 
 public class Render {
 	public static final float FOV = 90;
@@ -124,6 +123,6 @@ public class Render {
 	}
 
 	public void setBackgroundColour(Vector4f vector4f) {
-		this.colour = vector4f;
+		colour = vector4f;
 	}
 }

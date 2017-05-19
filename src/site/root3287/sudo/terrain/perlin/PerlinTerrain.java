@@ -8,9 +8,18 @@ public class PerlinTerrain extends Terrain{
 	
 	private long seed;
 	public boolean updateMesh = false;
-	private float cooldown = 0;
 	private PerlinPlaneCreator plane;
 	private HeightGenerator generator;
+	
+	public PerlinTerrain(int gridX, int gridZ, Loader loader, ModelTexture texture, int vertexCount, long seed, HeightGenerator gen){
+		super(gridX, gridZ, loader, texture, vertexCount);
+		this.lod = 1;
+    	this.seed = seed;
+        generator = gen;
+        plane = new PerlinPlaneCreator();
+        this.model = plane.generatePerlinPlane(loader, this.vertexCount, SIZE, generator, lod);
+        this.heights = plane.heights;
+    }
 	
 	public PerlinTerrain(int gridX, int gridZ, Loader loader, ModelTexture texture, int vertexCount, long seed){
 		super(gridX, gridZ, loader, texture, vertexCount);

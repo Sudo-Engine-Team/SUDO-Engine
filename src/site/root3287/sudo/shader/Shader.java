@@ -11,10 +11,10 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 
 import site.root3287.sudo.logger.LogLevel;
 import site.root3287.sudo.logger.Logger;
-import sun.rmi.runtime.Log;
 
 public abstract class Shader {
 	private int programID;
@@ -73,6 +73,10 @@ public abstract class Shader {
      
     protected void loadVector(int location, Vector3f vector){
         GL20.glUniform3f(location,vector.x,vector.y,vector.z);
+    }
+    
+    protected void loadVector(int location, Vector4f vector){
+        GL20.glUniform4f(location,vector.x,vector.y,vector.z, vector.w);
     }
      
     protected void loadBoolean(int location, boolean value){

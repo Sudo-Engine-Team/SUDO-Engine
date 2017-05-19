@@ -29,7 +29,7 @@ public class EntityRender {
 		this.shader = shader;
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glCullFace(GL11.GL_BACK);
-		this.projectionMatrix = projectionMatrix;
+		this.setProjectionMatrix(projectionMatrix);
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
@@ -90,5 +90,13 @@ public class EntityRender {
 		shader.loadTransformationMatrix(transformationMatrix);
 		
 		Logger.log(LogLevel.DEBUG_RENDER, "Rendering Entity");
+	}
+
+	public Matrix4f getProjectionMatrix() {
+		return projectionMatrix;
+	}
+
+	public void setProjectionMatrix(Matrix4f projectionMatrix) {
+		this.projectionMatrix = projectionMatrix;
 	}
 }

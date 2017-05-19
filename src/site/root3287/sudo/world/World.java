@@ -10,8 +10,6 @@ import site.root3287.sudo.engine.Loader;
 import site.root3287.sudo.logger.LogLevel;
 import site.root3287.sudo.logger.Logger;
 import site.root3287.sudo.terrain.Terrain;
-import site.root3287.sudo.terrain.perlin.PerlinTerrain;
-import site.root3287.sudo.texture.ModelTexture;
 
 public class World {
 	@SuppressWarnings("unused")
@@ -21,14 +19,14 @@ public class World {
 	private HashMap<Integer, HashMap<Integer, Terrain>> terrainCollision;
 	private Loader loader;
 	public World(Loader loader){
-		this.loader = loader;
+		this.setLoader(loader);
 		this.seed = 1234;
 		this.terrains = new ArrayList<Terrain>();
 		this.terrainCollision = new HashMap<Integer, HashMap<Integer, Terrain>>();
 		generateTerrain();
 	}
 	public World(Loader loader, int seed){
-		this.loader = loader;
+		this.setLoader(loader);
 		this.seed = seed;
 		Logger.log(LogLevel.INFO, "Seed: "+ seed);
 		this.terrains = new ArrayList<Terrain>();
@@ -67,5 +65,11 @@ public class World {
 	}
 	public HashMap<Integer, HashMap<Integer, Terrain>> getTerrainForCollision(){
 		return this.terrainCollision;
+	}
+	public Loader getLoader() {
+		return loader;
+	}
+	public void setLoader(Loader loader) {
+		this.loader = loader;
 	}
 }

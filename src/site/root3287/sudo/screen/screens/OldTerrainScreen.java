@@ -1,7 +1,6 @@
 package site.root3287.sudo.screen.screens;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
@@ -19,16 +18,12 @@ import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.entities.Camera.FirstPerson;
 import site.root3287.sudo.screen.Screen;
 import site.root3287.sudo.terrain.Terrain;
-import site.root3287.sudo.terrain.perlin.PerlinTerrain;
-import site.root3287.sudo.texture.ModelTexture;
 
 public class OldTerrainScreen extends Screen {
 
 	private List<Light> lights = new ArrayList<Light>();
 	private List<Terrain> terrain = new ArrayList<>();
-	private HashMap<Integer, HashMap<Integer, Terrain>> heights =new HashMap<>();
 	private Camera c;
-	private static int WORLD_SIZE = 5;
 	
 	public OldTerrainScreen(Render render, Loader loader, GameState state) {
 		super(render, loader, state);

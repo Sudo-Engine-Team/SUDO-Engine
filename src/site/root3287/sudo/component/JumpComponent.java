@@ -43,12 +43,18 @@ public class JumpComponent extends Component{
 		
 		if(position.y < terrainHeight){ // Collision detection
 			dy = 0;
-			inAir = false;
+			setInAir(false);
 			position.y = JUMP; // Jump again
 		}
 		position.y  += dy;
 		
 		Entity.getComponent(id, TransformationComponent.class).position = position;
 		Entity.getComponent(id, TransformationComponent.class).velocity.y = dy;
+	}
+	public boolean isInAir() {
+		return inAir;
+	}
+	public void setInAir(boolean inAir) {
+		this.inAir = inAir;
 	}
 }

@@ -2,7 +2,6 @@ package site.root3287.sudo.screen.screens;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
@@ -16,15 +15,12 @@ import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.entities.Camera.FirstPerson;
 import site.root3287.sudo.screen.Screen;
 import site.root3287.sudo.terrain.Terrain;
-import site.root3287.sudo.terrain.perlin.PerlinTerrain;
-import site.root3287.sudo.texture.ModelTexture;
 
 public class MainGame extends Screen{
 	private List<Terrain> allTerrain = new ArrayList<Terrain>();
 	private Light light;
 	private Camera c;
 	private List<Light> lights = new ArrayList<Light>();
-	private Terrain[][] terrainForCollision;
 	int frames = 0;
 	long lastFPSTime;
 	
@@ -40,9 +36,6 @@ public class MainGame extends Screen{
 		this.c = new FirstPerson(new Vector3f(10, 10, 0));
 		Mouse.setGrabbed(c.getComponent(PlayerControlsComponent.class).isGrabbed);
 		
-		terrainForCollision = new Terrain[255][255];
-		
-		int seed = new Random().nextInt();
 		
 		for(int tX = 0; tX <= 5; tX++){
         	for(int tY = 0; tY <= 5; tY++){

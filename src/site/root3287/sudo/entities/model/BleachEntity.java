@@ -10,9 +10,7 @@ import site.root3287.sudo.model.TexturedModel;
 import site.root3287.sudo.texture.ModelTexture;
 
 public class BleachEntity extends Entity{
-	private Loader loader;
 	public BleachEntity(Loader loader) {
-		this.loader = loader;
 		ModelData data = OBJFileLoader.loadOBJ("res/model/Bleach/Bleach.obj");
 		ModelComponent model = new ModelComponent(
 				new TexturedModel(

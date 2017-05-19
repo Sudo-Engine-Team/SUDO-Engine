@@ -21,11 +21,6 @@ public class DisplayManager {
 	public static long lastFPSTime;
 	public static int frames = 0;
 	
-	private static boolean isWidthSet = false, 
-					isHeightSet = false, 
-					isRatioSet = false, 
-					isTitleSet = false;
-	
 	/*public static void createDisplay(String[] args){
 		WIDTH = 900f;
 		DISPLAY_RATIO = 16*9;
@@ -154,7 +149,15 @@ public class DisplayManager {
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 	public static void setScreen(Screen screen){
+		boolean updated = false;
+		if(DisplayManager.screen !=null){
+			DisplayManager.screen.dispose();
+			updated = true;
+		}
 		DisplayManager.screen = screen;
+		if(updated){
+			screen.init();
+		}
 	}
 	public static float getAspectRatio(){
 		return Display.getWidth()/Display.getHeight();

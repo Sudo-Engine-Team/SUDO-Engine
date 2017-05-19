@@ -16,7 +16,7 @@ public class Config {
 	private StringBuilder source = new StringBuilder();
 	private JSONObject json;
 	public Config(String name, String filePath){
-		this.name = name;
+		this.setName(name);
 		this.file = new File(filePath);
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(this.file));
@@ -33,5 +33,17 @@ public class Config {
 	}
 	public JSONObject getJSON(){
 		return this.json;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public static Map<String, File> getConfigs() {
+		return configs;
+	}
+	public static void setConfigs(Map<String, File> configs) {
+		Config.configs = configs;
 	}
 }

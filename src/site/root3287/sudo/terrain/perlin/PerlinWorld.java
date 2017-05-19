@@ -21,10 +21,12 @@ public class PerlinWorld {
 	private long seed;
 	private int worldSize = 5;
 	private Loader loader;
+	private HeightGenerator gen;
 	
 	public PerlinWorld(Loader loader){
 		this.loader = loader;
 		this.seed = new Random().nextLong();
+		this.gen = new HeightGenerator(this.seed, 100);
 	}
 	
 	public void init(){
@@ -49,13 +51,14 @@ public class PerlinWorld {
 		lastPosition = current;
 	}
 	public void addToWorld(int x, int z){
+		gen.setOffset(x, z);
 		HashMap<Integer, Terrain> batch;
 		if(heights.containsKey(x)){
 			batch = heights.get(x);
 		}else{
 			batch = new HashMap<>();
 		}
-		Terrain t = new PerlinTerrain(x, z, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 100, seed);
+		Terrain t = new PerlinTerrain(x, z, loader, new ModelTexture(loader.loadTexture("res/image/grass-plane.png")), 100, seed, this.gen);
 		if(terrain.add(t)){
 		}
 		batch.put(z, t);
@@ -82,5 +85,8 @@ public class PerlinWorld {
 	}
 	public List<Terrain> getTerrain(){
 		return this.terrain;
+	}
+	public HashMap<Integer, HashMap<Integer, Terrain>> getHeights() {
+		return heights;
 	}
 }

@@ -11,9 +11,7 @@ import site.root3287.sudo.model.TexturedModel;
 import site.root3287.sudo.texture.ModelTexture;
 
 public class StandfordBunny extends Entity{
-	private Loader loader;
 	public StandfordBunny(Loader loader) {
-		this.loader = loader;
 		ModelData data = OBJFileLoader.loadOBJ("res/model/standfordBunny/bunny.obj");
 		ModelComponent model = new ModelComponent(
 				new TexturedModel(

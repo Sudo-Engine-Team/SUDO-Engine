@@ -8,7 +8,6 @@ import org.lwjgl.util.vector.Vector3f;
 import site.root3287.sudo.entities.Light;
 import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.shader.Shader;
-import site.root3287.sudo.utils.LWJGLMaths;
 
 public class StaticShader extends Shader{
 
@@ -26,7 +25,6 @@ public class StaticShader extends Shader{
     private int location_fogDensity;
     private int location_fogGradient;
     private int location_skyColour;
-    private int location_maxLight;
     
     private static final int MAX_LIGHT = 4;
  
@@ -52,7 +50,6 @@ public class StaticShader extends Shader{
         location_fogDensity = super.getUniformLocation("fogDensity");
         location_fogGradient = super.getUniformLocation("fogGradient");
         location_skyColour = super.getUniformLocation("skyColour");
-        location_maxLight = super.getUniformLocation("maxLight");
         
         location_lightPosition = new int[MAX_LIGHT];
         location_lightColour = new int[MAX_LIGHT];

@@ -2,8 +2,7 @@ package site.root3287.sudo.font;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-
-import site.root3287.sudo.engine.Loader;
+import org.lwjgl.util.vector.Vector4f;
 
 /**
  * Represents a piece of text in the game.
@@ -18,7 +17,7 @@ public class GUIText {
 
 	private int textMeshVao;
 	private int vertexCount;
-	private Vector3f colour = new Vector3f(0f, 0f, 0f);
+	private Vector4f colour = new Vector4f(0f, 0f, 0f, 1f);
 
 	private Vector2f position;
 	private Vector3f rotation = new Vector3f(0,0,0); // Technically we don't need to rotate... but just incase...
@@ -89,15 +88,34 @@ public class GUIText {
 	 *            - green value, between 0 and 1.
 	 * @param b
 	 *            - blue value, between 0 and 1.
+	 * @param a
+	 * 			  - alpha value, between 0 and 1.
 	 */
-	public void setColour(float r, float g, float b) {
-		colour.set(r, g, b);
+	public void setColour(float r, float g, float b, float a) {
+		colour.set(r, g, b, a);
+	}
+	
+	/**
+	 * Set alpha colour.
+	 * @param a
+	 * 			  - alpha value, between 0 and 1.
+	 */
+	public void setAlpha(float a) {
+		colour.w = a;
+	}
+	
+	/**
+	 * Get the alpha
+	 * @param alpha float.
+	 */
+	public float getAlpha() {
+		return colour.w;
 	}
 
 	/**
 	 * @return the colour of the text.
 	 */
-	public Vector3f getColour() {
+	public Vector4f getColour() {
 		return colour;
 	}
 
@@ -194,9 +212,18 @@ public class GUIText {
 		this.textString = text;
 	}
 	
+	public void setFontSize(float size){
+		this.fontSize = size;
+	}
+	
 	public void updateText(String message){
 		FontText.loader.removeTextFromMemory(getMesh());
 		this.textString = message;
+		FontText.updateText(this);
+	}
+	
+	public void updateText(){
+		FontText.loader.removeTextFromMemory(getMesh());
 		FontText.updateText(this);
 	}
 

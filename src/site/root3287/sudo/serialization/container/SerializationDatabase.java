@@ -1,5 +1,11 @@
 package site.root3287.sudo.serialization.container;
 
+import static site.root3287.sudo.serialization.container.SerializationUtils.readByte;
+import static site.root3287.sudo.serialization.container.SerializationUtils.readInt;
+import static site.root3287.sudo.serialization.container.SerializationUtils.readShort;
+import static site.root3287.sudo.serialization.container.SerializationUtils.readString;
+import static site.root3287.sudo.serialization.container.SerializationUtils.write;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
@@ -8,14 +14,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import site.root3287.sudo.serialization.oldContainer.ContainerType;
-
-import static site.root3287.sudo.serialization.container.SerializationUtils.*;
-
 public class SerializationDatabase extends SerializationBase{
 	public static final byte[] HEADER = "SUDO".getBytes();
 	public static final short VERSION = 0x0100;
-	public static final byte CONTAINER_TYPE = ContainerType.DATABASE;
+	public static final byte CONTAINER_TYPE = SerializationContainerType.DATABASE;
 	private short objectCount;
 	public List<SerializationObject> objects = new ArrayList<>();
 	

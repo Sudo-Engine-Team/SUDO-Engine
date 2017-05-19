@@ -11,9 +11,14 @@ public class HeightGenerator {
     private long seed;
     private int xOffset = 0;
     private int zOffset = 0;
+    private int vertexCount;
  
     public HeightGenerator() {
         this.seed = random.nextInt(1000000000);
+    }
+    public HeightGenerator(long seed, int vertexCount) {
+        this.seed = seed;
+        this.vertexCount = vertexCount;
     }
     
     public HeightGenerator(int gridX, int gridZ, int vertexCount, String seed){
@@ -24,13 +29,15 @@ public class HeightGenerator {
     	}
     	xOffset = gridX * (vertexCount-1);
         zOffset = gridZ * (vertexCount-1);
+       this.vertexCount = vertexCount;
     }
      
     //only works with POSITIVE gridX and gridZ values!
     public HeightGenerator(int gridX, int gridZ, int vertexCount, long seed) {
         this.seed = seed;
-        xOffset = gridX * (vertexCount-1);
-        zOffset = gridZ * (vertexCount-1);
+        xOffset = gridX * (vertexCount);
+        zOffset = gridZ * (vertexCount);
+        this.vertexCount = vertexCount;
     }
  
     public float generateHeight(int x, int z) {
@@ -90,5 +97,10 @@ public class HeightGenerator {
     private float getNoise(int x, int z) {
         random.setSeed(x * 49632 + z * 325176 + seed);
         return random.nextFloat() * 2f - 1f;
+    }
+    
+    public void setOffset(int x, int y){
+    	this.xOffset = x * (vertexCount-1);
+    	this.zOffset = y* (vertexCount-1);
     }
 }

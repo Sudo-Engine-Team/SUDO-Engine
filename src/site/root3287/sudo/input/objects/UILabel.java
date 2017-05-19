@@ -50,4 +50,20 @@ public abstract class UILabel extends UIObject{
         this.text = text;
     }
 
+	public float getTextY() {
+		return textY;
+	}
+
+	public void setTextY(float textY) {
+		this.textY = textY;
+	}
+
+	public float getTextX() {
+		return textX;
+	}
+
+	public void setTextX(float textX) {
+		this.textX = textX;
+	}
+
 }

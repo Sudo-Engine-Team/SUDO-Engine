@@ -16,18 +16,18 @@ public class MousePicker {
 	private Camera camera;
 	public MousePicker(Camera camera, Matrix4f projectionMatrix) {
 		this.projectionMatrix = projectionMatrix;
-		this.camera = camera;
-		this.viewMatrix = this.camera.viewMatrix;
+		this.setCamera(camera);
+		this.viewMatrix = Camera.viewMatrix;
 	}
 	public Vector3f getCurrentRay() {
 		return currentRay;
 	}
 	public void update(){
-		this.viewMatrix = this.camera.viewMatrix;
+		this.viewMatrix = Camera.viewMatrix;
 		this.currentRay = calculateCurrentMouseRay();
 	}
 	public void update(Vector2f position){
-		this.viewMatrix = this.camera.viewMatrix;
+		this.viewMatrix = Camera.viewMatrix;
 		this.currentRay = calculateCurrentMouseRay(position.x, position.y);
 	}
 	private Vector3f calculateCurrentMouseRay(){
@@ -62,5 +62,11 @@ public class MousePicker {
 		float x = (2.0f * mouseX) / Display.getWidth() -1;
 		float y = (2.0f * mouseY) / Display.getHeight() - 1;
 		return new Vector2f(x,y);
+	}
+	public Camera getCamera() {
+		return camera;
+	}
+	public void setCamera(Camera camera) {
+		this.camera = camera;
 	}
 }
