@@ -10,6 +10,7 @@ public class Shader2D extends Shader{
 								FRAGMENT_FILE = "res/shaders/2D/fragmentShader.glsl";
 	
 	private int location_transformationMatrix;
+	private int location_projectionMatrix;
 	
 	public Shader2D() {
 		super(VERTEX_FILE, FRAGMENT_FILE);	
@@ -18,6 +19,7 @@ public class Shader2D extends Shader{
 	@Override
 	protected void getAllUniformLocations() {
 		this.location_transformationMatrix = super.getUniformLocation("transformationMatrix");
+		this.location_projectionMatrix = super.getUniformLocation("projectionMatrix");
 	}
 	@Override
 	protected void bindAttributes() {
@@ -25,5 +27,8 @@ public class Shader2D extends Shader{
 	}
 	public void loadTransformation(Matrix4f matrix){
 		super.loadMatrix(this.location_transformationMatrix, matrix);
+	}
+	public void loadProjection(Matrix4f matrix){
+		super.loadMatrix(this.location_projectionMatrix, matrix);
 	}
 }

@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector2f;
 
 import site.root3287.sudo.entities.Quad2D;
 import site.root3287.sudo.model.RawModel;
@@ -20,12 +19,15 @@ public class Render2D{
 	
 	public Render2D(Shader2D shader, Matrix4f projectionMatrix) {
 		this.shader = shader;
+		this.shader.start();
+		this.shader.loadProjection(projectionMatrix);
+		this.shader.stop();
 	}
 	public void render(List<Quad2D> guis){
 		this.shader.start();
 		for(Quad2D gui : guis){
 			prepareQuad(gui);
-			Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(new Vector2f(gui.getTexture().getPosition().x, gui.getTexture().getPosition().y), new Vector2f(gui.getTexture().getScale().x, gui.getTexture().getScale().y));
+			Matrix4f transformationMatrix = LWJGLMaths.createTransformationMatrix(gui.getTexture().getPosition(), gui.getTexture().getScale(), 0);
 			shader.loadTransformation(transformationMatrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, gui.getModel().getVertexCount());
 			unbindQuad();

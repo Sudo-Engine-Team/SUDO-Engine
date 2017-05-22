@@ -86,7 +86,7 @@ public class Splash extends Screen {
 			above.updateText("Copyright (c) Timothy Gibbons. All Right Reserved."); 
 			messageCount++;
 		}else if(primary.getAlpha() < 0.0 && messageCount == 2){
-			DisplayManager.setScreen(new TerrainScreen(render, loader, state));
+			DisplayManager.setScreen(new GUITest(render, loader, state));
 		}
 	}
 

@@ -8,11 +8,24 @@ public class Quad2D {
 	private RawModel model;
 	private Texture2D texture;
 	public Quad2D(Loader l, Texture2D texture){
+		/*float[] positions = {
+				//Top Left
+				-0.5f,1f, // I
+				
+				//Bottom Left
+				-0.5f,-1f, // III
+				
+				//Top Right
+				0.5f, 1f, // II
+				
+				//Top Left
+				0.5f,-1f // IV
+		};*/
 		float[] positions = {
-				-0.5f,0.5f,
-				-0.5f,-0.5f,
-				0.5f,0.5f,
-				0.5f,-0.5f
+				-1,1,
+				-1,-1,
+				1,1,
+				1,-1
 		};
 		this.model = l.loadToVAO(positions);
 		this.texture = texture;
