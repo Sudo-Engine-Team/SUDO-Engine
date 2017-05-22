@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import site.root3287.sudo.component.TransformationComponent;
+import site.root3287.sudo.engine.DisplayManager;
 import site.root3287.sudo.engine.render.Render;
 import site.root3287.sudo.entities.Camera.Camera;
 import site.root3287.sudo.logger.LogLevel;
@@ -84,6 +85,23 @@ public class LWJGLMaths {
 		
 		return projectionMatrix;
 	}
+	
+	public static Matrix4f createOrthoMatrix(){
+		Logger.log("Creating Orthographic Matrix");
+		float frustum_length = Render.FAR_PLANE - Render.NEAR_PLANE;
+		
+		Matrix4f orthoMatrix = new Matrix4f();
+		orthoMatrix.m00 = (2/DisplayManager.WIDTH);
+		orthoMatrix.m11 = (2/DisplayManager.HEIGHT);
+		orthoMatrix.m22 = -(2/(frustum_length));
+		orthoMatrix.m33 = 1;
+		
+		//orthoMatrix.m30 = -((right+left)/(right+left));
+	//	orthoMatrix.m31 = -((top+bottom)/(top-bottom));
+		orthoMatrix.m32 = ((Render.FAR_PLANE+Render.NEAR_PLANE) / -(frustum_length));
+		return orthoMatrix;
+	}
+	
 	public static float barryCentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {
 		float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
 		float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;

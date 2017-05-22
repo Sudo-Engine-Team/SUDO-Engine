@@ -22,6 +22,7 @@ import site.root3287.sudo.shader.shaders.Shader2D;
 import site.root3287.sudo.shader.shaders.StaticShader;
 import site.root3287.sudo.shader.shaders.TerrainShader;
 import site.root3287.sudo.terrain.Terrain;
+import site.root3287.sudo.utils.LWJGLMaths;
 
 public class Render {
 	public static final float FOV = 90;
@@ -30,6 +31,7 @@ public class Render {
 	public static Vector4f colour = new Vector4f(0.5f, 0.5f, 0.5f, 1);
 
 	private Matrix4f projectionMatrix;
+	private Matrix4f orthographicMatrix;
 
 	private StaticShader shader = new StaticShader();
 	private EntityRender renderer;
@@ -49,9 +51,10 @@ public class Render {
 	public Render() {
 		enableCulling();
 		this.projectionMatrix = Camera.projectionMatrix;
+		this.orthographicMatrix = LWJGLMaths.createOrthoMatrix();
 		renderer = new EntityRender(shader, projectionMatrix);
 		terrainRenderer = new TerrainRender(terrainShader, projectionMatrix);
-		render2d = new Render2D(shader2d, projectionMatrix);
+		render2d = new Render2D(shader2d, this.orthographicMatrix);
 	}
 	public static void enableCulling(){
 		Logger.log(LogLevel.DEBUG_RENDER, "Enabling Culling");
